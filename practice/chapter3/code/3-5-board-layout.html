@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시맨틱 게시판 - 접근성을 고려한 마크업</title>
+    <style>
+        /* 기본 리셋 및 스타일 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+        }
+
+        /* 스킵 네비게이션 - 접근성 핵심! */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            background: #333;
+            color: white;
+            padding: 0.5rem 1rem;
+            z-index: 1000;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* 헤더 */
+        header {
+            background-color: #1976d2;
+            color: white;
+            padding: 1rem 2rem;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+        }
+
+        /* 내비게이션 */
+        nav {
+            background-color: #1565c0;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        nav a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            transition: background-color 0.2s;
+        }
+
+        nav a:hover,
+        nav a:focus {
+            background-color: #0d47a1;
+            outline: none;
+        }
+
+        nav a[aria-current="page"] {
+            background-color: #0d47a1;
+            font-weight: bold;
+        }
+
+        /* 콘텐츠 영역 */
+        .content-wrapper {
+            display: flex;
+            max-width: 1200px;
+            margin: 2rem auto;
+            gap: 2rem;
+            padding: 0 1rem;
+        }
+
+        /* 메인 콘텐츠 */
+        main {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        main h2 {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #1976d2;
+        }
+
+        /* 게시글 목록 */
+        .post-list {
+            list-style: none;
+        }
+
+        /* 개별 게시글 (article) */
+        article {
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        article:last-child {
+            border-bottom: none;
+        }
+
+        article h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        article h3 a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        article h3 a:hover,
+        article h3 a:focus {
+            color: #1976d2;
+            text-decoration: underline;
+        }
+
+        article h3 a:focus {
+            outline: 2px solid #1976d2;
+            outline-offset: 2px;
+        }
+
+        /* 게시글 메타 정보 */
+        .post-meta {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .post-meta span {
+            margin-right: 1rem;
+        }
+
+        /* time 요소 스타일 */
+        time {
+            font-style: normal;
+        }
+
+        /* 사이드바 */
+        aside {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        /* 사이드바 섹션 */
+        aside section {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        aside h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        aside ul {
+            list-style: none;
+        }
+
+        aside li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        aside li:last-child {
+            border-bottom: none;
+        }
+
+        aside a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        aside a:hover,
+        aside a:focus {
+            color: #1976d2;
+        }
+
+        aside a:focus {
+            outline: 2px solid #1976d2;
+            outline-offset: 2px;
+        }
+
+        /* 푸터 */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer nav ul {
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        footer a {
+            color: #ccc;
+        }
+
+        footer a:hover,
+        footer a:focus {
+            color: white;
+        }
+
+        footer p {
+            font-size: 0.875rem;
+            color: #999;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+
+            aside {
+                width: 100%;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 스킵 네비게이션 -->
+    <a href="#main-content" class="skip-link">본문으로 건너뛰기</a>
+
+    <!-- 헤더 -->
+    <header>
+        <h1>웹 프로그래밍 게시판</h1>
+    </header>
+
+    <!-- 주 내비게이션 -->
+    <nav aria-label="주 메뉴">
+        <ul>
+            <li><a href="/">홈</a></li>
+            <li><a href="/board" aria-current="page">게시판</a></li>
+            <li><a href="/notice">공지사항</a></li>
+            <li><a href="/qna">Q&amp;A</a></li>
+            <li><a href="/about">소개</a></li>
+        </ul>
+    </nav>
+
+    <!-- 콘텐츠 영역 -->
+    <div class="content-wrapper">
+        <!-- 메인 콘텐츠 -->
+        <main id="main-content">
+            <h2>최신 게시글</h2>
+
+            <!-- 게시글 목록 -->
+            <ul class="post-list" role="list">
+                <li>
+                    <article>
+                        <h3>
+                            <a href="/post/5">React 18의 새로운 기능 정리</a>
+                        </h3>
+                        <p class="post-meta">
+                            <span>
+                                작성자: <strong>김개발</strong>
+                            </span>
+                            <span>
+                                <time datetime="2026-01-01">2026년 1월 1일</time>
+                            </span>
+                            <span>조회수: 234</span>
+                        </p>
+                    </article>
+                </li>
+
+                <li>
+                    <article>
+                        <h3>
+                            <a href="/post/4">Supabase RLS 설정 가이드</a>
+                        </h3>
+                        <p class="post-meta">
+                            <span>
+                                작성자: <strong>이코딩</strong>
+                            </span>
+                            <span>
+                                <time datetime="2025-12-30">2025년 12월 30일</time>
+                            </span>
+                            <span>조회수: 189</span>
+                        </p>
+                    </article>
+                </li>
+
+                <li>
+                    <article>
+                        <h3>
+                            <a href="/post/3">CSS Grid vs Flexbox 선택 기준</a>
+                        </h3>
+                        <p class="post-meta">
+                            <span>
+                                작성자: <strong>박프론트</strong>
+                            </span>
+                            <span>
+                                <time datetime="2025-12-28">2025년 12월 28일</time>
+                            </span>
+                            <span>조회수: 312</span>
+                        </p>
+                    </article>
+                </li>
+
+                <li>
+                    <article>
+                        <h3>
+                            <a href="/post/2">웹 접근성 체크리스트 공유</a>
+                        </h3>
+                        <p class="post-meta">
+                            <span>
+                                작성자: <strong>최접근</strong>
+                            </span>
+                            <span>
+                                <time datetime="2025-12-25">2025년 12월 25일</time>
+                            </span>
+                            <span>조회수: 567</span>
+                        </p>
+                    </article>
+                </li>
+
+                <li>
+                    <article>
+                        <h3>
+                            <a href="/post/1">Vercel 배포 시 환경변수 설정 방법</a>
+                        </h3>
+                        <p class="post-meta">
+                            <span>
+                                작성자: <strong>정배포</strong>
+                            </span>
+                            <span>
+                                <time datetime="2025-12-20">2025년 12월 20일</time>
+                            </span>
+                            <span>조회수: 421</span>
+                        </p>
+                    </article>
+                </li>
+            </ul>
+        </main>
+
+        <!-- 사이드바 -->
+        <aside aria-label="사이드바">
+            <!-- 인기글 섹션 -->
+            <section>
+                <h3>🔥 인기글</h3>
+                <ul>
+                    <li><a href="/post/2">웹 접근성 체크리스트 공유</a></li>
+                    <li><a href="/post/1">Vercel 배포 시 환경변수 설정</a></li>
+                    <li><a href="/post/3">CSS Grid vs Flexbox 선택 기준</a></li>
+                </ul>
+            </section>
+
+            <!-- 카테고리 섹션 -->
+            <section>
+                <h3>📁 카테고리</h3>
+                <ul>
+                    <li><a href="/category/react">React (15)</a></li>
+                    <li><a href="/category/supabase">Supabase (8)</a></li>
+                    <li><a href="/category/css">CSS (12)</a></li>
+                    <li><a href="/category/a11y">접근성 (6)</a></li>
+                    <li><a href="/category/deploy">배포 (9)</a></li>
+                </ul>
+            </section>
+        </aside>
+    </div>
+
+    <!-- 푸터 -->
+    <footer>
+        <nav aria-label="푸터 메뉴">
+            <ul>
+                <li><a href="/terms">이용약관</a></li>
+                <li><a href="/privacy">개인정보처리방침</a></li>
+                <li><a href="/contact">문의하기</a></li>
+            </ul>
+        </nav>
+        <p>
+            <small>© 2026 웹 프로그래밍 게시판. All rights reserved.</small>
+        </p>
+    </footer>
+</body>
+</html>

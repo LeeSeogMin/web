@@ -1,0 +1,18 @@
+# practice/chapter2/code/requirements.txt
+# 제2장 AI 코딩 도구 활용법 실습 의존성
+
+# 이 장의 실습은 주로 AI 도구 활용에 관한 것이므로
+# 추가 Python 패키지는 필요하지 않습니다.
+
+# 필요한 도구:
+# - VS Code + GitHub Copilot 확장
+# - Claude Desktop (Context7 MCP 사용 시)
+# - 웹 브라우저 (ChatGPT, Claude 웹 버전 사용 시)
+
+# 선택적 의존성 (JavaScript 프로젝트 시뮬레이션용):
+# Node.js 18.x 이상
+# npm 또는 yarn
+
+# 실습 환경 확인:
+# - GitHub 계정 (Copilot 사용)
+# - GitHub Education 학생 인증 (무료 Copilot)

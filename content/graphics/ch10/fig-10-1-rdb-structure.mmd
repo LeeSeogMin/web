@@ -1,0 +1,14 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#3ECF8E'}}}%%
+graph TB
+    subgraph "관계형 데이터베이스"
+        subgraph "posts 테이블"
+            A1[id] --- A2[title] --- A3[content] --- A4[user_id]
+            B1[1] --- B2["첫 게시글"] --- B3["내용..."] --- B4[uuid-1]
+            C1[2] --- C2["두번째 글"] --- C3["내용..."] --- C4[uuid-2]
+        end
+    end
+
+    style A1 fill:#3ECF8E,color:#fff
+    style A2 fill:#3ECF8E,color:#fff
+    style A3 fill:#3ECF8E,color:#fff
+    style A4 fill:#3ECF8E,color:#fff

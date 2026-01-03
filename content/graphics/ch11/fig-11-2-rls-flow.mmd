@@ -1,0 +1,13 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#3ECF8E'}}}%%
+sequenceDiagram
+    participant C as 클라이언트
+    participant S as Supabase API
+    participant R as RLS 정책
+    participant D as PostgreSQL
+
+    C->>S: 쿼리 요청 (JWT 포함)
+    S->>R: auth.uid() 추출
+    R->>D: 정책 조건 적용
+    D->>D: 조건 만족하는 행만 필터링
+    D->>S: 필터링된 결과
+    S->>C: 응답 반환

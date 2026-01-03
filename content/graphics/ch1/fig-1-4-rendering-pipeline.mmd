@@ -1,0 +1,44 @@
+%% 그림 1.4 브라우저 렌더링 파이프라인
+%% 제1장 1.3절에서 사용
+
+flowchart TB
+    subgraph 입력["입력"]
+        A[HTML 문서]
+        B[CSS 스타일시트]
+        C[JavaScript]
+    end
+
+    subgraph 파싱["파싱 단계"]
+        D[DOM 트리<br/>HTML → 객체 트리]
+        E[CSSOM 트리<br/>CSS → 스타일 트리]
+    end
+
+    subgraph 렌더링["렌더링 단계"]
+        F[렌더 트리<br/>DOM + CSSOM]
+        G[레이아웃<br/>위치/크기 계산]
+        H[페인트<br/>픽셀로 그리기]
+        I[합성<br/>레이어 결합]
+    end
+
+    subgraph 출력["출력"]
+        J[화면 표시]
+    end
+
+    A --> D
+    B --> E
+    C -.->|"DOM 조작"| D
+    C -.->|"스타일 변경"| E
+
+    D --> F
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    I --> J
+
+    style D fill:#e3f2fd
+    style E fill:#fff3e0
+    style F fill:#e8f5e9
+    style G fill:#fce4ec
+    style H fill:#f3e5f5
+    style I fill:#e0f7fa

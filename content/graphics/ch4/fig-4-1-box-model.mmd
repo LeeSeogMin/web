@@ -1,0 +1,18 @@
+%% 그림 4.1: CSS 박스 모델
+
+flowchart TB
+    subgraph BOX["CSS 박스 모델"]
+        direction TB
+        subgraph MARGIN["margin (바깥 여백)"]
+            subgraph BORDER["border (테두리)"]
+                subgraph PADDING["padding (안쪽 여백)"]
+                    CONTENT["content<br/>(콘텐츠)"]
+                end
+            end
+        end
+    end
+
+    style MARGIN fill:#ffcdd2
+    style BORDER fill:#fff9c4
+    style PADDING fill:#c8e6c9
+    style CONTENT fill:#bbdefb

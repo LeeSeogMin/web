@@ -1,0 +1,21 @@
+%% 그림 1.2 URL 구조 분해
+%% 제1장 1.1절에서 사용
+
+flowchart TB
+    subgraph URL["URL 예시: https://www.example.com:443/products/list?sort=price&order=asc#section1"]
+        direction TB
+    end
+
+    URL --> A["<b>프로토콜</b><br/>https://"]
+    URL --> B["<b>도메인</b><br/>www.example.com"]
+    URL --> C["<b>포트</b><br/>:443"]
+    URL --> D["<b>경로</b><br/>/products/list"]
+    URL --> E["<b>쿼리 문자열</b><br/>?sort=price&order=asc"]
+    URL --> F["<b>프래그먼트</b><br/>#section1"]
+
+    A -.->|"통신 규약<br/>(http, https, ftp)"| A1[암호화 여부 결정]
+    B -.->|"서버 주소<br/>(IP의 별칭)"| B1[DNS로 IP 변환]
+    C -.->|"서비스 입구<br/>(기본값: 443)"| C1[생략 가능]
+    D -.->|"리소스 위치"| D1[서버 내 파일/API]
+    E -.->|"추가 정보"| E1[필터, 정렬 등]
+    F -.->|"페이지 내 위치"| F1[서버로 전송 안 됨]

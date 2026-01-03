@@ -1,0 +1,36 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#3ECF8E'}}}%%
+graph LR
+    subgraph "AI 적합 작업"
+        A1[보일러플레이트]
+        A2[반복 CRUD]
+        A3[스타일링]
+        A4[테스트 코드]
+    end
+
+    subgraph "협업 영역"
+        B1[코드 리뷰]
+        B2[리팩토링]
+        B3[문서화]
+    end
+
+    subgraph "인간 필수 작업"
+        C1[아키텍처 설계]
+        C2[보안 정책]
+        C3[비즈니스 로직]
+        C4[최종 검증]
+    end
+
+    A1 --> B1
+    B1 --> C4
+
+    style A1 fill:#94a3b8,color:#000
+    style A2 fill:#94a3b8,color:#000
+    style A3 fill:#94a3b8,color:#000
+    style A4 fill:#94a3b8,color:#000
+    style B1 fill:#fbbf24,color:#000
+    style B2 fill:#fbbf24,color:#000
+    style B3 fill:#fbbf24,color:#000
+    style C1 fill:#3ECF8E,color:#fff
+    style C2 fill:#3ECF8E,color:#fff
+    style C3 fill:#3ECF8E,color:#fff
+    style C4 fill:#3ECF8E,color:#fff

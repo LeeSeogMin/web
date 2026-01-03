@@ -1,0 +1,27 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e3f2fd', 'primaryTextColor': '#1565c0', 'primaryBorderColor': '#1976d2', 'lineColor': '#1976d2', 'secondaryColor': '#fff3e0', 'tertiaryColor': '#e8f5e9'}}}%%
+flowchart TB
+    subgraph Global["전역 스코프 (Global Scope)"]
+        direction TB
+        GV1["const APP_NAME = 'MyApp'"]
+        GV2["let userCount = 0"]
+
+        subgraph Func["함수 스코프 (Function Scope)"]
+            direction TB
+            FV1["function greetUser(name)"]
+            FV2["const greeting = 'Hello'"]
+
+            subgraph Block["블록 스코프 (Block Scope)"]
+                direction TB
+                BV1["if (name)"]
+                BV2["let message = greeting + name"]
+                BV3["// message는 블록 내에서만 유효"]
+            end
+        end
+    end
+
+    Block -->|"스코프 체인 탐색"| Func
+    Func -->|"스코프 체인 탐색"| Global
+
+    style Global fill:#e3f2fd,stroke:#1976d2
+    style Func fill:#fff3e0,stroke:#ff9800
+    style Block fill:#e8f5e9,stroke:#4caf50

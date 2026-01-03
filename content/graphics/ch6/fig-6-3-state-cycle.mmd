@@ -1,0 +1,18 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e3f2fd', 'primaryTextColor': '#1565c0', 'primaryBorderColor': '#1976d2', 'lineColor': '#1976d2'}}}%%
+flowchart LR
+    subgraph Component["React 컴포넌트"]
+        State["State<br/>(상태)"]
+        UI["UI<br/>(화면)"]
+        Event["Event<br/>(이벤트)"]
+    end
+
+    State -->|"1. 렌더링"| UI
+    UI -->|"2. 사용자 상호작용"| Event
+    Event -->|"3. setState() 호출"| State
+
+    Note["setState()가 호출되면<br/>React가 컴포넌트를<br/>다시 렌더링한다"]
+
+    style State fill:#e3f2fd,stroke:#1976d2
+    style UI fill:#e8f5e9,stroke:#4caf50
+    style Event fill:#fff3e0,stroke:#ff9800
+    style Note fill:#fce4ec,stroke:#e91e63

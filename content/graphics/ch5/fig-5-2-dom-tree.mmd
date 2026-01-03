@@ -1,0 +1,36 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e3f2fd', 'primaryTextColor': '#1565c0', 'primaryBorderColor': '#1976d2', 'lineColor': '#1976d2'}}}%%
+flowchart TB
+    subgraph HTML["HTML 문서"]
+        H1["&lt;html&gt;"]
+    end
+
+    subgraph DOM["DOM 트리"]
+        D1["document"]
+        D2["html (HTMLHtmlElement)"]
+        D3["head (HTMLHeadElement)"]
+        D4["body (HTMLBodyElement)"]
+        D5["title (HTMLTitleElement)"]
+        D6["'페이지 제목' (Text)"]
+        D7["div#app (HTMLDivElement)"]
+        D8["h1 (HTMLHeadingElement)"]
+        D9["'제목' (Text)"]
+        D10["button.btn (HTMLButtonElement)"]
+        D11["'클릭' (Text)"]
+    end
+
+    H1 -.->|"파싱"| D1
+    D1 --> D2
+    D2 --> D3
+    D2 --> D4
+    D3 --> D5
+    D5 --> D6
+    D4 --> D7
+    D7 --> D8
+    D8 --> D9
+    D7 --> D10
+    D10 --> D11
+
+    style HTML fill:#fff3e0,stroke:#ff9800
+    style DOM fill:#e3f2fd,stroke:#1976d2
+    style D1 fill:#1976d2,color:#fff
+    style D7 fill:#e8f5e9,stroke:#4caf50

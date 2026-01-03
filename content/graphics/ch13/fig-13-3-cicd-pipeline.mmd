@@ -1,0 +1,14 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#3ECF8E'}}}%%
+sequenceDiagram
+    participant D as 개발자
+    participant G as GitHub
+    participant V as Vercel
+    participant P as Production
+
+    D->>G: git push
+    G->>V: 웹훅 트리거
+    V->>V: 의존성 설치
+    V->>V: vite build
+    V->>V: 정적 파일 생성
+    V->>P: CDN 배포
+    P->>D: 배포 완료 알림

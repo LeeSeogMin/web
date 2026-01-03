@@ -1,0 +1,18 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#3ECF8E'}}}%%
+graph LR
+    subgraph "인증 (Authentication)"
+        A[사용자] -->|"ID/PW 또는 OAuth"| B[로그인]
+        B --> C["너 누구야?"]
+        C --> D[신원 확인 완료]
+    end
+
+    subgraph "인가 (Authorization)"
+        D --> E["이 리소스 접근 가능?"]
+        E -->|권한 있음| F[접근 허용]
+        E -->|권한 없음| G[접근 거부]
+    end
+
+    style B fill:#3ECF8E,color:#fff
+    style D fill:#3ECF8E,color:#fff
+    style F fill:#4CAF50,color:#fff
+    style G fill:#f44336,color:#fff

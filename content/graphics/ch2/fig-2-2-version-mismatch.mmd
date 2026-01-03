@@ -1,0 +1,23 @@
+%% 그림 2.2 버전 불일치 문제
+%% 제2장 2.2절에서 사용
+
+flowchart TB
+    subgraph 과거["AI 학습 시점 (2023년)"]
+        A["React 17<br/>ReactDOM.render()"]
+        B["Supabase v1<br/>auth.signIn()"]
+    end
+
+    subgraph 현재["현재 (2026년)"]
+        C["React 18<br/>createRoot()"]
+        D["Supabase v2<br/>auth.signInWithPassword()"]
+    end
+
+    E["AI가 생성한 코드"] --> F{"버전 확인"}
+    F -->|"구버전 API"| G["❌ 에러 발생<br/>deprecated 경고"]
+    F -->|"현재 버전 API"| H["✅ 정상 동작"]
+
+    A -.->|"AI가 학습한 정보"| E
+    B -.->|"AI가 학습한 정보"| E
+
+    style G fill:#ffcdd2
+    style H fill:#c8e6c9

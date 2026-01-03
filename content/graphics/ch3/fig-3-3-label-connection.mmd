@@ -1,0 +1,27 @@
+%% 그림 3.3: 레이블 연결 방식 비교
+
+flowchart LR
+    subgraph EXPLICIT["명시적 연결 (for/id)"]
+        direction TB
+        L1["&lt;label for='email'&gt;"]
+        I1["&lt;input id='email'&gt;"]
+        L1 -.->|"for = id"| I1
+    end
+
+    subgraph IMPLICIT["암시적 연결 (중첩)"]
+        direction TB
+        L2["&lt;label&gt;"]
+        I2["&lt;input&gt;"]
+        L2 -->|"포함"| I2
+    end
+
+    subgraph WRONG["❌ 잘못된 예"]
+        direction TB
+        P1["placeholder만 사용"]
+        I3["&lt;input placeholder='이메일'&gt;"]
+        P1 -.->|"연결 안 됨!"| I3
+    end
+
+    style EXPLICIT fill:#e8f5e9
+    style IMPLICIT fill:#e3f2fd
+    style WRONG fill:#ffebee

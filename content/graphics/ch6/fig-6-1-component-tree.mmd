@@ -1,0 +1,35 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e3f2fd', 'primaryTextColor': '#1565c0', 'primaryBorderColor': '#1976d2', 'lineColor': '#1976d2', 'secondaryColor': '#fff3e0', 'tertiaryColor': '#e8f5e9'}}}%%
+flowchart TB
+    subgraph App["App (루트 컴포넌트)"]
+        direction TB
+
+        subgraph Header["Header"]
+            Logo["Logo"]
+            Nav["Navigation"]
+        end
+
+        subgraph Main["Main"]
+            Sidebar["Sidebar"]
+            subgraph Content["Content"]
+                PostList["PostList"]
+                Post1["Post"]
+                Post2["Post"]
+                Post3["Post"]
+            end
+        end
+
+        subgraph Footer["Footer"]
+            Copyright["Copyright"]
+            Links["Links"]
+        end
+    end
+
+    PostList --> Post1
+    PostList --> Post2
+    PostList --> Post3
+
+    style App fill:#e3f2fd,stroke:#1976d2
+    style Header fill:#fff3e0,stroke:#ff9800
+    style Main fill:#e8f5e9,stroke:#4caf50
+    style Footer fill:#fce4ec,stroke:#e91e63
+    style Content fill:#f3e5f5,stroke:#9c27b0

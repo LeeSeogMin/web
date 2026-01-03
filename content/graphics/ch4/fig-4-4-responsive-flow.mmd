@@ -1,0 +1,21 @@
+%% 그림 4.4: 반응형 디자인 흐름 (모바일 퍼스트)
+
+flowchart LR
+    subgraph MOBILE["📱 모바일<br/>(기본 스타일)"]
+        M1["단일 열<br/>100% 너비"]
+    end
+
+    subgraph TABLET["📱 태블릿<br/>(@media 768px)"]
+        T1["2열 그리드"]
+    end
+
+    subgraph DESKTOP["🖥️ 데스크톱<br/>(@media 1024px)"]
+        D1["3열 그리드<br/>+ 사이드바"]
+    end
+
+    MOBILE -->|"min-width: 768px"| TABLET
+    TABLET -->|"min-width: 1024px"| DESKTOP
+
+    style MOBILE fill:#ffcdd2
+    style TABLET fill:#fff9c4
+    style DESKTOP fill:#c8e6c9

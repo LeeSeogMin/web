@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>접근성을 고려한 로그인 폼</title>
+    <style>
+        /* 기본 스타일 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            padding: 2rem;
+            background-color: #f5f5f5;
+        }
+
+        /* 메인 컨테이너 */
+        main {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 폼 제목 */
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #333;
+        }
+
+        /* 폼 그룹 */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        /* 라벨 스타일 */
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* 필수 필드 표시 */
+        .required {
+            color: #dc3545;
+            margin-left: 0.25rem;
+        }
+
+        /* 입력 필드 */
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        /* 포커스 스타일 - 접근성 핵심! */
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+
+        /* 에러 상태 */
+        input[aria-invalid="true"] {
+            border-color: #dc3545;
+        }
+
+        input[aria-invalid="true"]:focus {
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
+        }
+
+        /* 에러 메시지 */
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        /* 도움말 텍스트 */
+        .help-text {
+            color: #666;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        /* 체크박스 그룹 */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        /* 버튼 */
+        button[type="submit"] {
+            width: 100%;
+            padding: 0.875rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        button[type="submit"]:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+        }
+
+        /* 추가 링크 */
+        .form-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .form-footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .form-footer a:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>로그인</h1>
+
+        <!--
+            접근성 포인트:
+            1. form에 aria-labelledby로 제목 연결
+            2. 모든 input에 label 연결 (for/id)
+            3. 필수 필드는 required와 aria-required 사용
+            4. 에러 시 aria-invalid와 aria-describedby 활용
+            5. 명확한 포커스 스타일 제공
+        -->
+        <form action="/login" method="POST" aria-labelledby="login-title">
+            <h2 id="login-title" class="visually-hidden">로그인 폼</h2>
+
+            <!-- 이메일 필드 -->
+            <div class="form-group">
+                <label for="email">
+                    이메일
+                    <span class="required" aria-hidden="true">*</span>
+                </label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    aria-required="true"
+                    aria-describedby="email-help"
+                    autocomplete="email"
+                    placeholder="example@email.com"
+                >
+                <p id="email-help" class="help-text">
+                    가입 시 사용한 이메일을 입력하세요.
+                </p>
+            </div>
+
+            <!-- 비밀번호 필드 -->
+            <div class="form-group">
+                <label for="password">
+                    비밀번호
+                    <span class="required" aria-hidden="true">*</span>
+                </label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    aria-required="true"
+                    aria-describedby="password-help"
+                    autocomplete="current-password"
+                    minlength="8"
+                >
+                <p id="password-help" class="help-text">
+                    비밀번호는 8자 이상입니다.
+                </p>
+            </div>
+
+            <!-- 로그인 유지 체크박스 -->
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <input
+                        type="checkbox"
+                        id="remember"
+                        name="remember"
+                    >
+                    <label for="remember">로그인 상태 유지</label>
+                </div>
+            </div>
+
+            <!-- 제출 버튼 -->
+            <button type="submit">로그인</button>
+        </form>
+
+        <!-- 추가 링크 -->
+        <div class="form-footer">
+            <p>
+                <a href="/forgot-password">비밀번호를 잊으셨나요?</a>
+            </p>
+            <p>
+                계정이 없으신가요? <a href="/signup">회원가입</a>
+            </p>
+        </div>
+    </main>
+
+    <!-- 스크린 리더 전용 스타일 -->
+    <style>
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</body>
+</html>

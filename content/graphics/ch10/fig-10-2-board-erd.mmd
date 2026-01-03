@@ -1,0 +1,28 @@
+%%{init: {'theme': 'base'}}%%
+erDiagram
+    PROFILES {
+        uuid id PK
+        text username
+        text avatar_url
+    }
+
+    POSTS {
+        uuid id PK
+        text title
+        text content
+        uuid user_id FK
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    COMMENTS {
+        uuid id PK
+        text content
+        uuid post_id FK
+        uuid user_id FK
+        timestamptz created_at
+    }
+
+    PROFILES ||--o{ POSTS : "작성"
+    PROFILES ||--o{ COMMENTS : "작성"
+    POSTS ||--o{ COMMENTS : "포함"

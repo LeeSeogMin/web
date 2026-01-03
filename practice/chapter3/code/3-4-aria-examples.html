@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARIA 속성 예제 모음</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            border-bottom: 2px solid #1976d2;
+            padding-bottom: 0.5rem;
+        }
+
+        section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #1976d2;
+            margin-bottom: 1rem;
+        }
+
+        .example {
+            background: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+
+        code {
+            background: #e3f2fd;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        pre {
+            background: #263238;
+            color: #aed581;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        /* 아이콘 버튼 */
+        .icon-button {
+            background: #1976d2;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.25rem;
+        }
+
+        .icon-button:focus {
+            outline: 3px solid #42a5f5;
+            outline-offset: 2px;
+        }
+
+        /* 탭 */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-button:focus {
+            outline: 2px solid #1976d2;
+            outline-offset: 2px;
+        }
+
+        .tab-button[aria-selected="true"] {
+            border-bottom-color: #1976d2;
+            font-weight: bold;
+        }
+
+        .tab-panel {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+
+        .tab-panel[hidden] {
+            display: none;
+        }
+
+        /* 알림 */
+        .notification {
+            padding: 1rem;
+            background: #e3f2fd;
+            border-left: 4px solid #1976d2;
+            margin: 1rem 0;
+        }
+
+        /* 진행 상태 */
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4caf50;
+            transition: width 0.3s;
+        }
+
+        /* 모달 배경 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ARIA 속성 예제 모음</h1>
+    <p>이 페이지는 자주 사용되는 ARIA 속성의 올바른 사용법을 보여줍니다.</p>
+
+    <!-- 예제 1: aria-label -->
+    <section>
+        <h2>1. aria-label</h2>
+        <p>보이는 텍스트 없이 접근 가능한 이름을 제공할 때 사용합니다.</p>
+
+        <div class="example">
+            <h3>아이콘 버튼 예제</h3>
+
+            <!-- 잘못된 예 -->
+            <p>❌ 잘못된 예 (접근 가능한 이름 없음):</p>
+            <pre><code>&lt;button&gt;🔍&lt;/button&gt;</code></pre>
+
+            <!-- 올바른 예 -->
+            <p>✅ 올바른 예:</p>
+            <button class="icon-button" aria-label="검색">🔍</button>
+            <pre><code>&lt;button aria-label="검색"&gt;🔍&lt;/button&gt;</code></pre>
+
+            <p>스크린 리더는 "검색, 버튼"이라고 읽습니다.</p>
+        </div>
+    </section>
+
+    <!-- 예제 2: aria-labelledby -->
+    <section>
+        <h2>2. aria-labelledby</h2>
+        <p>다른 요소의 텍스트를 라벨로 참조할 때 사용합니다.</p>
+
+        <div class="example">
+            <h3>폼 그룹 예제</h3>
+
+            <div role="group" aria-labelledby="group-title">
+                <h4 id="group-title">결제 정보</h4>
+                <p>
+                    <label for="card">카드 번호:</label>
+                    <input type="text" id="card">
+                </p>
+            </div>
+
+            <pre><code>&lt;div role="group" aria-labelledby="group-title"&gt;
+    &lt;h4 id="group-title"&gt;결제 정보&lt;/h4&gt;
+    ...
+&lt;/div&gt;</code></pre>
+        </div>
+    </section>
+
+    <!-- 예제 3: aria-describedby -->
+    <section>
+        <h2>3. aria-describedby</h2>
+        <p>추가 설명을 연결할 때 사용합니다.</p>
+
+        <div class="example">
+            <label for="pw">비밀번호:</label>
+            <input
+                type="password"
+                id="pw"
+                aria-describedby="pw-help pw-error"
+            >
+            <p id="pw-help">8자 이상, 특수문자 포함</p>
+            <p id="pw-error" style="color: red;">비밀번호가 너무 짧습니다.</p>
+
+            <pre><code>&lt;input
+    type="password"
+    id="pw"
+    aria-describedby="pw-help pw-error"
+&gt;
+&lt;p id="pw-help"&gt;8자 이상, 특수문자 포함&lt;/p&gt;
+&lt;p id="pw-error"&gt;비밀번호가 너무 짧습니다.&lt;/p&gt;</code></pre>
+        </div>
+    </section>
+
+    <!-- 예제 4: aria-hidden -->
+    <section>
+        <h2>4. aria-hidden</h2>
+        <p>장식용 요소를 스크린 리더에서 숨깁니다.</p>
+
+        <div class="example">
+            <p>
+                <span aria-hidden="true">📧</span>
+                이메일: contact@example.com
+            </p>
+
+            <pre><code>&lt;span aria-hidden="true"&gt;📧&lt;/span&gt;
+이메일: contact@example.com</code></pre>
+
+            <p>아이콘 이모지는 스크린 리더에서 무시됩니다.</p>
+        </div>
+    </section>
+
+    <!-- 예제 5: aria-live -->
+    <section>
+        <h2>5. aria-live</h2>
+        <p>동적으로 변경되는 콘텐츠를 스크린 리더에 알립니다.</p>
+
+        <div class="example">
+            <div
+                class="notification"
+                role="status"
+                aria-live="polite"
+                id="notification"
+            >
+                저장이 완료되었습니다.
+            </div>
+
+            <button onclick="updateNotification()">알림 변경</button>
+
+            <pre><code>&lt;div role="status" aria-live="polite"&gt;
+    저장이 완료되었습니다.
+&lt;/div&gt;</code></pre>
+
+            <p><code>polite</code>: 현재 읽고 있는 내용 후에 알림</p>
+            <p><code>assertive</code>: 즉시 알림 (긴급한 경우만)</p>
+        </div>
+    </section>
+
+    <!-- 예제 6: 탭 인터페이스 -->
+    <section>
+        <h2>6. 탭 인터페이스 (role="tablist")</h2>
+
+        <div class="example">
+            <div class="tabs" role="tablist" aria-label="프로그래밍 언어">
+                <button
+                    role="tab"
+                    class="tab-button"
+                    id="tab-js"
+                    aria-selected="true"
+                    aria-controls="panel-js"
+                >
+                    JavaScript
+                </button>
+                <button
+                    role="tab"
+                    class="tab-button"
+                    id="tab-py"
+                    aria-selected="false"
+                    aria-controls="panel-py"
+                >
+                    Python
+                </button>
+            </div>
+
+            <div
+                role="tabpanel"
+                class="tab-panel"
+                id="panel-js"
+                aria-labelledby="tab-js"
+            >
+                JavaScript는 웹 브라우저에서 실행되는 스크립트 언어입니다.
+            </div>
+            <div
+                role="tabpanel"
+                class="tab-panel"
+                id="panel-py"
+                aria-labelledby="tab-py"
+                hidden
+            >
+                Python은 간결한 문법으로 인기 있는 범용 프로그래밍 언어입니다.
+            </div>
+        </div>
+    </section>
+
+    <!-- 예제 7: 진행 상태 -->
+    <section>
+        <h2>7. 진행 상태 (role="progressbar")</h2>
+
+        <div class="example">
+            <div
+                class="progress-bar"
+                role="progressbar"
+                aria-valuenow="70"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-label="파일 업로드 진행률"
+            >
+                <div class="progress-fill" style="width: 70%"></div>
+            </div>
+            <p>70% 완료</p>
+
+            <pre><code>&lt;div
+    role="progressbar"
+    aria-valuenow="70"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-label="파일 업로드 진행률"
+&gt;...&lt;/div&gt;</code></pre>
+        </div>
+    </section>
+
+    <!-- ARIA 사용 원칙 -->
+    <section>
+        <h2>ARIA 사용 5대 원칙</h2>
+        <ol>
+            <li><strong>네이티브 HTML 우선</strong>: ARIA보다 <code>&lt;button&gt;</code>, <code>&lt;label&gt;</code> 등 사용</li>
+            <li><strong>역할 변경 금지</strong>: <code>&lt;h1 role="button"&gt;</code> 같은 용법 피하기</li>
+            <li><strong>키보드 지원 필수</strong>: ARIA는 시맨틱만 변경, 기능은 JS로 구현</li>
+            <li><strong>포커스 가능 요소만</strong>: 숨긴 요소에 포커스 가지 않도록</li>
+            <li><strong>접근 가능한 이름 필수</strong>: 모든 인터랙티브 요소에 이름 제공</li>
+        </ol>
+    </section>
+
+    <script>
+        // 알림 변경 예제
+        function updateNotification() {
+            const notifications = [
+                '저장이 완료되었습니다.',
+                '새 메시지가 도착했습니다.',
+                '업로드가 완료되었습니다.'
+            ];
+            const el = document.getElementById('notification');
+            const current = notifications.indexOf(el.textContent);
+            el.textContent = notifications[(current + 1) % notifications.length];
+        }
+
+        // 탭 기능
+        document.querySelectorAll('[role="tab"]').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // 모든 탭 비활성화
+                document.querySelectorAll('[role="tab"]').forEach(t => {
+                    t.setAttribute('aria-selected', 'false');
+                });
+                document.querySelectorAll('[role="tabpanel"]').forEach(p => {
+                    p.hidden = true;
+                });
+
+                // 선택된 탭 활성화
+                tab.setAttribute('aria-selected', 'true');
+                const panelId = tab.getAttribute('aria-controls');
+                document.getElementById(panelId).hidden = false;
+            });
+        });
+    </script>
+</body>
+</html>

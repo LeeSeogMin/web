@@ -1,0 +1,23 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#3ECF8E'}}}%%
+graph LR
+    A[supabase] --> B[.from]
+    B --> C[.select]
+    C --> D[.filter]
+    D --> E[.order]
+    E --> F[.range]
+    F --> G[실행]
+
+    subgraph "필터 메서드"
+        D1[.eq]
+        D2[.neq]
+        D3[.gt / .lt]
+        D4[.like / .ilike]
+    end
+
+    D --> D1
+    D --> D2
+    D --> D3
+    D --> D4
+
+    style A fill:#3ECF8E,color:#fff
+    style G fill:#667eea,color:#fff

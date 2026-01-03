@@ -1,0 +1,14 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#000000'}}}%%
+graph LR
+    A[Git Push] --> B[Vercel 감지]
+    B --> C[빌드 시작]
+    C --> D{빌드 결과}
+    D -->|성공| E[배포]
+    D -->|실패| F[알림]
+    E --> G[URL 업데이트]
+    F --> H[이전 배포 유지]
+
+    style A fill:#24292e,color:#fff
+    style B fill:#000000,color:#fff
+    style E fill:#3ECF8E,color:#fff
+    style F fill:#ef4444,color:#fff

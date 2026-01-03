@@ -1,0 +1,22 @@
+%% 그림 4.2: Flexbox 축과 정렬
+
+flowchart LR
+    subgraph CONTAINER["Flex Container"]
+        direction LR
+        A["Item 1"]
+        B["Item 2"]
+        C["Item 3"]
+    end
+
+    MAIN["주축 (Main Axis)<br/>→ justify-content"]
+    CROSS["교차축 (Cross Axis)<br/>↓ align-items"]
+
+    MAIN -.-> CONTAINER
+    CROSS -.-> CONTAINER
+
+    style CONTAINER fill:#e3f2fd
+    style A fill:#64b5f6
+    style B fill:#64b5f6
+    style C fill:#64b5f6
+    style MAIN fill:#fff3e0
+    style CROSS fill:#f3e5f5

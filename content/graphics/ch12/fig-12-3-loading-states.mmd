@@ -1,0 +1,19 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#3ECF8E'}}}%%
+stateDiagram-v2
+    [*] --> Idle: 초기 상태
+    Idle --> Loading: 데이터 요청
+    Loading --> Success: 성공
+    Loading --> Error: 실패
+    Success --> [*]
+    Error --> Loading: 재시도
+    Error --> [*]: 포기
+
+    note right of Loading
+        스피너 또는
+        스켈레톤 UI 표시
+    end note
+
+    note right of Error
+        에러 메시지 +
+        재시도 버튼
+    end note

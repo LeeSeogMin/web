@@ -1,0 +1,22 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#3ECF8E'}}}%%
+graph TB
+    subgraph "유저 스토리 구조"
+        A["As a <역할>"] --> B["I want <기능>"]
+        B --> C["so that <가치>"]
+    end
+
+    subgraph "예시"
+        D["회원으로서"] --> E["게시글을 작성하고 싶다"]
+        E --> F["내 의견을 공유하기 위해"]
+    end
+
+    subgraph "인수 조건"
+        G["Given: 전제 조건"]
+        H["When: 행동"]
+        I["Then: 결과"]
+        G --> H --> I
+    end
+
+    style A fill:#3ECF8E,color:#fff
+    style D fill:#94a3b8,color:#000
+    style G fill:#fbbf24,color:#000

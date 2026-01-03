@@ -1,0 +1,25 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#3ECF8E'}}}%%
+graph TB
+    subgraph "AuthProvider"
+        A[user state]
+        B[loading state]
+        C[onAuthStateChange]
+    end
+
+    subgraph "하위 컴포넌트"
+        D[Header]
+        E[ProtectedRoute]
+        F[Dashboard]
+        G[Profile]
+    end
+
+    A --> D
+    A --> E
+    B --> E
+    E -->|user 있음| F
+    E -->|user 있음| G
+    E -->|user 없음| H[Login 페이지로 리다이렉트]
+
+    style A fill:#3ECF8E,color:#fff
+    style B fill:#3ECF8E,color:#fff
+    style E fill:#667eea,color:#fff

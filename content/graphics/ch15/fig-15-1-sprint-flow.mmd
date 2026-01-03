@@ -1,0 +1,18 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#3ECF8E'}}}%%
+graph LR
+    subgraph "스프린트 실행 흐름"
+        A[요구사항 확인] --> B[기능 구현]
+        B --> C[로컬 테스트]
+        C --> D[커밋]
+        D --> E[PR 생성]
+        E --> F[코드 리뷰]
+        F --> G{승인?}
+        G -->|Yes| H[머지]
+        G -->|No| B
+        H --> I[배포]
+    end
+
+    style A fill:#94a3b8,color:#000
+    style D fill:#fbbf24,color:#000
+    style H fill:#3ECF8E,color:#fff
+    style I fill:#3ECF8E,color:#fff

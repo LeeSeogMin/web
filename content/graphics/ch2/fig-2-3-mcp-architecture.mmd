@@ -1,0 +1,32 @@
+%% 그림 2.3 MCP 아키텍처
+%% 제2장 2.4절에서 사용
+
+flowchart LR
+    subgraph 사용자["사용자"]
+        A["프롬프트<br/>'Supabase v2로<br/>로그인 구현'"]
+    end
+
+    subgraph AI클라이언트["AI 클라이언트"]
+        B["Claude Desktop<br/>또는 Cursor"]
+    end
+
+    subgraph MCP["MCP 서버 (Context7)"]
+        C["문서 검색<br/>엔진"]
+    end
+
+    subgraph 외부데이터["외부 데이터"]
+        D["Supabase<br/>공식 문서"]
+        E["React<br/>공식 문서"]
+        F["Next.js<br/>공식 문서"]
+    end
+
+    A --> B
+    B <-->|"① 문서 요청"| C
+    C <-->|"② 최신 문서 조회"| D
+    C <-->|"② 최신 문서 조회"| E
+    C <-->|"② 최신 문서 조회"| F
+    C -->|"③ 문서 반환"| B
+    B -->|"④ 정확한 코드 생성"| G["올바른 버전의<br/>코드 출력"]
+
+    style C fill:#fff3e0
+    style G fill:#c8e6c9
