@@ -143,19 +143,41 @@ AI가 현재 버전을 모르고, 프로젝트 맥락도 모르면, 그럴듯하
 
 > **함께 진행**: 교수 화면 공유하며 학생들과 동시에 설치
 
-### 2.3.1 GitHub 학생 계정 신청 (Copilot 무료)
+### 2.3.1 GitHub 학생 계정 신청 (Copilot Pro 무료)
 
-GitHub Copilot은 유료 서비스이지만, **GitHub Education** 인증을 받으면 무료로 사용할 수 있다.
+GitHub Copilot Pro는 유료 서비스이지만, **GitHub Student Developer Pack** 인증을 받으면 학생 기간 동안 무료로 사용할 수 있다. 신청은 3단계로 진행된다.
 
-**신청 방법**:
+**① GitHub 계정 준비**
 
-1. https://education.github.com/benefits 접속
-2. **Get student benefits** 클릭
-3. 학교 이메일(.ac.kr)로 인증
-4. 학생증 사진 업로드 (필요 시)
-5. 승인까지 수일~수주 소요
+1. GitHub 계정이 없으면 https://github.com/signup 에서 생성한다
+2. 로그인 후 https://github.com/settings/emails 에서 **학교 이메일**(.ac.kr)을 추가한다
+3. 학교 이메일을 **Primary email(기본 이메일)**로 설정한다 — 인증 인식률이 높아진다
+4. 학교 이메일로 발송된 **verification link(인증 링크)**를 클릭하여 verified 상태로 만든다
 
-> 승인 대기 중에도 Copilot 무료 체험이 가능할 수 있다. GitHub 설정에서 확인한다.
+> **강의 팁**: Primary email은 인증 완료 후 개인 이메일로 되돌려도 된다.
+
+**② 학생 자격 신청**
+
+1. https://education.github.com/pack 접속
+2. **"Sign up for Student Developer Pack"** 클릭
+3. 신청 폼에서 학교 정보를 입력하고, 학교 이메일을 school-issued email로 지정한다
+4. 학교 도메인(.ac.kr)이 GitHub에 등록된 경우 **자동 승인**된다. 미등록 시 학생증 사진이나 재학 증명서 업로드가 요구된다
+5. 승인까지 보통 72시간, 최대 2주 소요 (이메일로 알림 수신)
+
+**③ Copilot Pro 무료 활성화**
+
+Student Pack 승인 후 Copilot을 별도로 활성화해야 한다:
+
+1. https://github.com/settings/copilot 접속
+2. **"Get access to GitHub Copilot"** 버튼을 클릭하여 무료 활성화
+
+> **주의**: 이 과정에서 **신용카드 입력이 요구되면 진행하지 않는다**. 학생 혜택은 완전 무료이다.
+
+**트러블슈팅**:
+- 승인 후 혜택이 안 보이면: 72시간 대기 후 로그아웃/재로그인 시도
+- 인증 실패 시: 학생증 사진을 수동으로 업로드하거나 GitHub Support(https://support.github.com/contact/education)에 티켓 제출
+
+> **무료 대안 — Codeium(Windsurf)**: Copilot 승인 대기 중이라면 **Codeium**을 임시로 사용할 수 있다. VS Code 확장 마켓에서 "Codeium" 또는 "Windsurf"를 검색하여 설치하면 무료로 코드 자동완성 기능을 사용할 수 있다. 다만 Copilot만큼 GitHub 생태계와의 통합이 강하지는 않다.
 
 ### 2.3.2 VS Code Copilot / Copilot Chat 확장 설치
 
