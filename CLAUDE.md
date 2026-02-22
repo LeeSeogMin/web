@@ -8,14 +8,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 빠른 시작 명령어
 
-### MS Word 변환
-```bash
-cd ms-word && npm install              # 의존성 설치 (최초 1회)
-npm run convert:chapter 2              # 개별 챕터 변환 (예: 2장)
-npm run convert:all                    # 모든 챕터 일괄 변환
-npm run create:book                    # 완전한 통합 도서 생성
-```
-
 ### Next.js 프로젝트 실습 환경
 ```bash
 cd practice/chapter{N}
@@ -217,7 +209,7 @@ Claude Code는 Copilot을 실행할 수 없으므로, 다음과 같이 역할을
 - **주석은 학습 포인트**: 코드 내 주석으로 "여기서 주목할 부분" 표시
 
 #### 5.7 표준 참조 문서
-**집필 시 반드시 참조**: `docs/sample.md`
+- **집필 시 참조**: 기존 완성 원고 `docs/ch1.md`~`docs/ch4.md`를 문체/형식 기준으로 참조
 - practice 폴더 참조 형식: `_전체 프로젝트는 practice/chapter{N}/ 참고_`
 
 ---
@@ -227,7 +219,6 @@ Claude Code는 Copilot을 실행할 수 없으므로, 다음과 같이 역할을
 ```
 project/
 ├── CLAUDE.md              # 이 파일 - 프로젝트 컨텍스트
-├── AGENTS.md              # 운영 규칙
 ├── contents.md            # 최종 목차 및 집필 방향
 ├── schema/                # 집필계획서
 │   └── chap{N}.md
@@ -258,11 +249,6 @@ project/
 │       ├── next.config.js
 │       └── .github/
 │           └── copilot-instructions.md  # Copilot 프로젝트 지시사항
-├── ms-word/               # MS Word 변환 시스템
-│   ├── config/            # 설정 파일
-│   ├── src/               # 변환 스크립트
-│   ├── output/            # 생성된 Word 파일
-│   └── templates/         # 템플릿 (머리말, 참고문헌 등)
 ├── checklists/            # 진행 체크리스트
 ├── scripts/               # 자동화 스크립트
 └── _archive/              # 이전 프로젝트 백업 (React+Vite 기존 원고)
@@ -270,7 +256,7 @@ project/
 
 ---
 
-## 7단계 워크플로우
+## 6단계 워크플로우
 
 ```
 [1단계: Planning] ⭐ Claude Code Plan Mode 사용
@@ -301,22 +287,17 @@ project/
         ▼
 [6단계: Quality Verification]
     @reviewer ── 품질 검토 ──▶ docs/ch{N}.md (최종 완성본)
-        │
-        ▼
-[7단계: MS Word Conversion]
-    MS Word 변환 시스템 ──▶ ms-word/output/*.docx
 ```
 
-### 필수 단계 (5-7단계는 자동 수행)
+### 필수 단계 (5-6단계는 자동 수행)
 
-**CRITICAL**: 4단계 완료 후 5-6-7단계를 **자동으로 연속 수행**한다.
+**CRITICAL**: 4단계 완료 후 5-6단계를 **자동으로 연속 수행**한다.
 
 #### 작업 명령어 해석 기준
 | 사용자 명령 | 수행 범위 | 비고 |
 |---|---|---|
-| "N장 작성" | 1~7단계 전체 | **모든 단계 자동 수행** (Word 변환 포함) |
-| "N장 검토" | 5~7단계 | 일관성 검증 + 품질 리뷰 + Word 변환 |
-| "N장 변환" | 7단계만 | docs/ch{N}.md → Word |
+| "N장 작성" | 1~6단계 전체 | **모든 단계 자동 수행** |
+| "N장 검토" | 5~6단계 | 일관성 검증 + 품질 리뷰 |
 
 ---
 
@@ -398,7 +379,7 @@ ANTHROPIC_API_KEY=...
 FIRECRAWL_API_KEY=...
 
 # Google AI (Gemini) - MCP 서버용
-GEMINI_API_KEY=AIzaSyAUm5BMwxb6ldDM3nv2FS4aNJglCbCgJ4E
+GEMINI_API_KEY=...
 ```
 
 ---
@@ -431,14 +412,19 @@ GEMINI_API_KEY=AIzaSyAUm5BMwxb6ldDM3nv2FS4aNJglCbCgJ4E
 2. **API 키 설정**
    프로젝트 루트의 `.env` 파일에 추가 (또는 MCP 등록 시 환경 변수로 전달):
    ```bash
-   GEMINI_API_KEY=AIzaSyAUm5BMwxb6ldDM3nv2FS4aNJglCbCgJ4E
+   GEMINI_API_KEY=<your-gemini-api-key>
    ```
 
 3. **Claude Code에 MCP 서버 등록**
    ```bash
+   # macOS/Linux
    claude mcp add nanobanana-mcp "node" \
-     "/Users/callii/Documents/mcp-servers/nanobanana-mcp/dist/index.js" \
-     -e "GEMINI_API_KEY=AIzaSyAUm5BMwxb6ldDM3nv2FS4aNJglCbCgJ4E"
+     "$HOME/Documents/mcp-servers/nanobanana-mcp/dist/index.js" \
+     -e "GEMINI_API_KEY=<your-gemini-api-key>"
+   # Windows (Git Bash)
+   claude mcp add nanobanana-mcp "node" \
+     "$USERPROFILE/Documents/mcp-servers/nanobanana-mcp/dist/index.js" \
+     -e "GEMINI_API_KEY=<your-gemini-api-key>"
    ```
 
 4. **Claude Code 재시작**
@@ -463,46 +449,30 @@ GEMINI_API_KEY=AIzaSyAUm5BMwxb6ldDM3nv2FS4aNJglCbCgJ4E
 
 ---
 
-## MS Word 변환 시스템
-
-### 개요
-완성된 Markdown 원고(`docs/ch{N}.md`)를 전문적인 MS Word 문서(`.docx`)로 변환합니다.
-
-### 사용법
-```bash
-cd ms-word
-npm install                    # 의존성 설치 (최초 1회)
-npm run convert:chapter 2      # 개별 챕터 변환
-npm run convert:all            # 모든 챕터 일괄 변환
-npm run create:book            # 완전한 통합 도서 생성
-```
-
-### 출력 파일
-- **개별 챕터**: `ms-word/output/ch{N}.docx`
-- **통합 도서**: `ms-word/output/{project}-complete-book.docx`
-
----
-
 ## 현재 프로젝트 상태
 
 ### 도서 정보
 - **제목**: 웹 프로그래밍(실전): AI 협업 기반 풀스택 리터러시
 - **부제**: Next.js + Tailwind CSS + Supabase + Vercel — 바이브코딩 with GitHub Copilot
 - **도서 유형**: 학부생 강의교재 (바이브코딩 방식)
-- **현재 단계**: contents.md 완성, 교재 집필 준비
+- **현재 단계**: Ch1-12 집필+검토 완료, Ch13 미착수
 
 ### 완료된 설정
 - ✅ 6개 전문 에이전트 구성
 - ✅ 7단계 워크플로우 정의
 - ✅ 디렉토리 구조 생성
-- ✅ contents.md 완성 (13장 + 15주 운영 계획)
+- ✅ contents.md 완성 (13장 + 15주 운영 계획, Ch2/Ch3/Ch7/Ch10 정합성 수정 반영)
 - ✅ 바이브코딩 교재 형식으로 CLAUDE.md 전환
 - ✅ 기존 React+Vite 원고 _archive로 이동
-- ⏳ 신규 docs/ch{N}.md 집필 대기 (13장)
-- ⏳ practice/ Next.js 프로젝트 구축 대기
-- ⏳ MS Word 변환 시스템 구축 대기
+- ✅ Ch1-4 집필 완료 + 검토/수정 완료 (docs/ch1.md~ch4.md)
+- ✅ Ch5-6 신규 작성 완료 (docs/ch5.md~ch6.md)
+- ✅ Ch7-12 집필 + 검토 완료 (docs/ch7.md~ch12.md)
+- ✅ MS Word 변환 시스템 구축 (ms-word/)
+- ⏳ Ch13 집필 대기 (기말 프로젝트 가이드)
+- ⏳ practice/ Next.js 프로젝트 구조 재편 필요 (현재 이전 15장 형식)
+- ⏳ ms-word/ 의존성 설치 필요 (npm install)
 
 ---
 
-**마지막 업데이트**: 2026-02-07
-**버전**: 2.0 (바이브코딩 전환)
+**마지막 업데이트**: 2026-02-22
+**버전**: 2.2 (Ch1-12 완료, 상태 동기화)

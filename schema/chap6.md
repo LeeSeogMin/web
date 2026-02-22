@@ -1,4 +1,4 @@
-# 제6장 집필계획서: React 기초
+# 제6장 집필계획서: Next.js 상태 관리와 데이터 페칭
 
 ---
 
@@ -7,178 +7,170 @@
 | 항목 | 내용 |
 |------|------|
 | 장 번호 | 6 |
-| 장 제목 | React 기초 |
-| 목표 분량 | 700-800줄 (기술 심화 장) |
-| 예상 페이지 | 약 45쪽 |
-| 이론:실습 비율 | 50:50 |
-| 선수 지식 | 5장(JavaScript 핵심) |
+| 장 제목 | Next.js 상태 관리와 데이터 페칭 |
+| 장 유형 | 기술 실습 장 |
+| 목표 분량 | 620-680줄, ~35쪽 |
+| 구성비 | 개념 15% + 프롬프트 35% + 코드읽기/검증 40% + 과제 10% |
+| 선수 지식 | Ch5(Next.js 기초: 컴포넌트, JSX, Props, App Router) |
+| 미션 | 게시판 프론트엔드를 완성한다 |
 
 ---
 
 ## 2. 학습 목표
 
 이 장을 마치면 다음을 수행할 수 있다:
-1. React의 개념과 컴포넌트 기반 개발 방식을 이해할 수 있다
-2. JSX 문법을 사용하여 UI를 선언적으로 작성할 수 있다
-3. props와 state를 활용하여 동적 컴포넌트를 만들 수 있다
-4. 이벤트 처리와 폼을 구현할 수 있다
-5. 조건부 렌더링과 리스트 렌더링을 수행할 수 있다
+1. useState로 컴포넌트의 상태를 관리하고 이벤트를 처리할 수 있다
+2. useEffect로 사이드 이펙트를 처리하고 의존성 배열의 역할을 설명할 수 있다
+3. Server Component와 Client Component의 차이를 이해하고 적절히 선택할 수 있다
+4. 서버/클라이언트 양쪽의 데이터 페칭 패턴을 구현할 수 있다
+5. Context API로 전역 상태를 관리하고 커스텀 훅으로 로직을 재사용할 수 있다
 
 ---
 
-## 3. 절 구성 및 분량 배분
+## 3. 수업 타임라인
 
-### 6.1 React란 무엇인가 (약 80줄)
-- React 소개와 탄생 배경
-- 선언적 UI vs 명령적 UI
-- 컴포넌트 기반 아키텍처
-- Virtual DOM 개념
-- **그림 6.1**: 컴포넌트 트리 구조
-
-### 6.2 개발 환경 설정 (약 60줄)
-- Node.js와 npm
-- Vite로 프로젝트 생성
-- 프로젝트 구조 이해
-- 개발 서버 실행
-
-### 6.3 JSX 문법 (약 100줄)
-- 6.3.1 JSX란?
-  - JavaScript XML
-  - 컴파일 과정
-- 6.3.2 JSX 규칙
-  - 단일 루트 요소
-  - 닫는 태그 필수
-  - camelCase 속성
-  - className, htmlFor
-- 6.3.3 표현식 삽입
-  - 중괄호 {}
-  - 조건부 표현
-- **표 6.1**: HTML vs JSX 차이점
-
-### 6.4 컴포넌트와 Props (약 120줄)
-- 6.4.1 함수 컴포넌트
-  - 컴포넌트 정의
-  - 네이밍 규칙 (PascalCase)
-- 6.4.2 Props 전달
-  - props 객체
-  - 구조 분해 할당
-  - 기본값 설정
-- 6.4.3 children props
-  - 자식 요소 전달
-  - 컴포넌트 합성
-- **그림 6.2**: Props 데이터 흐름
-
-### 6.5 State와 이벤트 (약 150줄)
-- 6.5.1 useState Hook
-  - state 선언
-  - state 업데이트
-  - 불변성 원칙
-- 6.5.2 이벤트 처리
-  - onClick, onChange
-  - 이벤트 핸들러 함수
-  - 이벤트 객체
-- 6.5.3 폼 처리
-  - 제어 컴포넌트
-  - 입력값 관리
-  - 폼 제출
-- **표 6.2**: useState 사용 패턴
-
-### 6.6 조건부 렌더링과 리스트 (약 100줄)
-- 6.6.1 조건부 렌더링
-  - if문 활용
-  - 삼항 연산자
-  - 논리 연산자 (&&)
-- 6.6.2 리스트 렌더링
-  - map() 활용
-  - key 속성의 중요성
-  - 고유 식별자
-- **표 6.3**: 조건부 렌더링 패턴
-
-### 6.7 실습: Todo 앱 만들기 (약 90줄)
-- 요구사항 정의
-- 컴포넌트 설계
-- 상태 관리
-- 기능 구현 (추가, 삭제, 토글)
-- 완성 코드
+| 교시 | 시간대 | 주제 | 해당 절 |
+|:---:|--------|------|---------|
+| 1교시 | 00:00~00:50 | useState + 이벤트 처리 + 폼 | 6.1 |
+| 쉬는시간 | 00:50~01:00 | — | — |
+| 2교시 | 01:00~01:50 | useEffect + Server/Client Component + 데이터 페칭 | 6.2~6.4 |
+| 쉬는시간 | 01:50~02:00 | — | — |
+| 3교시 | 02:00~02:50 | Context API + 커스텀 훅 + 과제 | 6.5~6.6 |
 
 ---
 
-## 4. 핵심 개념 및 용어
+## 4. 절 구성 및 분량 배분
+
+### 1교시: useState + 이벤트 처리
+
+#### 6.1 useState와 이벤트 처리 (약 200줄, 개념+프롬프트+코드읽기)
+- 6.1.1 상태의 개념과 useState (~60줄)
+  - 상태(State) = "React가 기억하는 변수"
+  - `const [value, setValue] = useState(초기값)`
+  - **표 6.1**: 일반 변수 vs useState 비교
+  - > **라이브 코딩 시연**: 좋아요 카운터 (버튼 클릭 → 숫자 증가)
+- 6.1.2 이벤트 핸들러 작성 (~40줄)
+  - onClick, onChange, onSubmit
+  - 이벤트 핸들러 명명 규칙 (handleClick, handleChange)
+  - **표 6.2**: 주요 이벤트 핸들러
+- 6.1.3 폼 입력 처리 (~60줄)
+  - **제어 컴포넌트**: input value를 state에 바인딩
+  - 여러 입력 필드 관리 (객체 state)
+  - > **함께 진행**: 게시글 작성 폼 개선
+  - Copilot 프롬프트
+- 6.1.4 상태 업데이트와 불변성 (~40줄)
+  - 배열 추가: `[...posts, newPost]`
+  - 배열 삭제: `posts.filter(p => p.id !== id)`
+  - 배열 수정: `posts.map(p => p.id === id ? {...p, title} : p)`
+  - 직접 수정(push, splice) 금지
+
+---
+
+### 2교시: useEffect + Server/Client Component + 데이터 페칭
+
+#### 6.2 useEffect와 사이드 이펙트 (약 70줄)
+- 6.2.1 useEffect 기본 사용법 (~30줄)
+  - 사이드 이펙트 = "렌더링 외의 작업" (API 호출, 타이머 등)
+  - `useEffect(() => { ... }, [deps])`
+- 6.2.2 의존성 배열 (~25줄)
+  - `[]` = 마운트 시 1회, `[변수]` = 변수 변경 시, 생략 = 매 렌더링
+  - **표 6.3**: 의존성 배열에 따른 실행 시점
+- 6.2.3 클린업 함수 (~15줄)
+  - `return () => { 정리 작업 }`
+  - 타이머 해제, 이벤트 리스너 제거
+
+#### 6.3 Server Component vs Client Component (약 80줄, 핵심 개념)
+- 6.3.1 "use client" 지시어 (~25줄)
+  - Next.js App Router 기본 = Server Component
+  - "use client" 추가 = Client Component
+- 6.3.2 언제 서버 컴포넌트를 쓰는가 (~25줄)
+  - 데이터베이스 직접 접근, API 키 사용, 무거운 라이브러리
+- 6.3.3 언제 클라이언트 컴포넌트를 쓰는가 (~30줄)
+  - useState, useEffect, onClick 등 인터랙션
+  - **표 6.4**: Server vs Client Component 비교 (핵심 표)
+
+#### 6.4 데이터 페칭 패턴 (약 80줄)
+- 6.4.1 서버 컴포넌트에서 fetch (~30줄)
+  - `async function Page()` + `await fetch()`
+- 6.4.2 클라이언트 컴포넌트에서 useEffect + fetch (~30줄)
+  - useState + useEffect + fetch 패턴
+- 6.4.3 로딩/에러 상태 처리 (~20줄)
+  - isLoading, error state 관리
+
+---
+
+### 3교시: Context API + 과제
+
+#### 6.5 Context API와 커스텀 훅 (약 80줄)
+- 6.5.1 전역 상태와 Context (~50줄)
+  - createContext, Provider, useContext
+  - Ch9 AuthContext 미리보기
+  - Copilot 프롬프트
+- 6.5.2 커스텀 훅으로 로직 재사용 (~30줄)
+  - `usePosts()` 훅 예시
+  - 이름 규칙: `use` 접두사
+
+#### 6.6 과제 (약 110줄)
+- 과제 안내: 게시판 프론트엔드 완성
+- ① 검색 기능 (useState)
+- ② 게시글 작성 폼 개선 (제어 컴포넌트 + 유효성 검증)
+- ③ 게시글 삭제 기능 (filter)
+- ④ 외부 API 데이터 페칭
+- **표 6.5**: 검증 체크리스트
+- **표 6.6**: 흔한 AI 실수 패턴
+- 과제 제출 + 마무리
+
+---
+
+## 5. 핵심 용어
 
 | 용어 | 영문 | 정의 |
 |------|------|------|
-| 컴포넌트 | Component | 재사용 가능한 UI 단위 |
-| JSX | JavaScript XML | JavaScript 내 XML 문법 |
-| Props | Properties | 부모에서 자식으로 전달되는 데이터 |
-| State | State | 컴포넌트 내부에서 관리하는 동적 데이터 |
-| Hook | Hook | 함수 컴포넌트에서 상태 등을 사용하게 하는 함수 |
-| 렌더링 | Rendering | UI를 화면에 그리는 과정 |
-| Virtual DOM | Virtual DOM | 메모리상의 가상 DOM 트리 |
+| 상태 | State | React 컴포넌트가 기억하는 데이터. 변경 시 UI가 자동 업데이트 |
+| 사이드 이펙트 | Side Effect | 렌더링 외의 작업 (API 호출, 타이머, 구독 등) |
+| 서버 컴포넌트 | Server Component | 서버에서만 실행되는 컴포넌트. App Router 기본값 |
+| 클라이언트 컴포넌트 | Client Component | 브라우저에서 실행되는 컴포넌트. "use client" 필요 |
+| 제어 컴포넌트 | Controlled Component | 입력값을 state로 관리하는 폼 컴포넌트 |
+| 컨텍스트 | Context | 컴포넌트 트리 전체에 데이터를 전달하는 React 기능 |
+| 커스텀 훅 | Custom Hook | 재사용 가능한 상태 로직을 함수로 추출한 것 |
 
 ---
 
-## 5. 다이어그램 계획
-
-| 번호 | 제목 | 유형 | 설명 |
-|------|------|------|------|
-| 그림 6.1 | 컴포넌트 트리 구조 | 트리 다이어그램 | App → Header, Main, Footer |
-| 그림 6.2 | Props 데이터 흐름 | 플로우 다이어그램 | 단방향 데이터 흐름 |
-| 그림 6.3 | State 업데이트 사이클 | 순환 다이어그램 | setState → 렌더링 → UI |
-
----
-
-## 6. 표 계획
+## 6. 표 계획 (6개)
 
 | 번호 | 제목 | 내용 |
 |------|------|------|
-| 표 6.1 | HTML vs JSX | 속성명, 문법 차이 |
-| 표 6.2 | useState 패턴 | 기본, 객체, 배열 상태 |
-| 표 6.3 | 조건부 렌더링 | if, 삼항, && 패턴 비교 |
+| 표 6.1 | 일반 변수 vs useState | 재렌더링 여부, UI 반영 차이 |
+| 표 6.2 | 주요 이벤트 핸들러 | onClick, onChange, onSubmit 등 |
+| 표 6.3 | 의존성 배열에 따른 실행 시점 | [], [변수], 생략 |
+| 표 6.4 | Server vs Client Component | 실행 위치, 사용 가능 기능, 적합한 용도 |
+| 표 6.5 | AI 생성 코드 검증 체크리스트 | "use client", import 경로, 의존성 배열 등 |
+| 표 6.6 | 흔한 AI 실수 패턴 | 의존성 배열 누락, state 직접 수정 등 |
 
 ---
 
-## 7. 실습 코드 계획
+## 7. COPILOT_VERIFY 마커 (4개)
 
-| 파일명 | 내용 | 위치 |
-|--------|------|------|
-| 6-4-components/ | 컴포넌트 예제 | practice/chapter6/code/ |
-| 6-5-state-events/ | State와 이벤트 예제 | practice/chapter6/code/ |
-| 6-7-todo-app/ | Todo 앱 완성본 | practice/chapter6/code/ |
-
----
-
-## 8. 연습문제 계획
-
-| 번호 | 난이도 | 유형 | 내용 |
-|------|--------|------|------|
-| 1 | 기초 | 개념 | JSX와 HTML의 차이점 |
-| 2 | 기초 | 코드 작성 | 간단한 컴포넌트 작성 |
-| 3 | 기초 | 개념 | props와 state 차이 |
-| 4 | 중급 | 실습 | 카운터 컴포넌트 구현 |
-| 5 | 중급 | 실습 | 폼 입력 컴포넌트 구현 |
-| 6 | 중급 | 코드 수정 | 리스트 렌더링 key 오류 수정 |
-| 7 | 심화 | 종합 | 북마크 앱 구현 |
+1. 게시글 작성 폼 생성 프롬프트 결과 (6.1.3)
+2. useEffect + fetch 패턴 프롬프트 결과 (6.4.2)
+3. ThemeContext 생성 프롬프트 결과 (6.5.1)
+4. 검색 기능 프롬프트 결과 (6.6)
 
 ---
 
-## 9. 참고문헌 계획
+## 8. 참고문헌
 
-1. React 공식 문서 - https://react.dev/
-2. Vite 공식 문서 - https://vitejs.dev/
-3. React Beta Docs - Learn React
-4. Kent C. Dodds - Epic React
-5. Robin Wieruch - The Road to React
-
----
-
-## 10. 집필 시 주의사항
-
-1. **함수 컴포넌트 중심**: 클래스 컴포넌트는 언급만, 함수 컴포넌트와 Hooks 중심
-2. **5장 연계**: JavaScript 핵심 개념(화살표 함수, 구조 분해, 배열 메서드) 활용
-3. **점진적 복잡도**: 간단한 컴포넌트 → props → state → 복합 예제
-4. **실용적 예제**: 실제 사용하는 패턴 중심
-5. **7장 연계**: 다음 장(Hooks 심화)을 위한 기반 마련
+- React 공식 문서: useState — https://react.dev/reference/react/useState
+- React 공식 문서: useEffect — https://react.dev/reference/react/useEffect
+- React 공식 문서: useContext — https://react.dev/reference/react/useContext
+- Next.js 공식 문서: Server and Client Components — https://nextjs.org/docs/app/building-your-application/rendering/server-components
+- Next.js 공식 문서: Data Fetching — https://nextjs.org/docs/app/building-your-application/data-fetching
 
 ---
 
-**작성일**: 2026-01-02
+## 9. 현재 대비 변경 사항
+
+**이전 schema/chap6.md**: "React 기초" (구 15장 커리큘럼, Vite 기반)
+**현재**: "Next.js 상태 관리와 데이터 페칭" (현 13장 커리큘럼, App Router 기반)
+
+**전면 교체** — React 기초 내용은 Ch5로 이동됨. Ch6는 상태 관리, 데이터 페칭, Server/Client Component를 다룸.
