@@ -411,6 +411,52 @@ shadcn/ui 공식 사이트(ui.shadcn.com/themes)에서 테마를 선택하면 CS
 
 이렇게 하면 Copilot이 코드를 생성할 때 **우리 프로젝트의 디자인 규칙**을 자동으로 참조한다.
 
+### 7.5.2a Agent Skills로 디자인 규칙 강화하기
+
+Ch2에서 Agent Skills의 개념을 배웠다. copilot-instructions.md는 모든 프롬프트에 적용되지만, **디자인 관련 작업일 때만** 더 강한 규칙을 적용하고 싶다면 Agent Skills를 사용한다.
+
+`.github/skills/design-system/SKILL.md`를 생성한다:
+
+```markdown
+---
+name: Design System
+description: shadcn/ui 디자인 토큰과 컴포넌트 규칙을 강제합니다.
+when: "디자인", "UI", "컴포넌트", "스타일", "색상", "tailwind", "card", "button" 키워드 포함 시
+---
+
+## 규칙
+1. Tailwind 색상 직접 사용 금지 → CSS 변수(--primary, --secondary 등) 사용
+2. UI 컴포넌트는 반드시 shadcn/ui(components/ui/) 우선 사용
+3. 반응형 필수: md 이상 2열, 모바일 1열
+4. 간격: 컨텐츠 간 space-y-6, 카드 내부 p-6
+5. 최대 너비: max-w-4xl mx-auto (메인 컨텐츠)
+6. 이미지에 alt 속성 필수
+
+## 사용 가능한 shadcn/ui 컴포넌트
+Button, Card, Input, Dialog, Avatar, Badge
+```
+
+**효과**: Agent 모드에서 "프로필 카드를 만들어줘"라고 하면, 이 Skill이 자동 발동되어 **shadcn/ui Card를 사용하고, 디자인 토큰을 따르는 코드**가 생성된다. copilot-instructions.md의 Design Tokens 섹션과 함께 작동하여 일관된 디자인을 보장한다.
+
+<!-- COPILOT_VERIFY: design-system Skill 적용 전/후 UI 코드 생성 결과를 비교해주세요 -->
+
+### 7.5.2b 참고 — 디자인 특화 MCP 서버
+
+> 이 절은 **참고 사항**이다. 수업에서는 다루지 않지만, 디자인 워크플로우를 더 고도화하고 싶은 학생을 위한 정보이다.
+
+Ch2에서 MCP의 개념을 소개했다. 디자인 분야에서 활용할 수 있는 MCP 서버들이 있다:
+
+**표 7.12** 디자인 특화 MCP 서버 (참고용)
+
+| MCP 서버 | 용도 | 활용 시나리오 |
+|----------|------|-------------|
+| **Figma MCP** | Figma 디자인 파일을 코드로 변환 | 디자이너가 만든 시안을 React+Tailwind로 자동 변환 |
+| **21st.dev Magic MCP** | AI 컴포넌트 즉시 생성 | 프롬프트만으로 완성도 높은 UI 컴포넌트 생성 |
+| **Playwright MCP** | 브라우저에서 UI 자동 테스트 | 반응형 레이아웃이 모든 화면 크기에서 올바른지 자동 검증 |
+| **Context7 MCP** | shadcn/ui·Tailwind 최신 문서 참조 | AI가 최신 버전 API를 정확히 사용하도록 보장 |
+
+이런 도구들은 Figma 디자이너와 협업하는 실무 프로젝트에서 강력하다. 학생 Pro 계정에서도 사용 가능하지만, **월 300회 quota를 소모**하므로 꼭 필요할 때만 활성화한다. 이 수업에서는 **copilot-instructions.md + Agent Skills 조합**만으로 충분하다.
+
 ### 7.5.3 효과적인 디자인 프롬프트 5가지 전략
 
 UI 연구 기관 NN/g(Nielsen Norman Group)가 제안하는 디자인 프롬프트 전략을 바이브코딩에 맞게 적용한다.
@@ -664,7 +710,9 @@ git push
 - **shadcn/ui**: npm 패키지가 아닌, 코드를 프로젝트에 복사하는 컴포넌트 라이브러리
 - **디자인 토큰**: CSS 변수로 색상, 간격, 폰트를 체계화 → copilot-instructions.md에 명시
 - **디자인 프롬프트 5전략**: 레퍼런스 제시, 제약 조건, 반복 다듬기, 부정 프롬프트, 역할 부여
+- **Agent Skills**: `.github/skills/design-system/SKILL.md`로 디자인 규칙을 Agent 모드에서 자동 적용
 - **ARCHITECTURE.md**: 페이지 맵 + 컴포넌트 계층 + 데이터 모델 → AI의 프로젝트 컨텍스트
+- **참고 — 디자인 MCP**: Figma MCP, 21st.dev Magic MCP 등은 실무 디자인 워크플로우에서 활용 가능
 - **AI 디자인 실수 6패턴**: 색상 직접 사용, 반응형 누락, import 경로 오류, alt 누락, 하드코딩, 불필요한 "use client"
 - **AI 디자인 검증 6항목**: 반응형, 접근성, 일관성, 컴포넌트, 네비게이션, 코드 구조
 

@@ -395,15 +395,132 @@ AI가 틀렸을 때 다음 순서로 대응한다:
 
 # 3교시: 실습 + 과제 제출
 
-## 2.7 Copilot Skills와 Agent Mode
+## 2.7 Agent Mode와 Agent Skills
 
-### 2.7.1 Skills와 Agent Mode 소개
+### 2.7.1 Agent Mode: AI가 스스로 계획하고 실행하기
 
-**Copilot Skills**는 반복 작업을 자동화하는 기능이다. **Agent Mode**는 여러 단계의 작업을 자동으로 수행한다.
+Copilot Chat 상단에는 세 가지 모드가 있다: **Ask**, **Edit**, **Agent**. 지금까지 사용한 것은 Ask/Edit 모드이다.
+
+**Agent Mode**는 Copilot이 여러 단계의 작업을 **스스로 계획하고 실행**하는 모드이다. 파일을 탐색하고, 코드를 수정하고, 터미널 명령어까지 실행한다.
+
+**표 2.8** Copilot Chat 모드 비교
+
+| 모드 | 동작 | 예시 |
+|------|------|------|
+| **Ask** | 질문에 답변 (코드 수정 안 함) | "이 함수가 뭘 하는 거야?" |
+| **Edit** | 선택한 코드만 수정 | 코드 선택 → "TypeScript로 변환해줘" |
+| **Agent** | 여러 파일 탐색 + 코드 생성/수정 + 터미널 실행 | "게시글 CRUD API를 만들어줘" |
+
+> **함께 진행**: Copilot Chat에서 모드를 Ask → Agent로 전환하고, "이 프로젝트에 /about 페이지를 추가해줘"라고 입력한다. Agent가 파일을 탐색하고, 코드를 작성하는 과정을 관찰한다.
 
 Agent Mode에서는 **컨텍스트 관리가 더욱 중요**하다. AI가 여러 파일을 동시에 수정하므로, copilot-instructions.md에 규칙이 명확히 정의되어 있어야 한다.
 
-<!-- COPILOT_VERIFY: Agent Mode 실제 동작 화면 캡처 -->
+<!-- COPILOT_VERIFY: Agent Mode에서 Ask/Edit/Agent 모드 전환 과정과 실제 동작 화면을 캡처해주세요 -->
+
+### 2.7.2 Agent Skills: 특정 작업에 전문 규칙 자동 적용
+
+**Agent Skills**는 copilot-instructions.md의 진화형이다. copilot-instructions.md가 "모든 상황에 적용되는 일반 규칙"이라면, Skills는 **"특정 키워드가 포함될 때만 자동 발동되는 전문 규칙"**이다.
+
+**표 2.9** copilot-instructions.md vs Agent Skills
+
+| 항목 | copilot-instructions.md | Agent Skills |
+|------|------------------------|-------------|
+| 위치 | `.github/copilot-instructions.md` | `.github/skills/스킬명/SKILL.md` |
+| 적용 시점 | 항상 (모든 프롬프트) | 관련 키워드 포함 시 자동 |
+| 용도 | 프로젝트 전체 규칙 | 특정 작업 전문 지침 |
+| 난이도 | 마크다운 작성 | 동일 (마크다운 작성) |
+
+**Skills 폴더 구조**:
+
+```text
+프로젝트/
+├── .github/
+│   ├── copilot-instructions.md   ← 프로젝트 전체 규칙 (2.4에서 작성)
+│   └── skills/                   ← Agent Skills 폴더
+│       └── nextjs-rules/
+│           └── SKILL.md          ← 스킬 정의 파일
+```
+
+**SKILL.md 예시** — Next.js 코딩 규칙:
+
+```markdown
+---
+name: Next.js Best Practices
+description: Next.js App Router 프로젝트의 코딩 규칙을 강제합니다.
+when: "nextjs", "app router", "server component", "page", "layout" 키워드 포함 시
+---
+
+## 규칙
+1. App Router 전용 — Pages Router(pages/) 사용 금지
+2. Server Component 기본 — "use client"는 useState/onClick 등 필요할 때만
+3. next/router 금지 → next/navigation 사용
+4. 이미지는 next/image 사용
+5. metadata는 export const metadata 또는 generateMetadata() 사용
+```
+
+이 파일을 `.github/skills/nextjs-rules/SKILL.md`로 저장하면, Agent 모드에서 "새 페이지 만들어줘"라고 할 때 위 규칙이 **자동으로 적용**된다. copilot-instructions.md에 이미 적은 규칙과 겹쳐도 괜찮다 — Skills는 해당 작업에 더 강한 강제력을 가진다.
+
+> Skills는 Ch7(디자인 규칙)과 Ch12(에러 처리)에서 실전 예시를 다룬다. 지금은 **"마크다운 파일 하나로 AI의 행동을 제어할 수 있다"**는 개념만 익혀둔다.
+
+<!-- COPILOT_VERIFY: .github/skills/ 폴더에 SKILL.md를 만들고 Agent 모드에서 자동 로드되는지 확인해주세요 -->
+
+### 2.7.3 참고 — MCP: 외부 도구를 AI에 연결하기
+
+> 이 절은 **참고 사항**이다. 수업에서 MCP 설정은 필수가 아니며, 필요한 학생이 개별적으로 활용한다.
+
+**MCP**(Model Context Protocol)는 Copilot Agent 모드에서 **외부 도구·API·데이터 소스**를 직접 호출할 수 있게 하는 프로토콜이다. Skills가 "규칙을 알려주는 것"이라면, MCP는 **"도구를 쥐어주는 것"**이다.
+
+**표 2.10** Skills vs MCP 비교
+
+| 항목 | Agent Skills | MCP |
+|------|-------------|-----|
+| 역할 | "이 작업은 이렇게 해" (지침 주입) | "이 도구를 사용해" (기능 확장) |
+| 형태 | `.github/skills/` 내 마크다운 | MCP 서버 + `.vscode/mcp.json` 등록 |
+| 난이도 | 마크다운 작성만 | 서버 설정 필요 (npx 또는 Docker) |
+| quota 영향 | 소모 적음 | 도구 호출마다 premium request 차감 |
+
+**표 2.11** 웹 개발에 유용한 MCP 서버
+
+| MCP 서버 | 용도 | 설치 방법 |
+|----------|------|----------|
+| **GitHub MCP** | 리포지토리·이슈·PR 관리 | `npx -y @modelcontextprotocol/server-github` |
+| **Playwright MCP** | 브라우저 자동화, E2E 테스트 | MCP Registry에서 "playwright" 검색 |
+| **Context7 MCP** | 최신 공식 문서 실시간 참조 | MCP Registry에서 "context7" 검색 |
+| **Chrome DevTools MCP** | 실시간 Chrome 디버깅 | `npx chrome-devtools-mcp@latest` |
+| **Vercel MCP** | 배포·프리뷰 URL 관리 | MCP Registry에서 "vercel" 검색 |
+
+**MCP 서버 등록 방법** (VS Code):
+
+방법 1 — 명령 팔레트에서 추가: `Ctrl+Shift+P` → `MCP: Add Server` → 목록에서 선택
+
+방법 2 — 설정 파일 직접 작성: 프로젝트 루트에 `.vscode/mcp.json` 생성
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "github": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-github"],
+        "env": { "GITHUB_TOKEN": "${input:github_token}" }
+      }
+    },
+    "inputs": [
+      {
+        "id": "github_token",
+        "type": "promptString",
+        "description": "GitHub Personal Access Token"
+      }
+    ]
+  }
+}
+```
+
+등록 후 VS Code를 재시작하면, Agent 모드에서 `@github` 등의 도구가 사용 가능해진다.
+
+> **quota 주의**: 학생 Pro 계정은 월 300회 premium request가 제한이다. MCP 도구 호출은 이 quota를 소모하므로, 처음에는 **Skills만 사용**하고 MCP는 필요할 때 1~2개만 추가하는 것을 권장한다.
+
+> MCP 서버 전체 목록: https://github.com/modelcontextprotocol/servers
 
 ---
 
@@ -486,6 +603,9 @@ git push
 - AI 코딩에는 **3대 한계**가 있다: 버전 불일치, 컨텍스트 소실, 환각
 - **copilot-instructions.md**가 컨텍스트 문제의 80%를 해결한다
 - 컨텍스트 3계층: **copilot-instructions.md** → **@workspace** → **MCP**
+- **Agent Mode**: AI가 여러 파일을 탐색하고 코드 생성/수정까지 자동 수행하는 모드
+- **Agent Skills**: `.github/skills/` 에 SKILL.md를 만들면 특정 작업 시 전문 규칙이 자동 적용된다
+- **MCP**: 외부 도구(GitHub, Playwright, Context7 등)를 AI에 연결하는 프로토콜 (선택 사항)
 - AI가 추천하는 **패키지와 API는 반드시 공식 문서에서 검증**한다
 - 문제 해결 후 **copilot-instructions.md를 업데이트하는 습관**이 핵심이다
 
