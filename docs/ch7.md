@@ -271,6 +271,20 @@ npx shadcn@latest init
 | Base color | Slate | 무난한 회색 계열 (나중에 변경 가능) |
 | CSS variables | Yes | 테마 커스터마이징에 필수 |
 
+설치 후 **버전 확인** — `@latest`로 설치했으므로 어떤 버전이 설치되었는지 확인하고, copilot-instructions.md를 업데이트한다:
+
+```bash
+# components.json에서 shadcn/ui 설정 확인
+node -e "const c = require('./components.json'); console.log('style:', c.style, '| tailwind:', c.tailwind?.config)"
+```
+
+copilot-instructions.md의 Tech Stack 섹션에 shadcn/ui 사용 사실을 추가한다:
+
+```markdown
+## Tech Stack
+- shadcn/ui (components/ui/ 경로에 설치됨)
+```
+
 설치 후 생성되는 파일:
 
 ```

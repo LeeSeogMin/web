@@ -177,7 +177,7 @@ service_role: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...  ← 절대 공개 금지!
 ### 8.3.1 @supabase/supabase-js 설치
 
 > **Copilot 프롬프트**
-> "Next.js 15 프로젝트에 Supabase 클라이언트를 설치하고 초기 설정하는 방법을 알려줘.
+> "Next.js App Router 프로젝트에 Supabase 클라이언트를 설치하고 초기 설정하는 방법을 알려줘.
 > @supabase/supabase-js와 @supabase/ssr 두 패키지가 필요해."
 
 <!-- COPILOT_VERIFY: 이 프롬프트로 Copilot이 올바른 설치 명령을 제시하는지 확인해주세요 -->
@@ -187,6 +187,22 @@ service_role: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...  ← 절대 공개 금지!
 ```bash
 npm install @supabase/supabase-js @supabase/ssr
 ```
+
+설치 후 **버전 확인** — 설치된 Supabase 패키지 버전을 확인하고 copilot-instructions.md에 기록한다:
+
+```bash
+node -e "const p = require('./package.json'); console.log('@supabase/supabase-js:', p.dependencies['@supabase/supabase-js']); console.log('@supabase/ssr:', p.dependencies['@supabase/ssr'])"
+```
+
+copilot-instructions.md의 Tech Stack 섹션에 추가한다:
+
+```markdown
+## Tech Stack
+- @supabase/supabase-js [확인한 버전]
+- @supabase/ssr [확인한 버전]
+```
+
+> 새로운 패키지를 설치할 때마다 버전을 확인하고 copilot-instructions.md에 기록하는 습관을 들이자. 이것이 Ch2에서 배운 **버전 동기화 프로토콜**이다.
 
 **표 8.6** Supabase 패키지 역할
 
@@ -225,7 +241,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ### 8.3.3 Supabase 클라이언트 초기화
 
 > **Copilot 프롬프트**
-> "Next.js 15 App Router에서 Supabase 클라이언트를 초기화하는 유틸리티 파일을 만들어줘.
+> "Next.js App Router에서 Supabase 클라이언트를 초기화하는 유틸리티 파일을 만들어줘.
 > @supabase/ssr 패키지를 사용하고, 브라우저용 클라이언트를 생성하는 함수를 만들어줘.
 > 파일 경로: lib/supabase.js"
 

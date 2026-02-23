@@ -151,7 +151,7 @@ function PostCard({ title, content }) {
 Props는 **읽기 전용**이다. 자식 컴포넌트가 props를 직접 수정할 수 없다. 데이터를 변경하려면 Ch6에서 배우는 **상태**(State)를 사용한다.
 
 > **Copilot 프롬프트**
-> "PostCard 컴포넌트를 만들어줘. title(문자열), content(문자열), date(문자열), author(문자열)를 props로 받고, Tailwind CSS로 카드 형태로 스타일링해줘. Next.js 15 App Router 프로젝트."
+> "PostCard 컴포넌트를 만들어줘. title(문자열), content(문자열), date(문자열), author(문자열)를 props로 받고, Tailwind CSS로 카드 형태로 스타일링해줘. Next.js App Router 프로젝트."
 
 <!-- COPILOT_VERIFY: 위 프롬프트로 Copilot이 생성하는 PostCard 컴포넌트의 props 처리 방식을 캡처해주세요 -->
 
@@ -250,7 +250,7 @@ export default function RootLayout({ children }) {
 | `not-found.js` | 404 페이지 | 해당 경로 |
 
 > **Copilot 프롬프트**
-> "app/layout.js를 수정해줘. 상단에 내비게이션 바(홈, 게시판 링크 포함), 하단에 푸터를 추가하고, 본문은 max-w-4xl mx-auto로 중앙 정렬해줘. Next.js 15 App Router, Tailwind CSS 사용."
+> "app/layout.js를 수정해줘. 상단에 내비게이션 바(홈, 게시판 링크 포함), 하단에 푸터를 추가하고, 본문은 max-w-4xl mx-auto로 중앙 정렬해줘. Next.js App Router, Tailwind CSS 사용."
 
 <!-- COPILOT_VERIFY: 위 프롬프트로 생성된 layout.js에서 Link import 경로와 html/body 구조가 올바른지 확인해주세요 -->
 
@@ -334,7 +334,7 @@ app/
 ```jsx
 // app/posts/[id]/page.js
 export default async function PostDetailPage({ params }) {
-  const { id } = await params; // Next.js 15에서 params는 Promise
+  const { id } = await params; // Next.js 15+에서 params는 Promise
 
   // 지금은 더미 데이터 사용 (Ch8에서 Supabase 연결 예정)
   const post = {
@@ -359,7 +359,7 @@ export default async function PostDetailPage({ params }) {
 }
 ```
 
-> ⚠️ **Next.js 15 주의사항**: `params`는 **Promise**이므로 반드시 `await`가 필요하다. AI가 `const { id } = params;`(await 없음)로 생성하면 에러가 발생한다. 이것은 Ch2에서 배운 **버전 불일치** 문제의 대표적 사례이다.
+> ⚠️ **Next.js 15+ 주의사항**: `params`는 **Promise**이므로 반드시 `await`가 필요하다. AI가 `const { id } = params;`(await 없음)로 생성하면 에러가 발생한다. 이것은 Ch2에서 배운 **버전 불일치** 문제의 대표적 사례이다.
 
 **코드 읽기 포인트**:
 - `async function` — 서버 컴포넌트에서 `await`를 쓰기 위해 `async` 필수
@@ -372,11 +372,11 @@ export default async function PostDetailPage({ params }) {
 > "게시글 상세 페이지 만들어줘"
 
 > **Copilot 프롬프트** (좋은 프롬프트)
-> "app/posts/[id]/page.js를 만들어줘. Next.js 15 App Router 사용. params는 Promise이므로 await로 id를 추출해줘. 더미 게시글 데이터(id, title, content, author, date)를 표시하고 Tailwind CSS로 기사 스타일 레이아웃 적용."
+> "app/posts/[id]/page.js를 만들어줘. Next.js 15+ App Router 사용. params는 Promise이므로 await로 id를 추출해줘. 더미 게시글 데이터(id, title, content, author, date)를 표시하고 Tailwind CSS로 기사 스타일 레이아웃 적용."
 
-나쁜 프롬프트는 어떤 폴더에 만들지, 어떤 버전의 Next.js인지, 어떤 데이터를 표시하는지 명시하지 않는다. AI는 Pages Router(구 방식)로 만들거나, params를 await하지 않을 수 있다. **copilot-instructions.md에 Next.js 15 App Router를 명시**해 두면 이 문제가 크게 줄어든다.
+나쁜 프롬프트는 어떤 폴더에 만들지, 어떤 버전의 Next.js인지, 어떤 데이터를 표시하는지 명시하지 않는다. AI는 Pages Router(구 방식)로 만들거나, params를 await하지 않을 수 있다. **copilot-instructions.md에 설치된 Next.js 버전과 App Router를 명시**해 두면 이 문제가 크게 줄어든다.
 
-<!-- COPILOT_VERIFY: Copilot이 params를 await하는지 반드시 확인. Next.js 15에서 가장 흔한 AI 실수 -->
+<!-- COPILOT_VERIFY: Copilot이 params를 await하는지 반드시 확인. Next.js 15+에서 가장 흔한 AI 실수 -->
 
 ---
 
@@ -544,19 +544,19 @@ export const posts = [
 **② 목록 페이지 구현**
 
 > **Copilot 프롬프트**
-> "app/posts/page.js를 만들어줘. lib/posts.js에서 posts 배열을 import하고, 게시글 목록을 카드 형태로 표시해줘. 각 카드를 클릭하면 /posts/[id]로 이동. next/link의 Link 컴포넌트 사용. Tailwind CSS 스타일링. Next.js 15 App Router."
+> "app/posts/page.js를 만들어줘. lib/posts.js에서 posts 배열을 import하고, 게시글 목록을 카드 형태로 표시해줘. 각 카드를 클릭하면 /posts/[id]로 이동. next/link의 Link 컴포넌트 사용. Tailwind CSS 스타일링. Next.js App Router."
 
 <!-- COPILOT_VERIFY: 목록 페이지에서 Link 컴포넌트 사용 여부, import 경로, key 속성 포함 여부를 확인해주세요 -->
 
 **③ 상세 페이지 구현**
 
 > **Copilot 프롬프트**
-> "app/posts/[id]/page.js를 만들어줘. Next.js 15 App Router이므로 params는 Promise — await로 id 추출. lib/posts.js에서 해당 id의 게시글을 find로 찾아 표시. 없으면 next/navigation의 notFound() 호출. 목록으로 돌아가기 링크 포함. Tailwind CSS 사용."
+> "app/posts/[id]/page.js를 만들어줘. Next.js 15+ App Router이므로 params는 Promise — await로 id 추출. lib/posts.js에서 해당 id의 게시글을 find로 찾아 표시. 없으면 next/navigation의 notFound() 호출. 목록으로 돌아가기 링크 포함. Tailwind CSS 사용."
 
 **④ 작성 페이지 구현**
 
 > **Copilot 프롬프트**
-> "app/posts/new/page.js를 만들어줘. 제목(input)과 내용(textarea) 입력 폼. 아직 백엔드가 없으므로 제출 시 alert('저장되었습니다')만 표시하고 /posts로 이동. useRouter 사용. 'use client' 필수. Next.js 15 App Router, Tailwind CSS."
+> "app/posts/new/page.js를 만들어줘. 제목(input)과 내용(textarea) 입력 폼. 아직 백엔드가 없으므로 제출 시 alert('저장되었습니다')만 표시하고 /posts로 이동. useRouter 사용. 'use client' 필수. Next.js App Router, Tailwind CSS."
 
 **⑤ 레이아웃 업데이트**
 
@@ -584,7 +584,7 @@ export const posts = [
 | AI 실수 | 올바른 방법 | 원인 |
 |---------|------------|------|
 | `import { useRouter } from "next/router"` | `from "next/navigation"` | Pages Router 학습 데이터 |
-| `const { id } = params` (await 없음) | `const { id } = await params` | Next.js 15 변경사항 미반영 |
+| `const { id } = params` (await 없음) | `const { id } = await params` | Next.js 15+ 변경사항 미반영 |
 | `<a href="/posts">` 내부 링크 | `<Link href="/posts">` | HTML 기본 태그로 대체 |
 | `class="btn"` in JSX | `className="btn"` | HTML과 JSX 혼동 |
 | `pages/` 폴더 구조 | `app/` 폴더 구조 | Pages Router(구버전) 패턴 |
@@ -607,7 +607,7 @@ export const posts = [
 - **Props**는 부모 → 자식으로 데이터를 전달하며, 읽기 전용이다
 - **Next.js App Router**는 `app/` 폴더 안의 파일 구조가 곧 URL 구조이다
 - **page.js**는 페이지, **layout.js**는 공통 레이아웃, **loading.js**는 로딩 UI, **error.js**는 에러 UI이다
-- **동적 라우트**: `[id]` 폴더로 URL 파라미터를 받는다. Next.js 15에서 `params`는 Promise이므로 `await` 필수
+- **동적 라우트**: `[id]` 폴더로 URL 파라미터를 받는다. Next.js 15+에서 `params`는 Promise이므로 `await` 필수
 - 페이지 이동은 **Link**(선언적)와 **useRouter**(프로그래매틱)를 사용한다
 - `useRouter`와 `usePathname`은 `next/navigation`에서 import한다 (`next/router`는 구버전)
 - AI가 Pages Router(`pages/`), `next/router`, `class` 등 구버전 패턴을 생성하는지 항상 확인한다

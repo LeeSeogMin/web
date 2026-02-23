@@ -208,6 +208,19 @@ Would you like to customize the import alias?    → No
 cd my-first-web
 ```
 
+**설치된 버전 확인** — `@latest`는 실행 시점의 최신 버전을 설치한다. 어떤 버전이 설치되었는지 반드시 확인한다:
+
+```bash
+# package.json에서 설치된 버전 확인
+node -e "const p = require('./package.json'); console.log('next:', p.dependencies.next)"
+```
+
+```text
+next: 15.x.x    ← 실행 시점에 따라 다르다 (16.x, 17.x 등이 될 수 있다)
+```
+
+이 버전 번호를 기억해두자. **Ch2에서 copilot-instructions.md에 이 버전을 기록**하면 AI가 올바른 버전의 코드를 생성하도록 유도할 수 있다.
+
 ### 1.3.2 프로젝트 구조 살펴보기
 
 VS Code에서 프로젝트를 연다:

@@ -593,7 +593,7 @@ _전체 프로젝트는 practice/chapter6/ 참고_
 **① 게시글 검색 기능 추가**
 
 > **Copilot 프롬프트**
-> "게시판 목록 페이지에 검색 기능을 추가해줘. SearchBar는 'use client' Client Component로 분리. useState로 검색어를 관리하고, posts 배열을 filter로 제목 검색. Next.js 15, Tailwind CSS."
+> "게시판 목록 페이지에 검색 기능을 추가해줘. SearchBar는 'use client' Client Component로 분리. useState로 검색어를 관리하고, posts 배열을 filter로 제목 검색. Next.js App Router, Tailwind CSS."
 
 <!-- COPILOT_VERIFY: 검색 기능에서 Server/Client Component 분리가 올바르게 되는지 확인해주세요 -->
 
