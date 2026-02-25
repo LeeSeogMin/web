@@ -18,7 +18,14 @@
       "WebFetch(domain:code.visualstudio.com)",
       "Bash(grep:*)",
       "Bash(python3:*)",
-      "Bash(tail:*)"
+      "Bash(tail:*)",
+      "WebFetch(domain:www.sciencedirect.com)",
+      "WebFetch(domain:www.elsevier.com)",
+      "WebFetch(domain:typeset.io)",
+      "WebFetch(domain:scispace.com)",
+      "WebFetch(domain:www.citationmachine.net)",
+      "WebFetch(domain:citationsy.com)",
+      "Bash(cd:*)"
     ]
   }
 }
