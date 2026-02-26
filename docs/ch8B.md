@@ -1,22 +1,22 @@
 # Chapter 8. Supabase 시작하기 — B회차: 실습
 
-> **미션**: Supabase 프로젝트를 설정하고 테이블을 생성하여 데이터를 읽어오는 페이지를 배포한다
+> **미션**: Supabase 프로젝트를 생성하고, Next.js와 연결하여 데이터 읽기 페이지를 배포한다
 
 ---
 
 ## 수업 타임라인
 
-**표 8.14** B회차 수업 타임라인
+**표 8.11** B회차 수업 타임라인
 
 | 시간 | 내용 |
 |------|------|
 | 00:00~00:05 | A회차 핵심 리캡 + 과제 스펙 확인 |
 | 00:05~00:10 | 바이브코딩 가이드 + 스타터 코드 안내 |
-| 00:10~00:25 | 체크포인트 1: Supabase 프로젝트 생성 + 환경 변수 설정 |
-| 00:25~00:45 | 체크포인트 2: 테이블 생성 + 클라이언트 초기화 |
-| 00:45~01:00 | 체크포인트 3: 연결 테스트 + Vercel 환경 변수 + 배포 |
-| 01:00~01:05 | Google Classroom 제출 |
-| 01:05~01:25 | 결과 공유 + 코드리뷰 토론 |
+| 00:10~00:30 | 체크포인트 1: Supabase 프로젝트 생성 + 환경 변수 |
+| 00:30~00:50 | 체크포인트 2: 클라이언트 초기화 + SQL 테이블 생성 |
+| 00:50~01:05 | 체크포인트 3: 연결 테스트 + Vercel 배포 |
+| 01:05~01:10 | Google Classroom 제출 |
+| 01:10~01:25 | 결과 공유 + 코드리뷰 토론 |
 | 01:25~01:30 | 교수 종합 피드백 + 다음 주 예고 |
 
 ---
@@ -25,30 +25,33 @@
 
 ### 과제 요구사항
 
-**Supabase 연동 게시판 페이지**를 배포한다:
+Supabase를 Next.js 프로젝트에 연동하고, 데이터를 읽어 화면에 표시한 뒤 배포한다:
 
 ① Supabase 프로젝트 생성 + API 키 확인
-② `.env.local`에 환경 변수 설정 (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
-③ `lib/supabase.js` — Supabase 클라이언트 초기화 (`@supabase/ssr`의 `createBrowserClient`)
+② `.env.local` 환경 변수 설정
+③ `lib/supabase/client.ts` + `lib/supabase/server.ts` 클라이언트 초기화
 ④ SQL Editor에서 `profiles` + `posts` 테이블 생성
-⑤ Vercel 환경 변수 등록 + 배포 성공
+⑤ 연결 테스트 성공 확인
+⑥ Vercel 환경 변수 등록 + 배포
 
 ### 스타터 코드
 
-`practice/chapter8/starter/` 폴더에 Supabase 패키지가 설치된 Next.js 프로젝트가 준비되어 있다.
+`practice/chapter8/starter/` 폴더에 Supabase 패키지가 설치된 Next.js 프로젝트와 비어 있는 `lib/supabase/` 폴더가 준비되어 있다.
 
 ```
 practice/chapter8/starter/
 ├── app/
-│   ├── layout.js       ← 공통 레이아웃
-│   ├── page.js         ← 메인 페이지 (Supabase 연결 전 상태)
-│   └── globals.css     ← Tailwind 기본 import
+│   ├── layout.tsx         ← 공통 레이아웃
+│   ├── page.tsx           ← 메인 페이지 (데이터 표시 뼈대)
+│   └── globals.css        ← Tailwind 기본 import
 ├── lib/
-│   └── supabase.js     ← 비어 있음 (TODO: 클라이언트 초기화)
-├── package.json        ← @supabase/supabase-js, @supabase/ssr 포함
-├── tailwind.config.js
-├── postcss.config.js
-└── next.config.js
+│   └── supabase/
+│       ├── client.ts      ← 브라우저 클라이언트 (TODO)
+│       └── server.ts      ← 서버 클라이언트 (TODO)
+├── .env.local.example     ← 환경 변수 템플릿
+├── package.json           ← @supabase/supabase-js, @supabase/ssr 포함
+├── tailwind.config.ts
+└── next.config.ts
 ```
 
 **시작 방법** (PowerShell 기준):
@@ -65,141 +68,156 @@ macOS Terminal도 동일하다.
 
 ## 바이브코딩 가이드
 
-> **Copilot 활용**: 이번 실습에서는 Copilot Chat에 프롬프트를 입력하여 Supabase 설정 코드를 생성한다. 생성된 코드를 그대로 쓰지 말고, A회차에서 배운 기준으로 반드시 검증한다.
+> **Copilot 활용**: 이번 실습에서는 Copilot Chat에 Supabase 연동 코드를 요청한다. 환경 변수와 클라이언트 설정은 A회차에서 배운 패턴과 정확히 일치하는지 반드시 검증한다.
 
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
-나쁜 프롬프트:
+❌ 나쁜 프롬프트:
 > "Supabase 연결해줘"
 
-문제: 어떤 패키지를 쓰는지, 환경 변수 이름이 무엇인지, 브라우저용인지 서버용인지 전혀 알려주지 않았다.
+문제: 어떤 패키지를 사용하는지, 브라우저/서버 클라이언트 구분, 환경 변수명이 전혀 명시되지 않았다.
 
-좋은 프롬프트:
+✅ 좋은 프롬프트:
 
 > **Copilot 프롬프트**
-> "Next.js App Router 프로젝트에서 Supabase 브라우저 클라이언트를 초기화하는 lib/supabase.js를 만들어줘.
-> @supabase/ssr 패키지의 createBrowserClient를 사용해.
-> 환경 변수: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY.
-> export function createClient() 형태로 만들어줘."
+> "Next.js 14 App Router 프로젝트에서 Supabase 클라이언트를 설정해줘.
+> 패키지: @supabase/supabase-js + @supabase/ssr
+> 파일 구조: lib/supabase/client.ts (브라우저용), lib/supabase/server.ts (서버용)
+> 환경 변수: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY (.env.local)
+> 서버 클라이언트는 cookies()를 사용하는 createServerClient 패턴."
 
-<!-- COPILOT_VERIFY: 위 프롬프트를 Copilot Chat에 입력하고 생성 결과를 캡처해주세요 -->
+<!-- COPILOT_VERIFY: 위 프롬프트를 Copilot Chat에 입력하고 @supabase/ssr 최신 API를 사용하는지 확인해주세요 -->
 
 ---
 
 ## 개인 실습
 
-### 체크포인트 1: Supabase 프로젝트 생성 + 환경 변수 설정 (15분)
+### 체크포인트 1: Supabase 프로젝트 생성 + 환경 변수
 
-**목표**: Supabase 프로젝트를 만들고 Next.js에 환경 변수를 연결한다.
+**목표**: Supabase 프로젝트를 생성하고 API 키를 `.env.local`에 설정한다.
 
-① https://supabase.com 에서 GitHub로 로그인 → New Project 생성
-② Project Settings → API에서 **Project URL**과 **anon key**를 복사한다
-③ 프로젝트 루트에 `.env.local` 파일을 생성한다:
+① https://supabase.com 에서 새 프로젝트를 생성한다
+② 프로젝트 이름, 데이터베이스 비밀번호, 리전(Northeast Asia — ap-northeast-1 권장)을 설정한다
+③ Settings → API에서 `Project URL`과 `anon public` 키를 복사한다
+④ `.env.local.example`을 `.env.local`로 복사하고 값을 채운다:
+
 ```bash
-# .env.local
-NEXT_PUBLIC_SUPABASE_URL=https://[프로젝트ID].supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbG...
+NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGci...
 ```
-④ `.gitignore`에 `.env*.local`이 포함되어 있는지 확인한다
-⑤ **주의**: Database Password는 반드시 어딘가에 메모해둔다 (나중에 변경 불가)
 
-> **강의 팁**: 순회하며 학생들이 `.env.local` 파일을 올바르게 만들었는지 확인한다. `.env`에 넣거나 `NEXT_PUBLIC_` 접두사를 빠뜨린 학생이 있을 수 있다.
+⑤ `.gitignore`에 `.env.local`이 포함되어 있는지 확인한다
 
-### 체크포인트 2: 테이블 생성 + 클라이언트 초기화 (20분)
+> **강의 팁**: Supabase 대시보드에서 키를 찾지 못하는 학생이 많다. 화면을 공유하며 Settings → API 경로를 안내한다. `service_role` 키를 사용하지 않도록 주의시킨다.
 
-**목표**: SQL 테이블을 생성하고 Supabase 클라이언트를 설정한다.
+### 체크포인트 2: 클라이언트 초기화 + SQL 테이블 생성
 
-① Supabase 대시보드 → **SQL Editor**에서 다음 SQL을 실행한다:
-```sql
--- profiles 테이블
-create table profiles (
-  id uuid references auth.users(id) on delete cascade,
-  username text,
-  avatar_url text,
-  created_at timestamptz default now(),
-  primary key (id)
-);
+**목표**: 브라우저/서버 클라이언트를 초기화하고, 데이터베이스 테이블을 생성한다.
 
--- posts 테이블
-create table posts (
-  id bigint generated always as identity primary key,
-  title text not null,
-  content text not null,
-  user_id uuid references profiles(id) on delete cascade not null,
-  created_at timestamptz default now()
-);
-```
-② **Table Editor**에서 두 테이블이 생성되었는지 확인한다
-③ `lib/supabase.js`를 완성한다:
-```javascript
-import { createBrowserClient } from "@supabase/ssr";
+① `lib/supabase/client.ts`에 브라우저 클라이언트를 작성한다
+
+```typescript
+// lib/supabase/client.ts — 핵심 구조
+import { createBrowserClient } from "@supabase/ssr"
 
 export function createClient() {
   return createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  );
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 }
 ```
-④ Copilot에게 연결 테스트 페이지를 요청하여 `app/test/page.js`를 생성한다
-⑤ `http://localhost:3000/test`에서 연결 성공을 확인한다
 
-> **Copilot 프롬프트**
-> "Supabase 연결을 확인하는 테스트 페이지를 만들어줘.
-> 파일 경로: app/test/page.js
-> use client 컴포넌트로, @/lib/supabase에서 createClient를 import해.
-> useEffect에서 간단한 쿼리를 실행하고 연결 성공/실패를 화면에 표시해줘."
+② `lib/supabase/server.ts`에 서버 클라이언트를 작성한다 (cookies 사용)
+③ Supabase 대시보드 → SQL Editor에서 테이블을 생성한다:
 
-### 체크포인트 3: 검증 + 배포 (15분)
+```sql
+-- profiles 테이블
+CREATE TABLE profiles (
+  id UUID REFERENCES auth.users ON DELETE CASCADE PRIMARY KEY,
+  username TEXT UNIQUE,
+  avatar_url TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
 
-**목표**: 검증을 완료하고 Vercel에 배포한다.
+-- posts 테이블
+CREATE TABLE posts (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  title TEXT NOT NULL,
+  content TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-① 아래 검증 체크리스트를 수행한다
-② Vercel Dashboard → Settings → Environment Variables에 환경 변수 2개를 등록한다
-③ 테스트 페이지 삭제 (`app/test/` 폴더 삭제) — 배포 전 정리
-④ git add → git commit → git push 로 배포한다:
+④ 테이블이 생성되었는지 Table Editor에서 확인한다
+⑤ posts 테이블에 테스트 데이터 1~2개를 수동으로 추가한다
+
+<!-- COPILOT_VERIFY: Copilot이 생성한 서버 클라이언트 코드가 @supabase/ssr의 최신 createServerClient API를 사용하는지 확인해주세요 -->
+
+### 체크포인트 3: 연결 테스트 + Vercel 배포
+
+**목표**: 데이터가 화면에 표시되는지 확인하고 배포한다.
+
+① 메인 페이지에서 Supabase 데이터를 조회하는 코드를 작성한다:
+
+```typescript
+// app/page.tsx — 핵심 구조
+import { createClient } from "@/lib/supabase/server"
+
+export default async function Home() {
+  const supabase = await createClient()
+  const { data: posts } = await supabase
+    .from("posts")
+    .select("*")
+  // posts를 화면에 표시
+}
+```
+
+② `npm run dev`로 로컬에서 데이터가 표시되는지 확인한다
+③ Vercel 대시보드 → Settings → Environment Variables에 환경 변수를 등록한다
+④ git push로 배포한다:
+
 ```bash
 git add .
-git commit -m "Ch8: Supabase 연결 설정 + 테이블 생성"
+git commit -m "Ch8: Supabase 연동 + 데이터 읽기"
 git push
 ```
-⑤ Vercel 대시보드에서 배포 완료를 확인한다
-⑥ 배포된 URL에서 페이지가 정상 동작하는지 확인한다
+
+⑤ 배포된 URL에서 데이터가 정상 표시되는지 확인한다
 
 ---
 
 ## 검증 체크리스트
 
-**표 8.15** AI 코드 검증 체크리스트
+**표 8.12** Supabase 연동 검증 체크리스트
 
-| 항목 | 확인 |
-|------|------|
-| `.env.local`에 `NEXT_PUBLIC_SUPABASE_URL` 설정했는가? | ☐ |
-| `.env.local`에 `NEXT_PUBLIC_SUPABASE_ANON_KEY` 설정했는가? | ☐ |
-| `service_role` 키가 아닌 `anon` 키를 사용했는가? | ☐ |
-| `lib/supabase.js`에서 `@supabase/ssr`의 `createBrowserClient`를 사용했는가? | ☐ |
-| 환경 변수 이름이 `.env.local`과 정확히 일치하는가? | ☐ |
-| `profiles`, `posts` 테이블이 Table Editor에 보이는가? | ☐ |
-| `profiles.id`가 `uuid` 타입이고 `auth.users`를 참조하는가? | ☐ |
-| `posts.user_id`가 `profiles.id`를 참조하는 외래 키인가? | ☐ |
-| Vercel 환경 변수가 등록되었는가? | ☐ |
-| 배포 URL에서 빌드 에러 없이 렌더링되는가? | ☐ |
+| 항목 | 확인 내용 | 확인 |
+|------|-----------|------|
+| 환경 변수 | `.env.local`에 `NEXT_PUBLIC_` 접두사가 붙어 있는가? | ☐ |
+| 브라우저 클라이언트 | `@supabase/ssr`의 `createBrowserClient`를 사용하는가? | ☐ |
+| 서버 클라이언트 | `@supabase/ssr`의 `createServerClient`를 사용하는가? | ☐ |
+| API 키 | `anon` 키를 사용하는가? (`service_role` 키가 아닌가?) | ☐ |
+| SQL 테이블 | `profiles`와 `posts` 테이블이 생성되었는가? | ☐ |
+| FK 관계 | `posts.user_id`가 `profiles.id`를 참조하는가? | ☐ |
+| 로컬 테스트 | 브라우저에서 데이터가 표시되는가? | ☐ |
+| Vercel 환경 변수 | Vercel 대시보드에 환경 변수가 등록되었는가? | ☐ |
+| 배포 URL | 배포된 사이트에서 데이터가 표시되는가? | ☐ |
 
 ---
 
 ## 흔한 AI 실수
 
-**표 8.16** Ch8에서 AI가 자주 틀리는 패턴
+**표 8.13** Ch8에서 AI가 자주 틀리는 패턴
 
-| AI 실수 | 올바른 코드 | 발생 원인 |
-|---------|-----------|----------|
-| `@supabase/supabase-js`의 `createClient` 직접 사용 | `@supabase/ssr`의 `createBrowserClient` | 구버전 코드 학습 |
-| `NEXT_PUBLIC_` 접두사 누락 | `NEXT_PUBLIC_SUPABASE_URL` | Next.js 환경 변수 규칙 미인지 |
-| URL/키 하드코딩 | `process.env.NEXT_PUBLIC_...` | 환경 변수 패턴 미적용 |
-| 자체 `users` 테이블 생성 | `profiles` → `auth.users(id)` 참조 | Supabase Auth 연동 패턴 모름 |
-| `profiles.id`를 `int` 타입으로 생성 | `uuid` 타입 | Auth 사용자 ID가 UUID임을 모름 |
-| `on delete cascade` 누락 | 외래 키에 `on delete cascade` 추가 | 참조 무결성 미고려 |
-| 환경 변수 변경 후 서버 재시작 안내 누락 | `Ctrl+C` → `npm run dev` 재실행 | .env 핫 리로딩 미지원 인지 부족 |
+| AI 실수 | 올바른 방법 | 발생 원인 |
+|---------|------------|----------|
+| `@supabase/supabase-js`에서 직접 `createClient` import | `@supabase/ssr`의 `createBrowserClient`/`createServerClient` 사용 | 구버전 패턴 학습 |
+| `NEXT_PUBLIC_` 접두사 누락 | 브라우저에서 사용하는 변수에 반드시 `NEXT_PUBLIC_` 추가 | Next.js 환경 변수 규칙 미인식 |
+| `.env` 파일 사용 | `.env.local` 파일 사용 (Next.js 규칙) | 환경 변수 파일 혼동 |
+| `service_role` 키를 브라우저에서 사용 | 브라우저에는 `anon` 키만 사용 | 보안 규칙 미인식 |
+| `users` 테이블 직접 생성 | `profiles` 테이블 생성 + `auth.users` 참조 | Supabase 인증 구조 미인식 |
+| `id`를 `INT` 또는 `SERIAL`로 생성 | `UUID` 사용 (auth.users 호환) | PostgreSQL 타입 혼동 |
 
 ---
 
@@ -212,11 +230,9 @@ Google Classroom의 "Ch8 과제"에 아래 두 항목을 제출한다:
    예: https://내프로젝트.vercel.app
 
 ② AI가 틀린 부분 1개
-   예: "Copilot이 @supabase/supabase-js의 createClient를 사용했는데,
+   예: "Copilot이 @supabase/supabase-js에서 createClient를 import했는데,
        @supabase/ssr의 createBrowserClient로 수정했다."
 ```
-
-**추가 제출**: Supabase Table Editor 스크린샷 (profiles + posts 테이블이 보이는 화면)
 
 ---
 
@@ -225,27 +241,27 @@ Google Classroom의 "Ch8 과제"에 아래 두 항목을 제출한다:
 > **토론 가이드**: 2-3명이 자발적으로 화면을 공유하며 결과를 발표한다.
 
 **발표 포인트** (1인당 3-5분):
-1. Supabase 대시보드에서 Table Editor를 보여준다
-2. 배포된 URL을 브라우저에 띄운다
-3. 환경 변수 설정에서 어려웠던 점을 공유한다
+1. 배포된 URL을 브라우저에 띄운다
+2. Supabase 대시보드의 테이블 구조를 보여준다
+3. 데이터가 화면에 표시되는지 보여준다
 4. Copilot이 틀린 부분과 어떻게 수정했는지 설명한다
 
 **토론 질문**:
-- "`.env.local`과 `.env`의 차이는 무엇인가?"
-- "anon key가 공개 가능한 이유는 무엇인가?"
-- "Copilot이 생성한 SQL에서 수정한 부분이 있는가?"
+- "브라우저 클라이언트와 서버 클라이언트를 왜 분리하는가?"
+- "`.env.local`에 저장한 키가 GitHub에 올라가면 어떤 위험이 있는가?"
+- "Vercel에 환경 변수를 별도 등록해야 하는 이유는 무엇인가?"
 
 ---
 
 ## 교수 피드백 포인트
 
 **확인할 것**:
-- `.env.local` 파일 이름이 정확한지 — `.env`로 만든 학생이 없는지
-- `service_role` 키를 사용한 학생이 없는지 — 보안 이슈
-- Vercel 환경 변수 미등록으로 배포 실패하는 학생 지원
+- `.env.local`이 `.gitignore`에 포함되어 있는지 — API 키 노출 방지
+- `service_role` 키가 브라우저 코드에 사용되지 않았는지
+- 서버 클라이언트가 `cookies()`를 올바르게 사용하는지
 
 **우수 사례 공유**:
-- 테이블 설계를 7장 설계서와 연결한 학생 1-2명 발표
+- 테이블 구조가 잘 설계된 프로젝트 1-2개를 화면에 띄워 동기부여
 
 **다음 주 예고**:
-> 다음 주에는 **Google 계정으로 로그인**하는 기능을 구현한다. 오늘 만든 Supabase 프로젝트에 인증(Authentication) 기능을 추가하여, 누가 글을 쓰는지 구분할 수 있게 된다.
+> 다음 주에는 **Supabase Authentication**을 배운다. 오늘 만든 데이터베이스에 이메일/비밀번호 로그인을 연결하고, 로그인한 사용자만 글을 쓸 수 있도록 만든다.

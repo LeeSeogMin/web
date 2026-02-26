@@ -1,6 +1,6 @@
 # Chapter 7. 웹 앱 아키텍처 & AI 디자인 설계 — B회차: 실습
 
-> **미션**: 개인 프로젝트 설계서를 작성한다 — 페이지 맵, 와이어프레임, 데이터 모델, 설계 문서
+> **미션**: 기말 프로젝트로 만들 **개인 앱의 설계서**를 작성한다
 
 ---
 
@@ -11,160 +11,201 @@
 | 시간 | 내용 |
 |------|------|
 | 00:00~00:05 | A회차 핵심 리캡 + 과제 스펙 확인 |
-| 00:05~00:10 | 설계서 작성 가이드 + 스타터 템플릿 안내 |
-| 00:10~00:25 | 체크포인트 1: 프로젝트 주제 + 페이지 맵 + 유저 플로우 |
-| 00:25~00:45 | 체크포인트 2: shadcn/ui 초기화 + AI 와이어프레임 |
-| 00:45~01:00 | 체크포인트 3: 설계 문서 통합 + GitHub push |
-| 01:00~01:05 | Google Classroom 제출 |
-| 01:05~01:25 | 결과 공유 + 설계서 리뷰 토론 |
-| 01:25~01:30 | 교수 종합 피드백 + 중간고사 안내 |
+| 00:05~00:10 | 바이브코딩 가이드 + 스타터 코드(템플릿) 안내 |
+| 00:10~00:30 | 체크포인트 1: 페이지 맵 + 데이터 모델 |
+| 00:30~00:50 | 체크포인트 2: 와이어프레임 + shadcn/ui 테마 |
+| 00:50~01:05 | 체크포인트 3: 설계 문서 통합 + GitHub push |
+| 01:05~01:10 | Google Classroom 제출 |
+| 01:10~01:25 | 결과 공유 + 코드리뷰 토론 |
+| 01:25~01:30 | 교수 종합 피드백 + 다음 주 예고 |
 
 ---
 
-## 과제 스펙 + 스타터 템플릿 안내
+## 과제 스펙 + 스타터 코드 안내
 
 ### 과제 요구사항
 
-기말 프로젝트로 만들 **개인 앱의 설계서**를 작성한다:
+주제는 자유이지만, **게시판 앱의 변형**을 권장한다 (예: 맛집 리뷰 게시판, 독서 기록 앱, 동아리 공지 게시판 등). Ch8~12에서 배울 Supabase CRUD, 인증, RLS를 활용할 수 있는 구조여야 한다.
 
-① 페이지 맵 — 최소 4페이지, URL 구조 포함
-② AI 와이어프레임 — Copilot Vision 또는 v0로 생성한 프로토타입 (2장 이상)
-③ shadcn/ui 테마 — `npx shadcn init` 완료 + 색상 커스터마이징
-④ 데이터 모델 — 테이블 2개 이상 + 관계 정의
-⑤ copilot-instructions.md — Design Tokens + Component Rules 섹션 포함
-⑥ ARCHITECTURE.md — 페이지 맵 + 컴포넌트 계층 + 데이터 모델 통합
+**제출물**:
 
-### 스타터 템플릿
+① 페이지 맵 (최소 4페이지, URL 구조 포함)
+② AI 와이어프레임 (Copilot Vision 또는 v0로 생성, 2장 이상)
+③ shadcn/ui 테마 (`npx shadcn init` 완료 + 색상 커스터마이징)
+④ 데이터 모델 (테이블 2개 이상 + 관계 정의)
+⑤ copilot-instructions.md (Design Tokens + Component Rules 섹션 포함)
+⑥ ARCHITECTURE.md (페이지 맵 + 컴포넌트 계층 + 데이터 모델 통합)
+⑦ context.md (프로젝트 초기 상태 기록 — 기술 결정 사항 포함)
+⑧ todo.md (전체 작업 체크리스트 — 단계별 구분, 진행률 포함)
+
+### 스타터 코드
 
 `practice/chapter7/starter/` 폴더에 설계서 템플릿 파일들이 준비되어 있다.
 
 ```
 practice/chapter7/starter/
-├── ARCHITECTURE.md          ← 설계서 템플릿 (빈칸 채우기)
-├── .github/
-│   └── copilot-instructions.md  ← Copilot 지시사항 템플릿
-└── README.md                ← 프로젝트 설명 템플릿
+├── ARCHITECTURE.md        ← 설계서 템플릿 (빈 구조)
+├── copilot-instructions.md ← Copilot 지시사항 템플릿
+├── context.md             ← 프로젝트 상태 템플릿
+├── todo.md                ← 작업 체크리스트 템플릿
+└── README.md              ← 프로젝트 설명 템플릿
 ```
 
-> **중요**: 이번 과제는 **코드를 작성하는 것이 아니라 설계서를 작성하는 것**이다. 실제 코드 구현은 Ch8 이후에 진행한다. 단, shadcn/ui 초기화와 테마 설정을 위해 Next.js 프로젝트를 사용한다.
-
-**시작 방법**: 자신의 개인 프로젝트 저장소에서 작업한다. 아직 저장소가 없다면 `npx create-next-app@latest` 로 새 프로젝트를 생성한다.
+**시작 방법** (PowerShell 기준):
+```bash
+cd practice/chapter7/starter
+# 템플릿 파일을 자신의 프로젝트 폴더로 복사
+```
+macOS Terminal도 동일하다.
 
 ---
 
-## 설계서 작성 가이드
+## 바이브코딩 가이드
 
-> **Copilot 활용**: 이번 실습에서는 Copilot을 설계 보조 도구로 사용한다. 페이지 맵, 데이터 모델, ARCHITECTURE.md 초안을 AI에게 생성시키고 검토한다. 단, 프로젝트의 핵심 의도(주제, 기능 범위)는 학생 본인이 결정해야 한다.
+> **Copilot 활용**: 이번 실습에서는 Copilot Chat에 프로젝트 구상을 입력하여 설계서 초안을 생성한다. AI가 만든 설계서를 그대로 쓰지 말고, A회차에서 배운 "AI 슬롭 방지" 기준으로 반드시 검증·수정한다.
 
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
 ❌ 나쁜 프롬프트:
-> "내 프로젝트 설계서 만들어줘"
+> "게시판 앱 설계서 만들어줘"
 
-문제: 어떤 프로젝트인지, 어떤 기능이 필요한지, 대상 사용자가 누구인지 전혀 알려주지 않았다.
+문제: 주제, 대상 사용자, 핵심 기능, 기술 스택이 전혀 명시되지 않아 AI 슬롭이 생성된다.
 
 ✅ 좋은 프롬프트:
 
 > **Copilot 프롬프트**
-> "맛집 리뷰 앱의 ARCHITECTURE.md를 작성해줘.
-> 기능: 리뷰 CRUD + Google 로그인 + 별점 + 이미지 업로드.
+> "맛집 리뷰 게시판 앱의 ARCHITECTURE.md를 작성해줘.
 > 기술 스택: Next.js 14 App Router + Tailwind CSS + shadcn/ui + Supabase.
-> 페이지: 홈(리뷰 목록), 리뷰 상세(/reviews/[id]), 리뷰 작성(/reviews/new), 로그인, 프로필.
-> 데이터 모델: users(id, email, name, avatar_url), reviews(id, title, content, rating, image_url, author_id, created_at).
-> 형식은 practice/chapter7/starter/ARCHITECTURE.md 템플릿을 따라줘."
+> 페이지: 홈(/), 리뷰 목록(/reviews), 리뷰 작성(/reviews/new), 리뷰 상세(/reviews/[id]), 마이페이지(/mypage).
+> 테이블: profiles(사용자), reviews(리뷰, user_id FK), restaurants(맛집).
+> 인증: 이메일/비밀번호 로그인.
+> 각 페이지의 주요 컴포넌트와 데이터 흐름을 포함해줘."
+
+<!-- COPILOT_VERIFY: 위 프롬프트를 Copilot Chat에 입력하고 실제 ARCHITECTURE.md 초안의 품질을 확인해주세요 -->
 
 ---
 
 ## 개인 실습
 
-### 체크포인트 1: 프로젝트 주제 + 페이지 맵 + 유저 플로우 (15분)
+### 체크포인트 1: 페이지 맵 + 데이터 모델
 
-**목표**: 개인 프로젝트의 범위를 확정하고 페이지 구조를 설계한다.
+**목표**: 개인 앱의 페이지 구조와 데이터베이스 모델을 설계한다.
 
-① **프로젝트 주제 결정**: 너무 복잡하지 않게 — "데이터를 목록으로 보여주고, 상세 보기, 작성, 수정, 삭제"가 가능한 주제면 충분하다
+① 앱 주제를 확정한다 (게시판 변형 권장)
+② 페이지 맵을 작성한다 — 최소 4페이지, App Router URL 구조 포함:
 
-**표 7.14** 프로젝트 주제 예시
+```
+/               → 홈 (게시글 목록)
+/posts          → 게시글 목록
+/posts/new      → 게시글 작성
+/posts/[id]     → 게시글 상세
+/mypage         → 마이페이지
+/login          → 로그인
+/signup         → 회원가입
+```
 
-| 주제 | 핵심 데이터 | 특별 기능 |
-|------|-----------|----------|
-| 맛집 리뷰 게시판 | 리뷰 (제목, 본문, 별점, 이미지) | 별점 필터링 |
-| 독서 기록 앱 | 책 (제목, 저자, 감상, 평점) | 읽기 상태 관리 |
-| 동아리 공지 게시판 | 공지 (제목, 본문, 카테고리) | 카테고리 필터 |
-| 레시피 공유 앱 | 레시피 (제목, 재료, 과정, 이미지) | 재료별 검색 |
-| 영화 리뷰 앱 | 리뷰 (제목, 본문, 별점) | 장르별 분류 |
+③ 데이터 모델을 설계한다 — 테이블 2개 이상, 관계(1:N) 정의:
 
-② **페이지 맵 작성**: 종이에 페이지 구조를 그리고, URL을 정의한다
+```
+profiles (사용자)
+├── id: uuid (PK, auth.users 참조)
+├── username: text
+├── avatar_url: text
+└── created_at: timestamptz
 
-③ **유저 플로우 정리**: 주요 시나리오 2-3개를 정리한다 (예: 글 읽기, 글 쓰기, 로그인)
+posts (게시글)
+├── id: uuid (PK)
+├── user_id: uuid (FK → profiles.id)
+├── title: text
+├── content: text
+└── created_at: timestamptz
+```
 
-> **강의 팁**: 순회하며 학생들의 주제가 "CRUD + 인증"이 가능한 범위인지 확인한다. 너무 복잡한 주제(실시간 채팅, 결제 등)를 선택한 학생에게는 범위 축소를 권장한다.
+④ Copilot에게 자신의 주제에 맞는 데이터 모델을 요청하고, 결과를 검토한다
 
-### 체크포인트 2: shadcn/ui 초기화 + AI 와이어프레임 (20분)
+> **강의 팁**: 순회하며 학생들이 최소 4페이지를 설계했는지, 테이블 간 관계(FK)를 정의했는지 확인한다. 주제 선정에 고민하는 학생에게는 공감터 앱의 변형을 권장한다.
 
-**목표**: 프로젝트에 shadcn/ui를 설치하고, AI로 와이어프레임을 생성한다.
+### 체크포인트 2: 와이어프레임 + shadcn/ui 테마
 
-① shadcn/ui 초기화:
+**목표**: AI로 와이어프레임을 생성하고, shadcn/ui 테마를 설정한다.
+
+① Copilot Vision 또는 v0(https://v0.dev)에 와이어프레임을 요청한다
+
+> **Copilot 프롬프트**
+> "다음 페이지의 와이어프레임을 그려줘:
+> 1) 홈 페이지 — 게시글 카드 목록 + 검색바
+> 2) 게시글 작성 페이지 — 제목, 내용 입력 폼 + 제출 버튼
+> 스타일: 깔끔하고 미니멀, shadcn/ui 컴포넌트 활용"
+
+<!-- COPILOT_VERIFY: Copilot Vision으로 와이어프레임을 생성하고 결과 품질을 확인해주세요 -->
+
+② shadcn/ui를 초기화한다:
+
 ```bash
 npx shadcn@latest init
-npx shadcn@latest add button card input dialog
 ```
 
-② shadcn/ui 테마 페이지(ui.shadcn.com/themes)에서 색상을 선택하고 `globals.css`에 적용한다
+③ CSS 변수에서 프로젝트 색상을 커스터마이징한다 (`app/globals.css` 또는 `src/app/globals.css`):
 
-③ 종이 스케치를 촬영하여 Copilot Vision에 넣거나, v0에 프롬프트를 입력하여 프로토타입을 생성한다
+```css
+:root {
+  --primary: 220 70% 50%;      /* 프로젝트 메인 색상 */
+  --primary-foreground: 0 0% 100%;
+}
+```
 
-④ 생성된 와이어프레임 코드를 검토한다:
-- 페이지 맵과 일치하는가?
-- shadcn/ui 컴포넌트를 올바르게 사용하는가?
-- 반응형이 적용되었는가?
+④ 필요한 컴포넌트를 추가한다 (예: `npx shadcn@latest add button card input`)
 
-### 체크포인트 3: 설계 문서 통합 + GitHub push (15분)
+<!-- COPILOT_VERIFY: shadcn/ui 초기화 후 컴포넌트가 프로젝트에 정상 추가되는지 확인해주세요 -->
 
-**목표**: 설계 내용을 문서로 통합하고 GitHub에 push한다.
+### 체크포인트 3: 설계 문서 통합 + GitHub push
 
-① ARCHITECTURE.md 작성 — 페이지 맵, 컴포넌트 계층, 데이터 모델, 디자인 토큰 포함
+**목표**: 설계 문서 4종 세트를 완성하고 GitHub에 push한다.
 
-② copilot-instructions.md 작성 — Design Tokens, Component Rules 섹션 포함
+① ARCHITECTURE.md를 작성한다 — 페이지 맵 + 컴포넌트 계층 + 데이터 모델 통합
+② copilot-instructions.md를 작성한다 — Design Tokens + Component Rules 섹션 포함
+③ context.md를 작성한다 — 기술 결정 사항 (왜 이 주제를 선택했는지, 기술 스택 등)
+④ todo.md를 작성한다 — 전체 작업 체크리스트 (Ch8~12에서 구현할 항목 포함)
+⑤ 아래 검증 체크리스트를 수행한다
+⑥ GitHub에 push한다:
 
-③ GitHub push:
 ```bash
 git add .
-git commit -m "Ch7: 개인 프로젝트 설계서 + shadcn/ui 테마"
+git commit -m "Ch7: 개인 프로젝트 설계서 작성"
 git push
 ```
-
-④ Vercel 배포 확인 (shadcn/ui 초기화된 프로젝트가 배포되는지)
 
 ---
 
 ## 검증 체크리스트
 
-**표 7.15** 설계서 검증 체크리스트
+**표 7.14** 설계서 검증 체크리스트
 
 | 항목 | 확인 내용 | 확인 |
 |------|-----------|------|
-| 페이지 맵 | 최소 4페이지, URL 구조가 명확한가? | ☐ |
-| AI 와이어프레임 | Copilot Vision 또는 v0로 생성한 프로토타입이 2장 이상인가? | ☐ |
-| shadcn/ui | `npx shadcn init` 완료 + 컴포넌트 추가 + 테마 커스터마이징이 되었는가? | ☐ |
-| 데이터 모델 | 테이블 2개 이상 + 관계(1:N 등)가 정의되었는가? | ☐ |
-| copilot-instructions.md | Design Tokens + Component Rules 섹션이 포함되었는가? | ☐ |
-| ARCHITECTURE.md | 페이지 맵 + 컴포넌트 계층 + 데이터 모델이 통합되었는가? | ☐ |
-| GitHub push | 모든 설계 문서가 저장소에 push되었는가? | ☐ |
+| 페이지 맵 | 최소 4페이지 + URL 구조가 App Router 규칙에 맞는가? | ☐ |
+| 와이어프레임 | AI로 생성한 와이어프레임이 2장 이상인가? | ☐ |
+| shadcn/ui | `npx shadcn init` 완료 + 색상 커스터마이징이 되었는가? | ☐ |
+| 데이터 모델 | 테이블 2개 이상 + FK 관계가 정의되었는가? | ☐ |
+| copilot-instructions.md | Design Tokens + Component Rules 섹션이 있는가? | ☐ |
+| ARCHITECTURE.md | 페이지 맵, 컴포넌트, 데이터 모델이 통합되어 있는가? | ☐ |
+| context.md | 기술 결정 사항이 기록되어 있는가? | ☐ |
+| todo.md | 단계별 작업 체크리스트가 있는가? | ☐ |
 
 ---
 
 ## 흔한 AI 실수
 
-**표 7.16** Ch7에서 AI가 자주 틀리는 패턴
+**표 7.15** Ch7에서 AI가 자주 틀리는 패턴
 
 | AI 실수 | 올바른 방법 | 발생 원인 |
 |---------|------------|----------|
-| 범위가 너무 넓은 설계서 | CRUD + 인증 중심으로 범위 축소 | AI가 기능을 과도하게 추가 |
-| 데이터 모델에 불필요한 테이블 | 2-3개 테이블로 시작 | AI가 복잡한 구조를 제안 |
-| shadcn/ui 최신 버전과 다른 init 옵션 | 공식 문서 확인 | AI의 학습 시점 차이 |
-| ARCHITECTURE.md에 구현 코드 포함 | 설계만 — 코드는 Ch8 이후 | 설계와 구현 혼동 |
-| copilot-instructions.md에 모든 규칙 나열 | 핵심 규칙만 간결하게 | AI가 과도하게 상세화 |
-| 비현실적인 유저 플로우 | 실제 사용 시나리오 기반 | AI가 이상적인 흐름만 제시 |
+| 페이지 맵에 Pages Router 경로 사용 (`/pages/about`) | App Router 경로 사용 (`/app/about/page.tsx`) | Next.js 버전 혼동 |
+| 데이터 모델에 `id: int` 사용 | `id: uuid` 사용 (Supabase auth.users와 호환) | PostgreSQL + Supabase 규칙 미인식 |
+| copilot-instructions.md에 구체적 파일 경로 누락 | 프로젝트 구조와 기술 스택을 명시 | 맥락 부족 |
+| 와이어프레임에 존재하지 않는 컴포넌트 사용 | shadcn/ui에 실제로 있는 컴포넌트만 사용 | AI 환각 |
+| CSS 변수 형식 오류 (`#3b82f6` 대신 HSL 사용) | `--primary: 220 70% 50%` (HSL 공백 구분) | shadcn/ui의 CSS 변수 형식 미인식 |
+| ARCHITECTURE.md에 구현 코드 포함 | 설계 수준의 구조만 기술 (코드는 Ch8부터) | 설계와 구현 단계 혼동 |
 
 ---
 
@@ -173,49 +214,43 @@ git push
 Google Classroom의 "Ch7 과제"에 아래 두 항목을 제출한다:
 
 ```
-① GitHub 저장소 링크 (설계서가 포함된 저장소)
-   예: https://github.com/학생아이디/my-project
-   — ARCHITECTURE.md, copilot-instructions.md 확인 가능
+① GitHub 저장소 URL
+   예: https://github.com/내아이디/내프로젝트
+   (ARCHITECTURE.md, copilot-instructions.md, context.md, todo.md 포함)
 
-② 프로젝트 한 줄 설명 + AI가 제안했지만 수정한 부분 1개
-   예: "맛집 리뷰 앱. Copilot이 데이터 모델에 'comments' 테이블을
-       추가했지만, MVP 범위를 넘어서므로 제거했다."
+② AI가 틀린 부분 1개
+   예: "Copilot이 데이터 모델에서 id를 int로 생성했는데,
+       Supabase auth.users와 연결하려면 uuid여야 해서 수정했다."
 ```
-
-> **참고**: 이번 과제는 **배포 URL 대신 GitHub 저장소 링크**를 제출한다. 설계서가 저장소에 있는지 확인한다.
 
 ---
 
 ## 코드리뷰 토론 가이드
 
-> **토론 가이드**: 이번 회차는 "코드"가 아닌 "설계서" 리뷰이다. 2-3명이 설계서를 화면에 띄워 발표한다.
+> **토론 가이드**: 2-3명이 자발적으로 화면을 공유하며 설계서를 발표한다.
 
 **발표 포인트** (1인당 3-5분):
-1. 어떤 앱을 만들 것인지 한 줄로 설명한다
-2. 페이지 맵과 유저 플로우를 보여준다
-3. ARCHITECTURE.md의 데이터 모델을 설명한다
-4. shadcn/ui 테마 선택 이유를 설명한다
+1. 앱 주제와 대상 사용자를 소개한다
+2. 페이지 맵과 데이터 모델을 보여준다
+3. shadcn/ui 테마 색상을 보여준다
+4. Copilot이 틀린 부분과 수정 내용을 공유한다
 
 **토론 질문**:
-- "이 앱의 핵심 유저 플로우는 몇 단계인가? 더 줄일 수 있는가?"
-- "데이터 모델의 테이블 관계가 명확한가? 빠진 필드는 없는가?"
-- "copilot-instructions.md에 어떤 디자인 규칙을 넣었는가? AI가 이 규칙을 잘 따를 것 같은가?"
+- "설계서 없이 바로 코딩을 시작하면 어떤 문제가 발생하는가?"
+- "copilot-instructions.md에 어떤 내용을 넣었을 때 Copilot 응답 품질이 가장 좋았는가?"
+- "데이터 모델에서 테이블 관계를 어떻게 설정했는가? 1:N 외에 다른 관계가 필요한가?"
 
 ---
 
 ## 교수 피드백 포인트
 
 **확인할 것**:
-- 프로젝트 범위가 적절한가 — CRUD + 인증이 핵심, 그 이상은 보너스
-- 페이지 맵이 Next.js App Router 구조와 일치하는가
-- 데이터 모델이 Ch8에서 Supabase 테이블로 바로 변환 가능한가
-- ARCHITECTURE.md가 AI 컨텍스트로 쓸 수 있는 수준인가
+- 페이지 맵이 App Router 규칙을 따르는지 — `app/` 폴더 기준 경로
+- 데이터 모델에 uuid + FK가 올바르게 설정되었는지
+- copilot-instructions.md가 프로젝트에 맞게 커스터마이징되었는지 (기본 템플릿 그대로가 아닌지)
 
 **우수 사례 공유**:
 - 잘 만든 설계서 1-2개를 화면에 띄워 동기부여
 
 **다음 주 예고**:
-> 다음 주는 **중간고사**이다. Ch1~7 범위의 코딩 객관식 시험이다.
-> A회차: 중간고사 대비 (Ch1~7 복습)
-> B회차: 중간고사 실시
-> 시험이 끝나면 Part 5 **Supabase 백엔드 통합**으로 넘어간다. 오늘 작성한 설계서(ARCHITECTURE.md)의 데이터 모델을 **진짜 데이터베이스 테이블**로 만드는 것이 Ch8의 핵심이다.
+> 다음 주에는 **Supabase 시작하기**를 배운다. 오늘 설계한 데이터 모델을 실제 Supabase 데이터베이스에 만들고, Next.js와 연결한다. 설계서가 잘 되어 있으면 DB 세팅이 훨씬 수월하다.

@@ -25,7 +25,8 @@
       "WebFetch(domain:scispace.com)",
       "WebFetch(domain:www.citationmachine.net)",
       "WebFetch(domain:citationsy.com)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(wc:*)"
     ]
   }
 }
