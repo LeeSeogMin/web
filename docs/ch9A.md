@@ -371,12 +371,6 @@ function AuthButtons() {
 
   return user ? (
     <div className="flex items-center gap-4">
-      {/* 관리자/상담사 역할이면 관리자 버튼 표시 */}
-      {(profile?.role === "admin" || profile?.role === "counselor") && (
-        <Link href="/admin" className="text-sm text-[#D4845A] font-medium">
-          관리자
-        </Link>
-      )}
       <Link href="/mypage" className="text-sm text-[#8B6B4E]">
         마이페이지
       </Link>
@@ -403,10 +397,8 @@ function AuthButtons() {
 **코드 읽기 가이드** — 이 컴포넌트의 핵심은 **조건부 렌더링**이다:
 
 - `loading`이 `true`면 → "로딩 중..." 표시
-- `user`가 있으면 → (관리자인 경우 관리자 버튼) + 마이페이지 + 로그아웃 버튼
+- `user`가 있으면 → 마이페이지 + 로그아웃 버튼
 - `user`가 없으면 → 로그인 버튼
-
-> 관리자 버튼은 **UX 편의**일 뿐이다. `profile?.role`로 버튼 노출을 제어하지만, 실제 접근 제한은 미들웨어(로그인 여부 확인)와 `/admin` 레이아웃 컴포넌트(역할 확인), 그리고 Ch11의 RLS(DB 레벨 보안)가 담당한다.
 
 ### 9.4.3 보호된 페이지 만들기 (미들웨어) `🤖 바이브코딩`
 
@@ -461,11 +453,11 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/mypage/:path*", "/mindtalk/new", "/admin/:path*"],
+  matcher: ["/mypage/:path*", "/mindtalk/new"],
 };
 ```
 
-> 미들웨어는 **'로그인 여부'만 확인**한다. '관리자인지'는 `/admin` 레이아웃 컴포넌트에서 `profile.role`로 확인하고, DB 레벨 보안은 Ch11 RLS가 담당한다. 이렇게 계층별로 역할을 나누면 보안이 더 견고해진다.
+> 미들웨어는 **'로그인 여부'만 확인**한다. DB 레벨 보안은 Ch11 RLS가 담당한다. 이렇게 계층별로 역할을 나누면 보안이 더 견고해진다.
 
 **코드 읽기 가이드**:
 

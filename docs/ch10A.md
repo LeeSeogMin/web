@@ -353,7 +353,7 @@ const { data: posts, error } = await supabase
 
 `mindtalk_posts.user_id -> users.id` 외래 키 관계를 Supabase가 자동으로 인식하여, `users` 안에 작성자 정보가 중첩된다.
 
-> **핵심**: `.select("*, users(name, role)")`는 "mindtalk_posts의 모든 열과, 연결된 users의 name과 role을 가져와라"라는 뜻이다. SQL의 JOIN과 같은 결과이지만 문법이 훨씬 간결하다. 결과에 `role`을 포함하면 상담사/관리자가 작성한 답변을 시각적으로 구분할 수 있다(예: 상담사 답변에 배지 표시).
+> **핵심**: `.select("*, users(name, role)")`는 "mindtalk_posts의 모든 열과, 연결된 users의 name과 role을 가져와라"라는 뜻이다. SQL의 JOIN과 같은 결과이지만 문법이 훨씬 간결하다. 결과에 `role`을 포함하면 상담사가 작성한 답변을 시각적으로 구분할 수 있다(예: 상담사 답변에 배지 표시).
 
 ---
 
@@ -556,22 +556,6 @@ export async function deleteMindtalkPost(postId) {
 > 이 조건부 렌더링은 **UI만 숨기는 것**이다. 실제 보안은 Ch11의 **RLS(Row Level Security)**가 담당한다. 개발자 도구에서 직접 API를 호출하면 이 UI 제한은 무시할 수 있다. 반드시 서버 레벨 보안(RLS)이 필요하다.
 
 _전체 프로젝트는 practice/chapter10/ 참고_
-
-### 10.4.5 관리자 전용 데이터 조회 패턴
-
-일반 사용자는 `.eq('user_id', user.id)`로 **본인 데이터만** 조회하지만, 관리자/상담사는 **전체 데이터를 조회**해야 한다. 예를 들어 관리자 대시보드에서 모든 예약을 확인하는 경우:
-
-```tsx
-// 관리자: 모든 예약 조회 (관계 데이터 포함)
-const { data } = await supabase
-  .from("reservations")
-  .select("*, user:user_id(name, email, phone)")
-  .order("created_at", { ascending: false });
-```
-
-이 코드가 안전한 이유는 Ch11에서 설정할 **RLS(Row Level Security)** 때문이다. RLS 정책에서 "관리자/상담사 역할만 전체 예약을 조회할 수 있다"고 정의하면, 일반 사용자가 같은 코드를 실행해도 본인 예약만 반환된다.
-
-> 이 패턴은 Ch13에서 관리자 대시보드를 만들 때 사용한다. 지금은 "역할에 따라 조회 범위가 달라질 수 있다"는 것만 기억하면 된다.
 
 ---
 

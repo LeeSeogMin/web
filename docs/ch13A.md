@@ -25,7 +25,7 @@
 
 [프로젝트 개요]
 - 한 줄 설명(MVP): (예: 고객이 상담 정보를 보고 예약하고, 로그인 후 마음톡 글을 남길 수 있는 사이트)
-- 타깃 사용자: 상담을 예약하려는 고객 / 상담사 / 관리자
+- 타깃 사용자: 상담을 예약하려는 고객 / 상담사
 - 핵심 화면 3개: (예: `/reservation/*`, `/mindtalk`, `/mypage`)
 
 [현재 리포 상태]
@@ -162,7 +162,7 @@ copilot-instructions.md도 함께 업데이트한다. Ch7에서 작성한 초기
 - [ ] **Data Model**: 테이블명, 컬럼, 관계(FK)가 구체적인가?
 - [ ] **RLS 정책**: 각 테이블에 누가 읽고/쓰고/수정/삭제할 수 있는지 명시했는가?
 - [ ] **인증 방식**: 이메일 로그인 설정이 반영되어 있는가?
-- [ ] **역할(Role)**: 사용자 역할이 정의되어 있는가? 관리자 페이지가 Page Map에 포함되어 있는가?
+- [ ] **역할(Role)**: 사용자 역할이 정의되어 있는가?
 - [ ] **Design Tokens**: shadcn/ui 컴포넌트와 색상 변수가 정리되어 있는가?
 - [ ] **copilot-instructions.md**: 프로젝트 규칙이 최신 상태인가?
 
@@ -173,17 +173,155 @@ copilot-instructions.md도 함께 업데이트한다. Ch7에서 작성한 초기
 > **원리 — MoSCoW 기법**
 >
 > - **Must have** — 없으면 앱이 성립 안 되는 핵심 (예: 로그인, 메인 CRUD)
-> - **Should have** — 있으면 좋지만 없어도 동작 (예: 검색, 필터, 관리자 대시보드)
+> - **Should have** — 있으면 좋지만 없어도 동작 (예: 검색, 필터)
 > - **Could have** — 시간 남으면 추가 (예: 다크 모드, 알림)
 > - **Won't have** — 이번 학기 안 함 (예: 결제, 실시간 채팅)
 >
-> 관리자 대시보드(예약 관리/확정/취소)는 1인 상담센터에서는 Must이지만, 학생 프로젝트에서는 Supabase Table Editor로 직접 관리할 수 있으므로 Should로 분류할 수 있다.
->
-> 핵심: **Must have만으로 배포 가능한 앱**이어야 한다. Must 3개면 충분하다.
+> 핵심: **Must have만으로 배포 가능한 앱**이어야 한다.
 
 > **Copilot 프롬프트**
 > "ARCHITECTURE.md의 기능 목록을 MoSCoW 기법으로 분류해줘.
 > Must have는 핵심 CRUD와 인증, Should have는 UX 개선, Could have는 부가 기능으로 나눠줘."
+
+**표 13.3** 개인 프로젝트 필수/선택 기능
+
+| 분류 | 기능 | 설명 |
+|------|------|------|
+| **Must** | 핵심 CRUD | 프로젝트 주제의 메인 기능 |
+| **Must** | 이메일 인증 | 로그인/로그아웃 + 보호된 페이지 |
+| **Must** | RLS 보안 | 모든 테이블에 RLS 정책 적용 |
+| **Must** | 댓글 기능 | 게시글에 댓글 작성/조회/삭제 (1:N 관계) |
+| **Must** | 좋아요/이모지 반응 | 게시글에 좋아요 또는 이모지 반응 기능 (M:N 관계) |
+| **Must** | 관리자 대시보드 | role에 'admin' 추가 + 관리자 전용 페이지 + 역할 기반 RLS |
+| **Should** | 검색/필터 | 게시글 검색, 카테고리 필터링 |
+| **Could** | 다크 모드 | 다크/라이트 테마 전환 |
+
+> 댓글, 좋아요/이모지 반응, 관리자 대시보드는 이번 프로젝트의 **필수(Must)** 기능이다. 수업에서 단계적으로 배우지 않았지만, Ch8~12에서 학습한 CRUD, RLS, 인증의 **종합 응용**으로서 직접 구현한다.
+
+### 댓글 기능 구현 가이드
+
+댓글은 게시글과 **1:N 관계**이다. 하나의 게시글에 여러 개의 댓글이 달릴 수 있다.
+
+**① 테이블 설계**:
+
+```sql
+CREATE TABLE comments (
+  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  post_id bigint REFERENCES posts(id) ON DELETE CASCADE NOT NULL,
+  user_id uuid REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  content text NOT NULL,
+  created_at timestamptz DEFAULT now()
+);
+
+ALTER TABLE comments ENABLE ROW LEVEL SECURITY;
+
+-- 누구나 댓글 읽기
+CREATE POLICY "누구나 댓글 읽기" ON comments
+  FOR SELECT USING (true);
+
+-- 로그인 사용자만 작성
+CREATE POLICY "로그인 사용자만 댓글 작성" ON comments
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- 작성자만 삭제
+CREATE POLICY "작성자만 댓글 삭제" ON comments
+  FOR DELETE USING (auth.uid() = user_id);
+```
+
+**② CRUD 함수** (`lib/comments.ts`): `insert` (댓글 작성) + `select` (게시글별 댓글 조회) + `delete` (본인 댓글 삭제)
+
+**③ UI 연결**: 게시글 상세 페이지(`/posts/[id]`)에 댓글 목록 + 댓글 입력 폼을 추가한다.
+
+> **Copilot 프롬프트**
+> "posts 테이블과 1:N 관계인 comments 테이블을 만들어줘.
+> 댓글 작성/조회/삭제 CRUD 함수를 lib/comments.ts에 만들고,
+> 게시글 상세 페이지에 댓글 목록과 작성 폼을 추가해줘.
+> RLS: 누구나 읽기, 로그인 사용자만 작성, 작성자만 삭제."
+
+### 좋아요/이모지 반응 구현 가이드
+
+좋아요는 사용자와 게시글 사이의 **M:N 관계**이다. 한 사용자가 여러 게시글에 좋아요를 누를 수 있고, 하나의 게시글에 여러 사용자가 좋아요를 누를 수 있다.
+
+**① 테이블 설계**:
+
+```sql
+CREATE TABLE likes (
+  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  post_id bigint REFERENCES posts(id) ON DELETE CASCADE NOT NULL,
+  user_id uuid REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  emoji text NOT NULL DEFAULT '👍',
+  created_at timestamptz DEFAULT now(),
+  UNIQUE (post_id, user_id)  -- 한 사용자가 같은 글에 중복 좋아요 방지
+);
+
+ALTER TABLE likes ENABLE ROW LEVEL SECURITY;
+
+-- 누구나 좋아요 수 조회
+CREATE POLICY "누구나 좋아요 읽기" ON likes
+  FOR SELECT USING (true);
+
+-- 로그인 사용자만 좋아요
+CREATE POLICY "로그인 사용자만 좋아요" ON likes
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- 본인 좋아요만 취소
+CREATE POLICY "본인 좋아요만 취소" ON likes
+  FOR DELETE USING (auth.uid() = user_id);
+```
+
+**② 토글 로직**: 좋아요 버튼 클릭 시 — 이미 좋아요했으면 `DELETE`(취소), 아직이면 `INSERT`(추가). `UNIQUE` 제약 덕분에 중복이 방지된다.
+
+**③ 카운트 표시**: `.select("*", { count: "exact" }).eq("post_id", postId)`로 좋아요 수를 조회한다.
+
+> **Copilot 프롬프트**
+> "게시글에 좋아요(이모지 반응) 기능을 만들어줘.
+> likes 테이블: post_id + user_id + emoji, UNIQUE(post_id, user_id).
+> 토글 로직: 이미 좋아요면 취소(DELETE), 아니면 추가(INSERT).
+> 게시글 목록과 상세에서 좋아요 수를 표시해줘.
+> RLS: 누구나 읽기, 로그인 사용자만 추가/취소."
+
+### 관리자 대시보드 구현 가이드
+
+Ch7~12에서는 `'user'`와 `'counselor'` 2가지 역할만 사용했다. 개인 프로젝트에서는 **`'admin'` 역할을 추가**하고 관리자 전용 페이지를 직접 구현한다.
+
+**① profiles 테이블에 admin 역할 추가**:
+
+```sql
+-- CHECK 제약 수정: admin 역할 추가
+ALTER TABLE profiles DROP CONSTRAINT IF EXISTS profiles_role_check;
+ALTER TABLE profiles ADD CONSTRAINT profiles_role_check
+  CHECK (role IN ('user', 'counselor', 'admin'));
+```
+
+관리자 역할은 Supabase Table Editor에서 특정 사용자의 `role`을 `'admin'`으로 직접 변경한다.
+
+**② 관리자 전용 RLS 정책**:
+
+```sql
+-- 관리자는 모든 데이터 조회 가능
+CREATE POLICY "관리자_전체_조회" ON posts
+  FOR SELECT USING (
+    auth.uid() = user_id
+    OR EXISTS (
+      SELECT 1 FROM profiles
+      WHERE id = auth.uid() AND role = 'admin'
+    )
+  );
+```
+
+`EXISTS` 서브쿼리로 현재 로그인한 사용자의 `role`이 `'admin'`인지 확인한다. 이 패턴은 Ch11에서 배운 RLS의 응용이다.
+
+**③ 접근 제어**: `/admin` 레이아웃 컴포넌트에서 `profile.role === 'admin'`을 확인하고, 관리자가 아니면 리다이렉트한다.
+
+**④ 대시보드 UI**: 관리자 전용 페이지(`app/admin/page.tsx`)에 전체 게시글 수, 사용자 수, 최근 활동 등 통계를 표시한다.
+
+> **Copilot 프롬프트**
+> "관리자 대시보드를 구현해줘.
+> 1. profiles 테이블에 'admin' 역할 추가 (CHECK 제약 수정)
+> 2. app/admin/page.tsx: 관리자만 접근 가능 (profile.role 확인)
+> 3. 전체 게시글 수, 사용자 수, 최근 게시글 5개 표시
+> 4. RLS: admin 역할은 모든 데이터 조회 가능
+> copilot-instructions.md의 디자인 토큰을 따라줘."
 
 ### 13.1.3 MVP(최소 기능 제품) 범위 확정 `🤖 바이브코딩`
 
@@ -233,8 +371,6 @@ MVP 체크리스트의 기능을 하나씩 구현한다. 다음 순서를 권장
 
 이 순서가 중요한 이유: 1단계(DB)와 2단계(인증)가 없으면 3단계(CRUD)를 테스트할 수 없다. 반대로 4단계(UI)는 기능이 동작한 후에 해야 한다 — 동작하지 않는 기능의 UI를 꾸미는 것은 시간 낭비이다.
 
-> 3단계(핵심 CRUD)에서는 **사용자 기능을 먼저 완성**하고, 관리자 기능은 그 다음에 추가한다. 관리자 기능은 RLS가 적용된 후에 테스트해야 의미가 있기 때문이다.
-
 각 단계별 프롬프트 예시:
 
 > **Copilot 프롬프트 (1단계 — DB)**
@@ -271,17 +407,6 @@ MVP 체크리스트의 기능을 하나씩 구현한다. 다음 순서를 권장
 
 좋은 프롬프트의 공통점: **기술 스택 명시** + **데이터 소스 지정** + **UI 구조 설명** + **프로젝트 규칙 참조**.
 
-관리자 페이지를 만들 때도 동일한 원칙을 적용한다:
-
-```text
-좋은 프롬프트 (관리자 대시보드):
-"관리자 대시보드 페이지(app/admin/page.tsx)를 만들어줘.
-- 관리자/상담사 역할만 접근 가능 (profile.role로 확인)
-- reservations 테이블에서 전체 예약 통계를 보여줘 (대기/확정/완료 건수)
-- 대기 중 예약 최근 5건을 카드형으로 표시
-- 디자인 토큰은 copilot-instructions.md를 따라줘"
-```
-
 나쁜 프롬프트가 문제인 이유는 AI가 "추측"해야 할 부분이 많기 때문이다. "게시판 만들어줘"라고 하면 AI는 기술 스택을 추측하고, DB 구조를 추측하고, UI를 추측한다. 추측이 많을수록 AI 3대 한계(버전 불일치, 컨텍스트 소실, 환각)에 빠질 확률이 높아진다.
 
 **기능별 프롬프트 작성 팁** — 프롬프트에 반드시 포함할 정보:
@@ -296,7 +421,6 @@ MVP 체크리스트의 기능을 하나씩 구현한다. 다음 순서를 권장
 | 쓰기(C)     | 입력 필드, 유효성 검증 조건, 성공 후 이동 경로               |
 | 수정(U)     | 수정 대상 식별 방법(id), 수정 가능 필드, 권한 확인           |
 | 삭제(D)     | 삭제 확인 UI, 삭제 권한, 삭제 후 동작                        |
-| 관리자 페이지 | 접근 가능 역할, 조회 대상 테이블, 관리 액션, 레이아웃 구조 |
 | 레이아웃    | 반응형 기준(md:), 컴포넌트 구조, 디자인 토큰                 |
 
 **AI 생성 코드 읽기 포인트**: AI가 코드를 생성하면, 다음 4가지를 반드시 확인한다.
@@ -456,12 +580,14 @@ Ch13 프로젝트 통합을 마무리하려고 해.
 
 **개인 프로젝트 MVP 구현 + 배포**:
 
-1. ARCHITECTURE.md 보완 완료 (Data Model + RLS + 인증 반영)
-2. MVP 기능 최대한 구현 (Must have 중심)
-3. Vercel 배포 완료 + 전 기능 동작 확인
-4. README.md 작성 (프로젝트 설명 + 기술 스택 + 배포 URL)
-5. AI 사용 로그 최소 5항목 (AI_LOG.md)
-6. 배포 URL + GitHub 저장소 링크 제출
+① ARCHITECTURE.md 보완 (Data Model + RLS + 인증 반영)
+② 핵심 CRUD 기능 구현
+③ 댓글 기능 구현 (comments 테이블 + RLS)
+④ 좋아요/이모지 반응 기능 구현 (likes 테이블 + 토글)
+⑤ 관리자 대시보드 구현 (admin role + 역할 기반 접근 제어)
+⑥ Vercel 배포 + 전 기능 동작 확인
+⑦ README.md + AI_LOG.md 작성
+⑧ 배포 URL + GitHub 저장소 제출
 
 **스타터 코드**: `practice/chapter13/starter/` — 기본 Next.js + Supabase + 인증 설정이 완료된 프로젝트 템플릿이다. 여기서 시작하거나, 기존 프로젝트에 기능을 추가해도 된다.
 

@@ -27,12 +27,14 @@
 
 Ch7 설계서를 기반으로 개인 프로젝트 MVP를 구현하고 배포한다:
 
-① ARCHITECTURE.md 보완 완료 (Data Model + RLS + 인증 반영)
-② MVP 기능 최대한 구현 (Must have 중심)
-③ Vercel 배포 완료 + 전 기능 동작 확인
-④ README.md 작성 (프로젝트 설명 + 기술 스택 + 배포 URL)
-⑤ AI 사용 로그 최소 5항목 (AI_LOG.md)
-⑥ 배포 URL + GitHub 저장소 링크 제출
+① ARCHITECTURE.md 보완 (Data Model + RLS + 인증 반영)
+② 핵심 CRUD 기능 구현
+③ 댓글 기능 구현 (comments 테이블 + RLS)
+④ 좋아요/이모지 반응 기능 구현 (likes 테이블 + 토글)
+⑤ 관리자 대시보드 구현 (admin role + 역할 기반 접근 제어)
+⑥ Vercel 배포 + 전 기능 동작 확인
+⑦ README.md + AI_LOG.md 작성
+⑧ 배포 URL + GitHub 저장소 제출
 
 ### 스타터 코드
 
@@ -150,6 +152,10 @@ git commit -m "feat: [기능명] 구현"
 
 ⑤ 시간이 남으면 다음 Must have 기능을 반복한다
 
+⑥ 댓글 기능 구현: comments 테이블 생성 → RLS → CRUD 함수 → 게시글 상세에 댓글 UI
+⑦ 좋아요/이모지 기능 구현: likes 테이블 생성 → RLS → 토글 로직 → UI
+⑧ 관리자 대시보드 구현: profiles에 admin role 추가 → RLS 정책 → /admin 페이지
+
 <!-- COPILOT_VERIFY: #file 참조로 ARCHITECTURE.md와 context.md를 동시에 전달했을 때 Copilot의 코드 품질이 향상되는지 확인해주세요 -->
 
 ### 체크포인트 3: 검증 + 배포 + 문서화
@@ -218,6 +224,9 @@ git push
 | 에러 처리 | error.tsx + loading.tsx가 동작하는가? | ☐ |
 | README.md | 프로젝트 설명 + 기술 스택 + 배포 URL이 있는가? | ☐ |
 | AI_LOG.md | AI 사용 기록이 5항목 이상인가? | ☐ |
+| 댓글 | 댓글 작성/조회/삭제가 동작하는가? | ☐ |
+| 좋아요 | 좋아요 토글 + 카운트가 동작하는가? | ☐ |
+| 관리자 | 관리자 역할만 대시보드에 접근 가능한가? | ☐ |
 | 배포 URL | 배포된 사이트에서 전 기능이 동작하는가? | ☐ |
 
 ---
@@ -234,6 +243,7 @@ git push
 | Hydration 불일치 에러 | Server/Client 렌더링 결과 일치 확인 | 서버/클라이언트 출력 차이 |
 | `auth.uid()` 대신 하드코딩된 UUID | SQL에서 `auth.uid()` 함수 사용 | 동적 사용자 ID 미인식 |
 | 한 번에 전체 프로젝트 생성 시도 | 기능별로 나눠서 구현 + 테스트 + 커밋 | 범위 과대 |
+| 댓글/좋아요 테이블에 FK 누락 | post_id, user_id에 REFERENCES 필수 | 참조 무결성 미설정 |
 
 ---
 
