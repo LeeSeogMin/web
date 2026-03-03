@@ -134,3 +134,6 @@ _archive/
 !**/README.md
 !**/.gitkeep
 !ms-word/templates/*.md
+
+# docs chapter C 파일 제외
+docs/ch*C.md

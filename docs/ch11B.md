@@ -1,4 +1,4 @@
-# Chapter 11. Row Level Security (RLS) — B회차: 실습
+﻿# Chapter 11. Row Level Security (RLS) — B회차: 실습
 
 > **미션**: 게시판에 RLS 정책을 적용하고, 권한 검증을 통과한 뒤 배포한다
 
@@ -71,7 +71,10 @@ macOS Terminal도 동일하다.
 
 ✅ 좋은 프롬프트:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "Supabase posts 테이블에 RLS 정책 4개를 SQL로 작성해줘:
 > 1) SELECT: 누구나 읽기 가능 (USING true)
 > 2) INSERT: 로그인한 사용자만 작성 (WITH CHECK auth.uid() = user_id)
@@ -258,3 +261,4 @@ Google Classroom의 "Ch11 과제"에 아래 두 항목을 제출한다:
 
 **다음 주 예고**:
 > 다음 주에는 **에러 처리와 UX 완성**을 배운다. 지금까지 만든 게시판에 에러 페이지, 로딩 UI, 폼 유효성 검증, 이미지 최적화를 추가하여 사용자가 불편함 없이 쓸 수 있는 앱으로 다듬는다.
+

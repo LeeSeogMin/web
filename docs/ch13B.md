@@ -1,4 +1,4 @@
-# Chapter 13. 개인 프로젝트 구현 — B회차: 실습
+﻿# Chapter 13. 개인 프로젝트 구현 — B회차: 실습
 
 > **미션**: 개인 프로젝트 MVP를 구현하고 Vercel에 배포한다
 
@@ -88,7 +88,10 @@ macOS Terminal도 동일하다.
 
 ✅ 좋은 프롬프트:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "#file:ARCHITECTURE.md #file:copilot-instructions.md
 > ARCHITECTURE.md의 데이터 모델을 기반으로 Supabase SQL을 만들어줘.
 > 테이블: reviews (id uuid PK, user_id uuid FK→profiles, restaurant_name text, content text, rating int, created_at timestamptz)
@@ -129,7 +132,10 @@ DB(SQL + RLS) → 인증(이미 완성) → CRUD(lib/ 함수) → UI(app/ 페이
 ① todo.md에서 Must have 기능 목록을 확인한다 (최대 3개)
 ② 기능 하나를 선택하여 Copilot에게 구현을 요청한다:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "#file:ARCHITECTURE.md #file:context.md
 > [기능명]을 구현해줘.
 > 파일: lib/[기능명].ts (CRUD 함수) + app/[경로]/page.tsx (UI)
@@ -296,3 +302,4 @@ Google Classroom의 "Ch13 과제"에 아래 세 항목을 제출한다:
 
 **마무리**:
 > 이번 학기에 배운 기술 — Next.js, Tailwind CSS, Supabase, Vercel, 그리고 AI 협업 — 을 하나의 프로젝트에 통합했다. 기말고사에서는 Ch8~12 내용이 객관식으로 출제된다. 배포된 프로젝트와 AI 사용 로그를 정리해두면 시험 준비에도 도움이 된다.
+

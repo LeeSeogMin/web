@@ -1,4 +1,4 @@
-# Chapter 12. 에러 처리와 UX 완성 — B회차: 실습
+﻿# Chapter 12. 에러 처리와 UX 완성 — B회차: 실습
 
 > **미션**: 게시판의 에러 처리, 로딩 UI, 폼 유효성, 이미지 최적화를 완성하고 배포한다
 
@@ -84,7 +84,10 @@ macOS Terminal도 동일하다.
 
 ✅ 좋은 프롬프트:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "Next.js 14 App Router에서 에러 처리 페이지를 만들어줘.
 > 파일: app/error.tsx (Error Boundary 역할)
 > props: error (Error 객체), reset (다시 시도 함수)
@@ -286,3 +289,4 @@ Google Classroom의 "Ch12 과제"에 아래 두 항목을 제출한다:
 
 **다음 주 예고**:
 > 다음 주에는 **개인 프로젝트 구현**을 시작한다. Ch7에서 만든 설계서를 보완하고, Ch8~12에서 배운 기술을 활용하여 MVP를 구현한다. 설계서 + CRUD + 인증 + RLS + UX를 하나의 프로젝트에 통합하는 것이 목표이다.
+

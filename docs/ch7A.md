@@ -1,4 +1,4 @@
-# Chapter 7. 웹 앱 아키텍처 & AI 디자인 설계 — A회차: 강의
+﻿# Chapter 7. 웹 앱 아키텍처 & AI 디자인 설계 — A회차: 강의
 
 > **미션**: 코딩 전에 "뭘 만들지"를 확실히 잡는다 — 공감터(`mind-center`) 웹사이트의 설계서와 디자인 토큰이 바이브코딩 품질을 결정한다
 
@@ -375,7 +375,10 @@ Copilot은 **이미지를 이해하는 기능**(Copilot Vision)을 제공한다.
 3. 이미지를 채팅창에 **드래그 앤 드롭** 또는 첨부한다
 4. 프롬프트를 함께 입력한다
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "이 손그림 스케치를 Next.js + Tailwind CSS 컴포넌트로 변환해줘.
 > App Router 구조를 사용하고, 레이아웃은 스케치와 최대한 비슷하게 만들어줘.
 > 색상은 아직 정하지 않았으니 gray 계열로 기본 처리해줘."
@@ -701,7 +704,10 @@ Layout
 
 ARCHITECTURE.md와 copilot-instructions.md가 준비되었으면, Copilot에게 프로젝트 파일을 참조하여 설계 기반으로 코드를 생성하도록 지시한다:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "ARCHITECTURE.md의 Page Map과 Component Hierarchy를 참고해서,
 > app/mindtalk/page.tsx에 마음톡 목록 페이지를 만들어줘.
 > MindtalkList 컴포넌트는 shadcn/ui Card를 사용하고,
@@ -947,3 +953,4 @@ copilot-instructions.md의 규칙을 지켜서 작업해줘.
 - [ ] 디자인 토큰과 copilot-instructions.md의 관계를 이해했는가
 - [ ] context.md와 todo.md의 역할 차이를 이해했는가
 - [ ] 세션 시작 프롬프트(`#file:` 참조)를 작성할 수 있는가
+

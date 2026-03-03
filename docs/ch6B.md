@@ -1,4 +1,4 @@
-# Chapter 6. Next.js 상태 관리와 데이터 페칭 — B회차: 실습
+﻿# Chapter 6. Next.js 상태 관리와 데이터 페칭 — B회차: 실습
 
 > **미션**: 게시판 프론트엔드를 완성하고 배포한다 — 검색, 폼, 삭제, 데이터 페칭
 
@@ -82,7 +82,10 @@ macOS Terminal도 동일하다.
 
 ✅ 좋은 프롬프트:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "게시판 목록 페이지에 검색 기능을 추가해줘.
 > SearchBar는 'use client' Client Component로 분리 (components/SearchBar.js).
 > useState로 검색어를 관리하고, posts 배열을 filter로 제목 검색.
@@ -119,7 +122,10 @@ macOS Terminal도 동일하다.
 
 Copilot에게 삭제 기능을 요청할 때:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "게시글 카드에 삭제 버튼을 추가해줘.
 > 클릭하면 window.confirm으로 확인 후 posts state에서 filter로 제거.
 > 불변성 유지 — push/splice 사용 금지, setPosts(posts.filter()) 패턴."
@@ -219,3 +225,4 @@ Google Classroom의 "Ch6 과제"에 아래 두 항목을 제출한다:
 
 **다음 주 예고**:
 > 다음 주에는 **웹 앱 아키텍처 & AI 디자인 설계**를 배운다. 지금까지 게시판을 만드는 기술을 익혔으니, 이제 **개인 프로젝트**를 위한 설계서를 작성한다. 설계가 바이브코딩의 품질을 결정한다.
+

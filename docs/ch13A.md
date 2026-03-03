@@ -1,4 +1,4 @@
-# Chapter 13. 개인 프로젝트 구현 — A회차: 강의
+﻿# Chapter 13. 개인 프로젝트 구현 — A회차: 강의
 
 > **미션**: 공감터(`mind-center`) MVP를 완성하고 배포(Vercel)까지 연결한다
 
@@ -136,7 +136,10 @@ ARCHITECTURE.md에서 가장 많이 바뀌는 부분은 **Data Model**이다. Ch
   - RLS: SELECT 전체 허용, UPDATE는 본인만
 ```
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "ARCHITECTURE.md를 검토해줘. Data Model 섹션에 Supabase 테이블 구조를 반영하고,
 > 각 테이블에 RLS 정책이 필요한지 표시해줘. 인증은 이메일 로그인을 사용한다."
 
@@ -179,7 +182,10 @@ copilot-instructions.md도 함께 업데이트한다. Ch7에서 작성한 초기
 >
 > 핵심: **Must have만으로 배포 가능한 앱**이어야 한다.
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "ARCHITECTURE.md의 기능 목록을 MoSCoW 기법으로 분류해줘.
 > Must have는 핵심 CRUD와 인증, Should have는 UX 개선, Could have는 부가 기능으로 나눠줘."
 
@@ -232,7 +238,10 @@ CREATE POLICY "작성자만 댓글 삭제" ON comments
 
 **③ UI 연결**: 게시글 상세 페이지(`/posts/[id]`)에 댓글 목록 + 댓글 입력 폼을 추가한다.
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "posts 테이블과 1:N 관계인 comments 테이블을 만들어줘.
 > 댓글 작성/조회/삭제 CRUD 함수를 lib/comments.ts에 만들고,
 > 게시글 상세 페이지에 댓글 목록과 작성 폼을 추가해줘.
@@ -273,7 +282,10 @@ CREATE POLICY "본인 좋아요만 취소" ON likes
 
 **③ 카운트 표시**: `.select("*", { count: "exact" }).eq("post_id", postId)`로 좋아요 수를 조회한다.
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "게시글에 좋아요(이모지 반응) 기능을 만들어줘.
 > likes 테이블: post_id + user_id + emoji, UNIQUE(post_id, user_id).
 > 토글 로직: 이미 좋아요면 취소(DELETE), 아니면 추가(INSERT).
@@ -315,7 +327,10 @@ CREATE POLICY "관리자_전체_조회" ON posts
 
 **④ 대시보드 UI**: 관리자 전용 페이지(`app/admin/page.tsx`)에 전체 게시글 수, 사용자 수, 최근 활동 등 통계를 표시한다.
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "관리자 대시보드를 구현해줘.
 > 1. profiles 테이블에 'admin' 역할 추가 (CHECK 제약 수정)
 > 2. app/admin/page.tsx: 관리자만 접근 가능 (profile.role 확인)
@@ -589,6 +604,12 @@ Ch13 프로젝트 통합을 마무리하려고 해.
 ⑦ README.md + AI_LOG.md 작성
 ⑧ 배포 URL + GitHub 저장소 제출
 
+### Skills 활용 가이드 (B회차 적용)
+
+- `nextjs-basic-check`: App Router 경로, 컴포넌트 경계, `next/navigation` import 규칙을 최종 점검한다.
+- `api-safety-check`: 인증/CRUD/RLS/폼 검증에서 에러 처리 누락과 위험한 패턴을 점검한다.
+- 권장 타이밍: MVP 기능 완성 후, 발표 전 최종 리허설 단계.
+
 **스타터 코드**: `practice/chapter13/starter/` — 기본 Next.js + Supabase + 인증 설정이 완료된 프로젝트 템플릿이다. 여기서 시작하거나, 기존 프로젝트에 기능을 추가해도 된다.
 
 ---
@@ -628,3 +649,4 @@ Ch13 프로젝트 통합을 마무리하려고 해.
 - [ ] DB 테이블 생성을 시작했는가
 - [ ] context.md에 Ch8~12의 모든 기술 결정 사항이 반영되었는가
 - [ ] todo.md의 최종 진행률이 갱신되었는가
+

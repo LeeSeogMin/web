@@ -1,4 +1,4 @@
-# Chapter 4. JavaScript 핵심 — B회차: 실습
+﻿# Chapter 4. JavaScript 핵심 — B회차: 실습
 
 > **미션**: 더미 API에서 데이터를 가져와 필터/검색 기능이 있는 게시판을 구현하고 배포한다
 
@@ -65,6 +65,12 @@ macOS Terminal도 동일하다.
 
 > **Copilot 활용**: 이번 실습에서는 Copilot Chat에 프롬프트를 입력하여 API 연동과 인터랙션을 구현한다. 생성된 코드를 그대로 쓰지 말고, A회차에서 배운 기준으로 반드시 검증한다.
 
+### Skills 활용 가이드 (권장)
+
+- `api-safety-check`: `fetch` 호출의 `response.ok`, `try-catch`, 사용자 메시지 누락을 점검한다.
+- 사용 시점: 코드 생성 직후 1회, 배포 전 검증 체크리스트 직전 1회.
+- 점검 프롬프트 예시: `api-safety-check 기준으로 이 페이지에서 에러 처리 누락 3가지만 찾아줘.`
+
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
 ❌ 나쁜 프롬프트:
@@ -74,7 +80,10 @@ macOS Terminal도 동일하다.
 
 ✅ 좋은 프롬프트:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "app/page.js를 수정해줘.
 > JSONPlaceholder API(https://jsonplaceholder.typicode.com/posts)에서
 > 게시글을 가져와서 카드 리스트로 보여줘.
@@ -111,7 +120,10 @@ macOS Terminal도 동일하다.
 
 Copilot에게 필터 기능을 요청할 때:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "게시글 목록에 두 가지 필터 기능을 추가해줘.
 > 1. userId 필터: 버튼 클릭으로 해당 사용자 글만 표시 (전체/User 1/User 2 등)
 > 2. 제목 검색: input에 키워드 입력 시 제목에 포함된 글만 표시.
@@ -214,3 +226,4 @@ Google Classroom의 "Ch4 과제"에 아래 두 항목을 제출한다:
 
 **다음 주 예고**:
 > 다음 주에는 **Next.js 기초**를 배운다. 지금까지는 하나의 페이지(app/page.js)만 다루었지만, 다음 주에는 여러 페이지를 가진 게시판 앱을 만든다. App Router, 동적 라우트, Link 컴포넌트 등을 배운다.
+

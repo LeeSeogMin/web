@@ -1,4 +1,4 @@
-# Chapter 5. Next.js 기초 — B회차: 실습
+﻿# Chapter 5. Next.js 기초 — B회차: 실습
 
 > **미션**: 게시글 목록/상세/작성 페이지를 구현하고 배포한다
 
@@ -74,6 +74,12 @@ macOS Terminal도 동일하다.
 
 > **Copilot 활용**: 이번 실습에서는 Copilot Chat에 프롬프트를 입력하여 3개의 페이지를 구현한다. 생성된 코드를 그대로 쓰지 말고, A회차에서 배운 기준으로 반드시 검증한다.
 
+### Skills 활용 가이드 (권장)
+
+- `nextjs-basic-check`: App Router 경로, `next/navigation` import, `"use client"` 위치를 점검한다.
+- 사용 시점: 목록/상세/작성 페이지를 만든 직후.
+- 점검 프롬프트 예시: `nextjs-basic-check 기준으로 라우팅 구조와 import 오류를 점검해줘.`
+
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
 ❌ 나쁜 프롬프트:
@@ -83,7 +89,10 @@ macOS Terminal도 동일하다.
 
 ✅ 좋은 프롬프트:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "app/posts/page.js를 만들어줘. lib/posts.js에서 posts 배열을 import하고,
 > 게시글 목록을 카드 형태로 표시해줘. 각 카드를 클릭하면 /posts/[id]로 이동.
 > next/link의 Link 컴포넌트 사용. Tailwind CSS 스타일링.
@@ -114,7 +123,10 @@ macOS Terminal도 동일하다.
 
 **상세 페이지**:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "app/posts/[id]/page.js를 만들어줘. Next.js 14 App Router이므로 params는 Promise — await로 id 추출. lib/posts.js에서 해당 id의 게시글을 find로 찾아 표시. 없으면 next/navigation의 notFound() 호출. 목록으로 돌아가기 Link 포함. Tailwind CSS 사용."
 
 ① 생성된 코드에서 `await params` 패턴을 사용했는지 확인한다
@@ -123,7 +135,10 @@ macOS Terminal도 동일하다.
 
 **작성 페이지**:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "app/posts/new/page.js를 만들어줘. 제목(input)과 내용(textarea) 입력 폼. 아직 백엔드가 없으므로 제출 시 alert('저장되었습니다')만 표시하고 /posts로 이동. useRouter 사용. 'use client' 필수. Next.js 14 App Router, Tailwind CSS."
 
 ④ `"use client"` 지시어가 있는지 확인한다
@@ -232,3 +247,4 @@ Google Classroom의 "Ch5 과제"에 아래 두 항목을 제출한다:
 
 **다음 주 예고**:
 > 다음 주에는 **상태 관리와 데이터 페칭**을 배운다. 지금까지는 정적 데이터를 표시만 했지만, 다음 주에는 검색, 좋아요, 폼 입력 같은 사용자 인터랙션을 처리한다. `useState`, `useEffect`, Server/Client Component의 차이를 배우고 게시판 프론트엔드를 완성한다.
+

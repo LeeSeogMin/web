@@ -1,4 +1,4 @@
-# Chapter 2. Copilot 세팅과 바이브코딩 — B회차: 실습
+﻿# Chapter 2. Copilot 세팅과 바이브코딩 — B회차: 실습
 
 > **미션**: Copilot으로 자기소개 페이지를 만들고 배포한다
 
@@ -78,7 +78,10 @@ macOS Terminal도 동일하다.
 
 ✅ 좋은 프롬프트:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "Next.js App Router의 app/page.js에 자기소개 페이지를 만들어줘.
 > Tailwind CSS를 사용하고, 배경은 밝은 회색(bg-gray-50).
 > 중앙에 흰색 카드(bg-white, rounded-lg, shadow) 배치.
@@ -117,7 +120,10 @@ macOS Terminal도 동일하다.
 ④ 본인 정보로 내용을 수정한다
 ⑤ 추가 프롬프트로 기능을 추가해도 좋다 (사진, 링크 등)
 
-> **Copilot 프롬프트** (추가 기능 예시)
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "이 자기소개 페이지에 GitHub 링크와 이메일 링크를 추가해줘. 아이콘 대신 텍스트 링크로 하고, hover:text-blue-500 효과를 넣어줘."
 
 > **강의 팁**: 순회하며 학생들이 검증 체크리스트를 실제로 수행하고 있는지 확인한다. "Copilot이 생성한 코드에서 뭔가 이상한 점을 발견했나요?"라고 질문한다.
@@ -223,3 +229,4 @@ Google Classroom의 "Ch2 과제"에 아래 항목을 제출한다:
 
 **다음 주 예고**:
 > 다음 주에는 **HTML 시맨틱과 Tailwind CSS**를 배운다. 오늘 설정한 Copilot과 함께, 게시판 UI를 마크업하고 스타일링하는 실습을 진행한다.
+

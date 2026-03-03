@@ -1,4 +1,4 @@
-# Chapter 7. 웹 앱 아키텍처 & AI 디자인 설계 — B회차: 실습
+﻿# Chapter 7. 웹 앱 아키텍처 & AI 디자인 설계 — B회차: 실습
 
 > **미션**: 기말 프로젝트로 만들 **개인 앱의 설계서**를 작성한다
 
@@ -73,7 +73,10 @@ macOS Terminal도 동일하다.
 
 ✅ 좋은 프롬프트:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "맛집 리뷰 게시판 앱의 ARCHITECTURE.md를 작성해줘.
 > 기술 스택: Next.js 14 App Router + Tailwind CSS + shadcn/ui + Supabase.
 > 페이지: 홈(/), 리뷰 목록(/reviews), 리뷰 작성(/reviews/new), 리뷰 상세(/reviews/[id]), 마이페이지(/mypage).
@@ -131,7 +134,10 @@ posts (게시글)
 
 ① Copilot Vision 또는 v0(https://v0.dev)에 와이어프레임을 요청한다
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "다음 페이지의 와이어프레임을 그려줘:
 > 1) 홈 페이지 — 게시글 카드 목록 + 검색바
 > 2) 게시글 작성 페이지 — 제목, 내용 입력 폼 + 제출 버튼
@@ -254,3 +260,4 @@ Google Classroom의 "Ch7 과제"에 아래 두 항목을 제출한다:
 
 **다음 주 예고**:
 > 다음 주에는 **Supabase 시작하기**를 배운다. 오늘 설계한 데이터 모델을 실제 Supabase 데이터베이스에 만들고, Next.js와 연결한다. 설계서가 잘 되어 있으면 DB 세팅이 훨씬 수월하다.
+

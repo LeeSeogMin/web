@@ -1,4 +1,4 @@
-# Chapter 8. Supabase 시작하기 — B회차: 실습
+﻿# Chapter 8. Supabase 시작하기 — B회차: 실습
 
 > **미션**: Supabase 프로젝트를 생성하고, Next.js와 연결하여 데이터 읽기 페이지를 배포한다
 
@@ -70,6 +70,12 @@ macOS Terminal도 동일하다.
 
 > **Copilot 활용**: 이번 실습에서는 Copilot Chat에 Supabase 연동 코드를 요청한다. 환경 변수와 클라이언트 설정은 A회차에서 배운 패턴과 정확히 일치하는지 반드시 검증한다.
 
+### Skills 활용 가이드 (권장)
+
+- `api-safety-check`: 환경 변수 사용, `anon` 키 사용 여부, Supabase 호출 에러 처리 누락을 점검한다.
+- 사용 시점: `lib/supabase/client.ts`, `lib/supabase/server.ts` 작성 직후.
+- 점검 프롬프트 예시: `api-safety-check 기준으로 키 사용/에러 처리/검증 누락을 찾아줘.`
+
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
 ❌ 나쁜 프롬프트:
@@ -79,7 +85,10 @@ macOS Terminal도 동일하다.
 
 ✅ 좋은 프롬프트:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "Next.js 14 App Router 프로젝트에서 Supabase 클라이언트를 설정해줘.
 > 패키지: @supabase/supabase-js + @supabase/ssr
 > 파일 구조: lib/supabase/client.ts (브라우저용), lib/supabase/server.ts (서버용)
@@ -265,3 +274,4 @@ Google Classroom의 "Ch8 과제"에 아래 두 항목을 제출한다:
 
 **다음 주 예고**:
 > 다음 주에는 **Supabase Authentication**을 배운다. 오늘 만든 데이터베이스에 이메일/비밀번호 로그인을 연결하고, 로그인한 사용자만 글을 쓸 수 있도록 만든다.
+

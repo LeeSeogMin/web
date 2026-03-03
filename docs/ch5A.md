@@ -1,4 +1,4 @@
-# Chapter 5. Next.js 기초 — A회차: 강의
+﻿# Chapter 5. Next.js 기초 — A회차: 강의
 
 > **미션**: 여러 페이지를 가진 게시판 앱을 만든다
 
@@ -174,7 +174,10 @@ function PostCard({ title, content }) {
 
 Props는 **읽기 전용**이다. 자식 컴포넌트가 props를 직접 수정할 수 없다. 데이터를 변경하려면 Ch6에서 배우는 **상태**(State)를 사용한다.
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "PostCard 컴포넌트를 만들어줘. title(문자열), content(문자열), date(문자열), author(문자열)를 props로 받고, Tailwind CSS로 카드 형태로 스타일링해줘. Next.js App Router 프로젝트."
 
 <!-- COPILOT_VERIFY: 위 프롬프트로 Copilot이 생성하는 PostCard 컴포넌트의 props 처리 방식을 캡처해주세요 -->
@@ -315,7 +318,10 @@ export default function Error({ error, reset }) {
 
 `"use client"` 지시어는 이 컴포넌트가 **클라이언트 컴포넌트**(Client Component)임을 표시한다. Next.js App Router에서 컴포넌트는 기본적으로 **서버 컴포넌트**(Server Component)이다. `onClick` 같은 이벤트 처리가 필요하면 `"use client"`를 파일 맨 위에 추가한다. 이 개념은 Ch6에서 자세히 배운다. 지금은 "error.js에는 항상 `"use client"`를 붙인다"고 기억하면 된다.
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "app/layout.js를 수정해줘. 상단에 내비게이션 바(홈, 게시판 링크 포함), 하단에 푸터를 추가하고, 본문은 max-w-4xl mx-auto로 중앙 정렬해줘. Next.js 14 App Router, Tailwind CSS 사용."
 
 <!-- COPILOT_VERIFY: 위 프롬프트로 생성된 layout.js에서 Link import 경로와 html/body 구조가 올바른지 확인해주세요 -->
@@ -388,7 +394,10 @@ export default async function PostDetailPage({ params }) {
 > **나쁜 프롬프트**
 > "게시글 상세 페이지 만들어줘"
 
-> **Copilot 프롬프트** (좋은 프롬프트)
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "app/posts/[id]/page.js를 만들어줘. Next.js 15+ App Router 사용. params는 Promise이므로 await로 id를 추출해줘. 더미 게시글 데이터(id, title, content, author, date)를 표시하고 Tailwind CSS로 기사 스타일 레이아웃 적용."
 
 나쁜 프롬프트는 어떤 폴더에 만들지, 어떤 버전의 Next.js인지, 어떤 데이터를 표시하는지 명시하지 않는다. AI는 Pages Router(구 방식)로 만들거나, params를 await하지 않을 수 있다. **copilot-instructions.md에 설치된 Next.js 버전과 App Router를 명시**해 두면 이 문제가 크게 줄어든다.
@@ -522,6 +531,11 @@ function NavLink({ href, children }) {
 4. 공통 레이아웃 — 내비게이션 바에 홈/게시판/새글 링크
 5. git push → Vercel 배포
 
+### Skills 활용 가이드 (B회차 적용)
+
+- `nextjs-basic-check`: `app/` 경로 구조, 동적 라우트(`[id]`), `next/navigation` 사용 여부를 점검한다.
+- 권장 타이밍: 3개 페이지 구현 완료 후, 제출 전 최종 점검.
+
 **스타터 코드**: `practice/chapter5/starter/` — 기본 App Router 구조 + 더미 데이터 배열 + 목록 페이지 뼈대가 준비되어 있다. B회차에서 이 코드를 기반으로 시작한다.
 
 ---
@@ -563,3 +577,4 @@ export default function PostDetail({ params }) {
 - [ ] JSX의 핵심 규칙(className, key, 단일 부모)을 이해했는가
 - [ ] 동적 라우트 [id]와 params의 관계를 설명할 수 있는가
 - [ ] Link와 useRouter의 차이를 구분할 수 있는가
+

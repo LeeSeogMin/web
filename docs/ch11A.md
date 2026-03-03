@@ -1,4 +1,4 @@
-# Chapter 11. Row Level Security (RLS) — A회차: 강의
+﻿# Chapter 11. Row Level Security (RLS) — A회차: 강의
 
 > **미션**: 공감터의 마음톡/게시판에서 “작성자만 수정·삭제”를 데이터베이스(RLS)가 강제한다
 
@@ -155,7 +155,10 @@ graph LR
 
 게시판에 필요한 4가지 권한 시나리오를 SQL로 구현한다. Copilot이 SQL을 생성하고, **SQL Editor에서 직접 실행**한다.
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "Supabase에서 게시판 posts 테이블에 RLS 정책을 만들어줘.
 >
 > 1. 누구나 읽기 가능 (SELECT)
@@ -399,6 +402,11 @@ todo.md에서 RLS 관련 항목을 체크하고 진행률을 갱신해줘.
 3. 다른 계정으로 수정/삭제 차단 테스트
 4. GitHub push + Vercel 배포
 
+### Skills 활용 가이드 (B회차 적용)
+
+- `api-safety-check`: RLS 실패 메시지 처리, 권한 오류 안내 문구, 테스트 누락 케이스를 점검한다.
+- 권장 타이밍: 정책 SQL 작성 후, 다른 계정 검증 직전.
+
 **스타터 코드**: `practice/chapter11/starter/` -- Ch10 완성 코드 기반이며, `supabase/policies.sql`에 TODO로 정책 작성 가이드가 제공된다.
 
 ---
@@ -440,3 +448,4 @@ CREATE POLICY "로그인 사용자만 작성" ON posts
 - [ ] USING과 WITH CHECK의 차이를 구분할 수 있는가
 - [ ] `auth.uid()` 함수의 역할을 이해했는가
 - [ ] 세션 종료 시 context.md에 각 테이블의 RLS 정책을 기록했는가
+

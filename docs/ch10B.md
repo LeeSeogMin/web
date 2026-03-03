@@ -1,4 +1,4 @@
-# Chapter 10. Supabase Database CRUD — B회차: 실습
+﻿# Chapter 10. Supabase Database CRUD — B회차: 실습
 
 > **미션**: 마음톡 CRUD를 완성하고 배포한다 — 목록, 작성, 상세, 수정, 삭제
 
@@ -85,7 +85,10 @@ macOS Terminal도 동일하다.
 
 ✅ 좋은 프롬프트:
 
-> **Copilot 프롬프트**
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "Supabase에서 마음톡 CRUD 함수를 lib/mindtalk.ts에 만들어줘.
 > 테이블: posts (id, user_id, title, content, created_at)
 > 1) getMindtalks: 전체 조회, created_at 내림차순, profiles(username) 포함
@@ -259,3 +262,4 @@ Google Classroom의 "Ch10 과제"에 아래 두 항목을 제출한다:
 
 **다음 주 예고**:
 > 다음 주에는 **Row Level Security (RLS)**를 배운다. 지금은 UI에서만 수정/삭제를 제한하지만, 브라우저 개발자 도구로 우회할 수 있다. RLS로 데이터베이스가 보안을 강제하도록 만든다.
+
