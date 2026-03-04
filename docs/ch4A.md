@@ -31,7 +31,7 @@
 
 ## 오늘의 미션 + 빠른 진단
 
-> **오늘의 질문**: "Ch3에서 만든 게시판은 정적이다. 버튼을 눌러도 아무 일도 일어나지 않고, 데이터도 코드에 직접 박혀 있다. JavaScript를 배우면 무엇이 달라지는가?"
+> **오늘의 질문**: "Ch3에서 만든 블로그는 정적이다. 버튼을 눌러도 아무 일도 일어나지 않고, 데이터도 코드에 직접 박혀 있다. JavaScript를 배우면 무엇이 달라지는가?"
 
 **빠른 진단** (1문항):
 
@@ -281,7 +281,7 @@ const total = numbers.reduce((sum, n) => sum + n, 0);
 
 **표 4.5** 배열 메서드 요약
 
-| 메서드 | 목적 | 반환값 | 게시판 예시 |
+| 메서드 | 목적 | 반환값 | 블로그 예시 |
 |--------|------|--------|-----------|
 | `map` | 각 요소 변환 | 새 배열 | 게시글 → 카드 컴포넌트 |
 | `filter` | 조건으로 걸러냄 | 새 배열 | 내 글만 보기 |
@@ -450,7 +450,7 @@ export function formatDate(date) {
   return new Date(date).toLocaleDateString("ko-KR");
 }
 
-export const APP_NAME = "게시판";
+export const APP_NAME = "블로그";
 ```
 
 ```javascript

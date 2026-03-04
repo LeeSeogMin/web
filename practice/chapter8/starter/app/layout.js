@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "게시판",
-  description: "Ch8 Supabase 연동 게시판",
+  title: "내 블로그",
+  description: "Ch8 Supabase 연동 블로그",
 };
 
 export default function RootLayout({ children }) {

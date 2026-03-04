@@ -14,7 +14,7 @@ _전체 프로젝트는 practice/chapter3/complete/ 참고_
 practice/chapter3/complete/
 ├── app/
 │   ├── layout.js       ← 공통 레이아웃 (Tailwind 설정)
-│   ├── page.js         ← 게시판 메인 페이지 (모범 구현)
+│   ├── page.js         ← 블로그 메인 페이지 (모범 구현)
 │   └── globals.css     ← Tailwind 기본 import
 ├── package.json
 ├── tailwind.config.js
@@ -202,7 +202,7 @@ Tailwind의 `dark:` 접두어를 활용한 다크 모드 대응. Ch5 이후에 J
 
 ## 다음 장 연결
 
-이번 장에서 만든 정적 게시판은 Ch4(JavaScript 핵심)에서 동적 기능이 추가된다:
+이번 장에서 만든 정적 블로그는 Ch4(JavaScript 핵심)에서 동적 기능이 추가된다:
 - 검색 기능
 - 게시글 필터링
 - 더보기 버튼

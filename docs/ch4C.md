@@ -215,7 +215,7 @@ if (error) {
 
 이번 장에서 배운 JavaScript 핵심(변수, 함수, 배열 메서드, async/await, 모듈)은 Ch5(Next.js 기초) 이후 모든 장에서 사용된다:
 
-- **Ch5**: `map()`으로 게시글 목록 렌더링, `find()`로 상세 페이지 데이터 조회
+- **Ch5**: `map()`으로 블로그 글 목록 렌더링, `find()`로 상세 페이지 데이터 조회
 - **Ch6**: `useState`(배열 구조 분해), `useEffect`(비동기 데이터 페칭)
 - **Ch8**: `async/await`로 Supabase 데이터 CRUD
 - **Ch10**: `filter()`와 `map()`으로 쿼리 결과 처리

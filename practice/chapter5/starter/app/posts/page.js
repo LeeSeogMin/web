@@ -1,4 +1,4 @@
-// Ch5 게시글 목록 페이지 — 스타터 코드
+// Ch5 블로그 글 목록 페이지 — 스타터 코드
 // B회차에서 Copilot을 활용하여 완성한다.
 
 // TODO: lib/posts.js에서 posts 배열 import
@@ -8,7 +8,7 @@ export default function PostsPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">게시판</h1>
+        <h1 className="text-2xl font-bold">글 목록</h1>
         {/* TODO: 새 글 작성 링크 추가 */}
       </div>
 

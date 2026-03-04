@@ -1,3 +1,4 @@
+// error.js — 에러 처리 페이지
 "use client";
 
 export default function Error({ error, reset }) {
@@ -7,7 +8,7 @@ export default function Error({ error, reset }) {
       <p className="text-gray-600">{error.message || "일시적인 오류입니다."}</p>
       <button
         onClick={() => reset()}
-        className="px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600"
+        className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
       >
         다시 시도
       </button>

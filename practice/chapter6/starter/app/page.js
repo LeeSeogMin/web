@@ -1,4 +1,4 @@
-// Ch6 게시판 메인 페이지 — 스타터 코드
+// Ch6 블로그 메인 페이지 — 스타터 코드
 // Ch5 완성 코드 기반 + 상태 관리 뼈대
 // B회차에서 검색, 삭제 기능을 추가한다
 
@@ -16,7 +16,7 @@ export default function Home() {
       {/* ── 헤더 + 내비게이션 ── */}
       <header className="bg-blue-600 text-white">
         <nav className="max-w-4xl mx-auto flex justify-between items-center p-4">
-          <h1 className="text-xl font-bold">게시판</h1>
+          <h1 className="text-xl font-bold">내 블로그</h1>
           <div className="flex gap-4">
             <Link href="/" className="hover:underline">홈</Link>
             <Link href="/posts/new" className="hover:underline">글쓰기</Link>
@@ -54,7 +54,7 @@ export default function Home() {
 
       {/* ── 푸터 ── */}
       <footer className="mt-16 bg-gray-800 text-gray-400 text-center p-6">
-        <p className="text-sm">&copy; 2026 게시판. All rights reserved.</p>
+        <p className="text-sm">&copy; 2026 내 블로그. All rights reserved.</p>
       </footer>
     </div>
   );

@@ -11,7 +11,7 @@
 export default function Navbar() {
   return (
     <nav className="flex justify-between items-center p-4 border-b">
-      <h1 className="text-xl font-bold">My Board</h1>
+      <h1 className="text-xl font-bold">내 블로그</h1>
       <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
         Google로 로그인
       </button>

@@ -65,7 +65,7 @@ export default function Home() {
 
       {/* ── 푸터 ── */}
       <footer className="mt-16 bg-gray-800 text-gray-400 text-center p-6">
-        <p className="text-sm">&copy; 2026 게시판. All rights reserved.</p>
+        <p className="text-sm">&copy; 2026 내 블로그. All rights reserved.</p>
       </footer>
     </div>
   );

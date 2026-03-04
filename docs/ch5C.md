@@ -40,7 +40,7 @@ practice/chapter5/complete/
 export const posts = [
   {
     id: "1",
-    title: "Next.js로 게시판 만들기",
+    title: "Next.js로 블로그 만들기",
     content: "Next.js App Router를 사용하면 파일 기반 라우팅으로 쉽게 페이지를 만들 수 있습니다.",
     author: "김학생",
     date: "2026-02-20",
@@ -67,7 +67,7 @@ export default function PostsPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">게시판</h1>
+        <h1 className="text-2xl font-bold">블로그</h1>
         <Link
           href="/posts/new"
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
@@ -324,7 +324,7 @@ if (!post) {
 
 ## 다음 장 연결
 
-이번 장에서 만든 3페이지 게시판은 Ch6(상태 관리와 데이터 페칭)에서 동적으로 업그레이드된다:
+이번 장에서 만든 3페이지 블로그는 Ch6(상태 관리와 데이터 페칭)에서 동적으로 업그레이드된다:
 
 - **useState**: 검색 입력, 좋아요 카운트 등 사용자 인터랙션
 - **useEffect**: 컴포넌트 로드 시 데이터 가져오기

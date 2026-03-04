@@ -1,6 +1,6 @@
 ﻿# Chapter 11. Row Level Security (RLS) — A회차: 강의
 
-> **미션**: 공감터의 마음톡/게시판에서 “작성자만 수정·삭제”를 데이터베이스(RLS)가 강제한다
+> **미션**: 내 블로그의 블로그에서 “작성자만 수정·삭제”를 데이터베이스(RLS)가 강제한다
 
 ---
 
@@ -10,7 +10,7 @@
 
 1. **권한 시나리오를 문장으로 쓴다**: “누구나 읽기 / 로그인 사용자만 작성 / 작성자만 수정·삭제”처럼 규칙을 먼저 확정한다.
 2. **RLS 키워드를 강제한다**: `ALTER TABLE ... ENABLE ROW LEVEL SECURITY`, `CREATE POLICY`, `USING`, `WITH CHECK`, `auth.uid()`를 프롬프트에 포함한다.
-3. **테이블 단위로 적용한다**: `mindtalk_posts`, `mindtalk_comments`, `reservations` 등 테이블별로 정책을 분리해 설명/적용한다.
+3. **테이블 단위로 적용한다**: `posts`, `profiles` 등 테이블별로 정책을 분리해 설명/적용한다.
 4. **검증은 ‘우회 시도’로 한다**: 비로그인/다른 유저 세션으로 insert/update/delete를 시도해 “실패해야 정상”인 케이스를 포함한다.
 5. **에러 메시지를 UX로 연결**: RLS 에러를 사용자가 이해할 문장으로 바꾸는 흐름(Ch12)까지 염두에 둔다.
 
@@ -20,16 +20,16 @@
 
 ```text
 너는 GitHub Copilot Chat이고, Supabase(PostgreSQL) RLS 설계를 도와주는 보안 파트너야.
-목표: `mindtalk_posts`(필요 시 `mindtalk_comments`/`reservations`)에 RLS를 켜고, 아래 권한 시나리오를 정책으로 강제한다.
+목표: `posts`(필요 시 `profiles`)에 RLS를 켜고, 아래 권한 시나리오를 정책으로 강제한다.
 
-[권한 시나리오] (예: 마음톡)
+[권한 시나리오] (예: 블로그 글)
 - SELECT: 공개글은 누구나, 비공개글은 작성자/상담사만
 - INSERT: 로그인 사용자만 가능
 - UPDATE: 작성자(user_id = auth.uid())만 가능
 - DELETE: 작성자(user_id = auth.uid())만 가능
 
 [테이블 스키마]
-- mindtalk_posts 컬럼 예: id uuid, user_id uuid, title text, content text, is_private boolean, created_at timestamptz
+- posts 컬럼 예: id bigint, user_id uuid, title text, content text, created_at timestamptz
 - user_id는 `public.users(id)`(→ auth.users) 경로를 따른다
 
 [요구 출력]
@@ -75,7 +75,7 @@ graph LR
 1. 클라이언트 사이드 보안의 한계를 구체적으로 설명할 수 있다
 2. RLS의 개념과 CREATE POLICY 문법을 이해할 수 있다
 3. USING과 WITH CHECK의 차이를 구분할 수 있다
-4. 게시판에 "누구나 읽기, 로그인 사용자만 작성, 작성자만 수정/삭제" 정책을 구현할 수 있다
+4. 블로그에 "누구나 읽기, 로그인 사용자만 작성, 작성자만 수정/삭제" 정책을 구현할 수 있다
 5. RLS 정책을 테스트하고 디버깅할 수 있다
 
 ---
@@ -97,7 +97,7 @@ graph LR
 
 ## 오늘의 미션 + 빠른 진단
 
-> **오늘의 질문**: "Ch10에서 만든 게시판에서, 브라우저 콘솔에 코드를 입력하면 다른 사람의 게시글을 삭제할 수 있다. 이걸 어떻게 막는가?"
+> **오늘의 질문**: "Ch10에서 만든 블로그에서, 브라우저 콘솔에 코드를 입력하면 다른 사람의 게시글을 삭제할 수 있다. 이걸 어떻게 막는가?"
 
 **빠른 진단** (1문항):
 
@@ -153,13 +153,13 @@ graph LR
 
 ## 11.3 권한 시나리오 구현 `🤖→🖱️ SQL 생성 후 직접 실행`
 
-게시판에 필요한 4가지 권한 시나리오를 SQL로 구현한다. Copilot이 SQL을 생성하고, **SQL Editor에서 직접 실행**한다.
+블로그에 필요한 4가지 권한 시나리오를 SQL로 구현한다. Copilot이 SQL을 생성하고, **SQL Editor에서 직접 실행**한다.
 
 
 > [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "Supabase에서 게시판 posts 테이블에 RLS 정책을 만들어줘.
+> "Supabase에서 블로그 posts 테이블에 RLS 정책을 만들어줘.
 >
 > 1. 누구나 읽기 가능 (SELECT)
 > 2. 로그인 사용자만 작성 (INSERT, user_id = auth.uid())
@@ -170,7 +170,7 @@ graph LR
 비교를 위해 모호한 프롬프트도 보자:
 
 > **나쁜 프롬프트**
-> "게시판 보안 설정해줘"
+> "블로그 보안 설정해줘"
 
 이 프롬프트로는 AI가 클라이언트 코드에서 `if` 문으로 보안을 구현할 수 있다. "RLS", "CREATE POLICY", `auth.uid()` 같은 핵심 키워드가 없으면 Supabase 데이터베이스 레벨 보안이 아닌 프론트엔드 보안이 나올 가능성이 높다.
 
@@ -225,7 +225,7 @@ UPDATE에는 `USING`과 `WITH CHECK`가 모두 필요하다:
 
 DELETE에는 `USING`만 필요하다. 삭제 후에 검증할 새 데이터가 없기 때문이다.
 
-**표 11.3** 게시판 RLS 정책 요약
+**표 11.3** 블로그 RLS 정책 요약
 
 | 정책 이름            | 작업   | 조건                   | 설명                 |
 | -------------------- | ------ | ---------------------- | -------------------- |
@@ -351,7 +351,7 @@ todo.md에서 보안 관련 할 일을 찾아줘.
 ## 기술 결정 사항 (Ch11 추가)
 
 - 보안: Supabase RLS (Row Level Security) — 모든 테이블에 활성화
-- mindtalk_posts 정책:
+- posts 정책:
   - SELECT: 누구나 읽기 가능
   - INSERT: 로그인 사용자만 (auth.uid() IS NOT NULL)
   - UPDATE/DELETE: 작성자만 (auth.uid() = user_id)
@@ -395,7 +395,7 @@ todo.md에서 RLS 관련 항목을 체크하고 진행률을 갱신해줘.
 
 ### B회차 과제 스펙
 
-**게시판 권한 정책 작성 + 검증 + 배포**:
+**블로그 권한 정책 작성 + 검증 + 배포**:
 
 1. posts 테이블 RLS 활성화 + 4대 정책 생성
 2. profiles 테이블 RLS 적용

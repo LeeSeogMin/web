@@ -1,5 +1,5 @@
-// Ch3 게시판 메인 페이지 — 모범 구현
-// 과제 요구사항: 시맨틱 태그 + Tailwind + 반응형 + 더미 게시글 3개
+// Ch3 블로그 메인 페이지 — 모범 구현
+// 과제 요구사항: 시맨틱 태그 + Tailwind + 반응형 + 더미 블로그 글 3개
 
 // 더미 게시글 데이터
 const posts = [
@@ -32,7 +32,7 @@ export default function Home() {
       {/* ── 헤더 + 내비게이션 ── */}
       <header className="bg-blue-600 text-white">
         <nav className="max-w-4xl mx-auto flex justify-between items-center p-4">
-          <h1 className="text-xl font-bold">게시판</h1>
+          <h1 className="text-xl font-bold">내 블로그</h1>
           <div className="flex gap-4">
             <a href="/" className="hover:underline">홈</a>
             <a href="/login" className="hover:underline">로그인</a>
@@ -40,7 +40,7 @@ export default function Home() {
         </nav>
       </header>
 
-      {/* ── 메인: 게시글 카드 목록 ── */}
+      {/* ── 메인: 블로그 글 카드 목록 ── */}
       <main className="max-w-4xl mx-auto p-4 mt-8">
         <h2 className="text-2xl font-bold mb-6">최신 게시글</h2>
 
@@ -64,7 +64,7 @@ export default function Home() {
 
       {/* ── 푸터 ── */}
       <footer className="mt-16 bg-gray-800 text-gray-400 text-center p-6">
-        <p className="text-sm">&copy; 2026 게시판. All rights reserved.</p>
+        <p className="text-sm">&copy; 2026 내 블로그. All rights reserved.</p>
       </footer>
     </div>
   );

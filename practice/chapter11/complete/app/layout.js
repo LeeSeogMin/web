@@ -2,8 +2,8 @@ import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 
 export const metadata = {
-  title: "게시판",
-  description: "Ch10 게시판 CRUD",
+  title: "내 블로그",
+  description: "Ch11 블로그 RLS",
 };
 
 export default function RootLayout({ children }) {

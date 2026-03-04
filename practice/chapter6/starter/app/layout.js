@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "게시판",
-  description: "Ch6 게시판 프론트엔드",
+  title: "내 블로그",
+  description: "Ch6 블로그 프론트엔드",
 };
 
 export default function RootLayout({ children }) {

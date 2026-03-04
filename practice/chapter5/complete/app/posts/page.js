@@ -1,4 +1,4 @@
-// Ch5 게시글 목록 페이지 — 모범 구현
+// Ch5 블로그 글 목록 페이지 — 모범 구현
 // 더미 데이터를 카드로 표시하고, 클릭 시 상세 페이지로 이동
 import Link from "next/link";
 import { posts } from "../../lib/posts";
@@ -7,7 +7,7 @@ export default function PostsPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">게시판</h1>
+        <h1 className="text-2xl font-bold">글 목록</h1>
         <Link
           href="/posts/new"
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"

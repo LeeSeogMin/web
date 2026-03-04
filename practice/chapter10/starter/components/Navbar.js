@@ -17,7 +17,7 @@ export default function Navbar() {
     <header className="bg-blue-600 text-white">
       <nav className="max-w-4xl mx-auto flex justify-between items-center p-4">
         <Link href="/" className="text-xl font-bold">
-          게시판
+          내 블로그
         </Link>
         <div className="flex items-center gap-4">
           {user ? (

@@ -9,7 +9,7 @@ export default function Navbar() {
 
   return (
     <nav className="flex justify-between items-center p-4 border-b">
-      <h1 className="text-xl font-bold">My Board</h1>
+      <h1 className="text-xl font-bold">내 블로그</h1>
       {user ? (
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-600">{user.email}</span>

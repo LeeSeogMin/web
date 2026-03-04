@@ -1,16 +1,16 @@
-﻿# Chapter 13. 개인 프로젝트 구현 — A회차: 강의
+﻿# Chapter 13. 블로그 확장 기능 구현 — A회차: 강의
 
-> **미션**: 공감터(`mind-center`) MVP를 완성하고 배포(Vercel)까지 연결한다
+> **미션**: 블로그에 확장 기능(댓글, 태그, 검색)을 추가하고 완성한다
 
 ---
 
 ## 바이브코딩 원칙 (이번 장)
 
-이번 장의 바이브코딩은 “**MVP 범위를 확정**하고, Copilot을 ‘자동 코더’가 아니라 **작업을 쪼개는 파트너**로 쓰는 것”이 핵심이다. 개인 프로젝트는 범위를 못 잡으면 끝까지 못 간다.
+이번 장의 바이브코딩은 “**확장 기능의 범위를 확정**하고, Copilot을 ‘자동 코더’가 아니라 **작업을 쪼개는 파트너**로 쓰는 것”이 핵심이다. 블로그 확장 기능은 범위를 못 잡으면 끝까지 못 간다.
 
-1. **MVP를 문장 1개로**: “누가/무엇을/왜/어떻게” 한 줄로 정의하고, 나머지는 Non-goals로 뺀다.
+1. **확장 범위를 문장 1개로**: “누가/무엇을/왜/어떻게” 한 줄로 정의하고, 나머지는 Non-goals로 뺀다.
 2. **우선순위를 고정(MoSCoW)**: Must/Should/Could/Won’t를 먼저 나누고 Must만 구현한다.
-3. **기능별로 프롬프트를 분리**: DB → 인증 → CRUD → RLS → UX → 배포 순서로, 단계마다 Copilot 프롬프트를 새로 쓴다.
+3. **기능별로 프롬프트를 분리**: DB → CRUD → RLS → UX → 배포 순서로, 단계마다 Copilot 프롬프트를 새로 쓴다.
 4. **컨텍스트는 ‘설계서’로 주입**: `ARCHITECTURE.md`와 `copilot-instructions.md`를 먼저 최신화하고, Copilot이 그 문서를 기준으로 답하게 한다.
 5. **완료 기준(Definition of Done)**: “동작함”이 아니라 “테스트 시나리오 N개 통과 + 배포 확인”으로 끝낸다.
 
@@ -19,23 +19,24 @@
 ## Copilot 프롬프트 (복사/붙여넣기)
 
 ```text
-너는 GitHub Copilot Chat이고, 내 `mind-center` 프로젝트를 끝까지 완성하게 도와주는 PM+테크리드야.
+너는 GitHub Copilot Chat이고, 내 `my-blog` 프로젝트에 확장 기능을 추가하는 걸 도와주는 PM+테크리드야.
 기술 스택: Next.js(App Router) + Supabase + Tailwind + shadcn/ui.
-목표: 1주(또는 수업 기간) 안에 배포 가능한 MVP를 완성한다.
+목표: 1주(또는 수업 기간) 안에 댓글, 태그, 검색 기능을 추가하고 배포를 완성한다.
 
 [프로젝트 개요]
-- 한 줄 설명(MVP): (예: 고객이 상담 정보를 보고 예약하고, 로그인 후 마음톡 글을 남길 수 있는 사이트)
-- 타깃 사용자: 상담을 예약하려는 고객 / 상담사
-- 핵심 화면 3개: (예: `/reservation/*`, `/mindtalk`, `/mypage`)
+- 한 줄 설명: Ch1~12에서 만든 블로그에 댓글·태그·검색 확장 기능을 추가하여 완성한다
+- 타깃 사용자: 블로그 독자 / 블로그 작성자
+- 핵심 화면 3개: (예: `/posts/*`, `/tags`, `/search`)
 
 [현재 리포 상태]
-- 있는 문서: 없음(처음 시작) / 또는 `ARCHITECTURE.md`만 있음(초안)
-- 먼저 할 일: `ARCHITECTURE.md`와 `copilot-instructions.md`를 작성/확정하고, 그 다음 구현을 시작
-- 구현 단계에서 할 일: 예약/마음톡/마이페이지를 MVP 범위로 완성 + Supabase 연결 + 에러 처리 + 배포 점검
+- 있는 문서: `ARCHITECTURE.md`, `copilot-instructions.md` (Ch7~12에서 작성/갱신)
+- 기존 기능: 블로그 글 CRUD + 이메일 인증 + RLS + Vercel 배포 완료
+- 먼저 할 일: `ARCHITECTURE.md`와 `copilot-instructions.md`를 확장 기능에 맞게 최신화
+- 구현 단계에서 할 일: 댓글/태그/검색 기능을 추가 + 테이블·RLS 확장 + 배포 점검
 
 [요구 출력]
-1) MoSCoW 표로 기능 우선순위 정리(질문은 5개 이내)
-2) MVP 구현 로드맵(최대 6단계) + 각 단계의 산출물/검증 방법
+1) MoSCoW 표로 확장 기능 우선순위 정리(질문은 5개 이내)
+2) 확장 기능 구현 로드맵(최대 6단계) + 각 단계의 산출물/검증 방법
 3) 단계 1에 대한 Copilot 실행 프롬프트(구체적으로: 파일 경로/함수/쿼리 포함)
 4) 배포 전 체크리스트(Vercel 환경변수, Supabase 설정 포함)
 
@@ -46,8 +47,8 @@
 
 ```mermaid
 graph LR
-  A["① 설계서<br/>재검토"] --> B["② MoSCoW<br/>우선순위"]
-  B --> C["③ MVP 범위<br/>확정"]
+  A["① 설계서<br/>최신화"] --> B["② MoSCoW<br/>우선순위"]
+  B --> C["③ 확장 범위<br/>확정"]
   C --> D["④ 기능별<br/>바이브코딩"]
   D --> E["⑤ Vercel<br/>최종 배포"]
 
@@ -62,11 +63,11 @@ graph LR
 
 | 단계 | 내용                              | 실행 |   절   |
 | :--: | --------------------------------- | :--: | :----: |
-|  ①   | ARCHITECTURE.md 재검토 + 보완     |  🤖  | 13.1.1 |
-|  ②   | MoSCoW 우선순위 분류              |  🤖  | 13.1.2 |
-|  ③   | MVP 체크리스트 작성               |  🤖  | 13.1.3 |
-|  ④   | DB → 인증 → CRUD → UI 순서로 구현 |  🤖  |  13.2  |
-|  ⑤   | Vercel 최종 배포 + 점검           |  🖱️  | 13.2.2 |
+|  ①   | ARCHITECTURE.md 최신화 + 확장 설계 |  🤖  | 13.1.1 |
+|  ②   | MoSCoW 우선순위 분류               |  🤖  | 13.1.2 |
+|  ③   | 확장 기능 체크리스트 작성           |  🤖  | 13.1.3 |
+|  ④   | DB → CRUD → UI 순서로 확장 구현    |  🤖  |  13.2  |
+|  ⑤   | Vercel 최종 배포 + 점검            |  🖱️  | 13.2.2 |
 
 > 🖱️ = 사람이 직접 실행 · 🤖 = 바이브코딩 (Copilot)
 
@@ -74,8 +75,8 @@ graph LR
 
 ## 학습목표
 
-1. Ch7 설계서를 재검토하고 Ch8~12 학습 내용을 반영하여 보완할 수 있다
-2. MoSCoW 기법으로 기능 우선순위를 정하고 MVP 범위를 확정할 수 있다
+1. 기존 블로그의 ARCHITECTURE.md를 최신화하고 확장 기능 설계를 추가할 수 있다
+2. MoSCoW 기법으로 확장 기능의 우선순위를 정하고 구현 범위를 확정할 수 있다
 3. 기능별 Copilot 프롬프트 전략을 세우고 점진적으로 구현할 수 있다
 4. Vercel에 최종 배포하고 환경 변수와 기능을 점검할 수 있다
 5. README와 AI 사용 로그를 작성하여 프로젝트를 문서화할 수 있다
@@ -89,9 +90,9 @@ graph LR
 | 시간        | 내용                                       |
 | ----------- | ------------------------------------------ |
 | 00:00~00:05 | 오늘의 미션 + 빠른 진단                    |
-| 00:05~00:25 | 설계서 재검토 + 기능 우선순위              |
+| 00:05~00:25 | 설계서 최신화 + 확장 기능 우선순위         |
 | 00:25~00:50 | 바이브코딩 구현 전략 + 디버깅 전략         |
-| 00:50~01:20 | 워크숍: 설계서 보완 + MVP 확정 + 구현 시작 |
+| 00:50~01:20 | 워크숍: 설계서 최신화 + 확장 범위 확정 + 구현 시작 |
 | 01:20~01:27 | 핵심 정리 + B회차 과제 스펙 공개           |
 | 01:27~01:30 | Exit ticket                                |
 
@@ -99,114 +100,117 @@ graph LR
 
 ## 오늘의 미션 + 빠른 진단
 
-> **오늘의 질문**: "기능이 10개인 프로젝트에서 가장 먼저 만들어야 할 것은? 기능? UI? 데이터베이스?"
+> **오늘의 질문**: "블로그에 댓글·태그·검색 3가지를 추가할 때, 가장 먼저 해야 할 것은? UI? 테이블? 검색 로직?"
 
 **빠른 진단** (1문항):
 
-개인 프로젝트를 시작할 때 올바른 순서는?
+기존 블로그에 확장 기능을 추가할 때 올바른 순서는?
 
-- (A) UI 디자인 → CRUD → 인증 → DB
-- (B) DB 테이블 → 인증 → CRUD → UI → 배포
+- (A) UI 디자인 → CRUD → 테이블 생성
+- (B) 테이블 생성 + RLS → CRUD 함수 → UI → 배포
 - (C) 전체 기능 한 번에 구현 → 배포
 
-정답: (B) — 데이터 구조가 먼저, 인증이 있어야 RLS가 동작하고, 기능이 완성된 후 UI를 다듬는다.
+정답: (B) — 데이터 구조가 먼저 있어야 CRUD를 만들 수 있고, 기능이 완성된 후 UI를 다듬는다.
 
 ---
 
-## 13.1 프로젝트 요구사항 확인 `🤖 바이브코딩`
+## 13.1 블로그 확장 기능 설계 `🤖 바이브코딩`
 
-### 13.1.1 7장 설계서 재검토 및 보완 `🤖 바이브코딩`
+### 13.1.1 설계서 최신화 및 확장 설계 `🤖 바이브코딩`
 
-Ch7에서 작성한 ARCHITECTURE.md를 다시 열어보자. 그때는 Supabase도, 인증도, CRUD도, RLS도 배우기 전이었다. 이제는 Ch8~12를 거치며 실제로 구현해본 경험이 있다. 설계서를 현실에 맞게 보완할 차례이다.
+Ch1~12를 거치며 블로그의 핵심 기능(글 CRUD, 이메일 인증, RLS, 배포)은 이미 완성되었다. 이제 ARCHITECTURE.md를 열고, 확장 기능(댓글, 태그, 검색)에 필요한 **새 테이블과 관계**를 설계에 추가할 차례이다.
 
-ARCHITECTURE.md에서 가장 많이 바뀌는 부분은 **Data Model**이다. Ch7에서는 "어떤 데이터가 필요한가" 수준이었지만, 이제는 Supabase 테이블의 구체적인 컬럼, 타입, 관계를 알고 있다.
+ARCHITECTURE.md에서 가장 많이 바뀌는 부분은 **Data Model**이다. 기존 posts 테이블에 연결되는 새 테이블(comments, tags, post_tags)을 추가하고, 각 테이블의 RLS 정책을 설계한다.
 
 ```text
-[Ch7 작성 시]
+[Ch12까지의 Data Model]
 ## Data Model
-- books: 제목, 저자, 메모
-- users: 이름, 이메일
-
-[Ch13 보완 후]
-## Data Model
-- books: id(uuid, PK), title(text), author(text), memo(text),
-         user_id(uuid, FK→auth.users), created_at(timestamptz)
+- posts: id, title, content, user_id, created_at
   - RLS: SELECT 전체 허용, INSERT/UPDATE/DELETE는 본인만
-- profiles: id(uuid, PK, FK→auth.users), display_name(text), avatar_url(text)
+- profiles: id, display_name, avatar_url, role
   - RLS: SELECT 전체 허용, UPDATE는 본인만
+
+[Ch13 확장 후]
+## Data Model (추가)
+- comments: id, post_id(FK→posts), user_id(FK→profiles), content, created_at
+  - RLS: SELECT 전체 허용, INSERT는 로그인 사용자, DELETE는 본인만
+- tags: id, name(unique)
+  - RLS: SELECT 전체 허용, INSERT는 로그인 사용자
+- post_tags: post_id(FK→posts), tag_id(FK→tags), PRIMARY KEY(post_id, tag_id)
+  - RLS: SELECT 전체 허용, INSERT/DELETE는 글 작성자만
 ```
 
 
 > [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "ARCHITECTURE.md를 검토해줘. Data Model 섹션에 Supabase 테이블 구조를 반영하고,
-> 각 테이블에 RLS 정책이 필요한지 표시해줘. 인증은 이메일 로그인을 사용한다."
+> "ARCHITECTURE.md를 검토해줘. Data Model 섹션에 확장 기능(댓글, 태그, 검색)에 필요한
+> 새 테이블(comments, tags, post_tags)을 추가하고, 각 테이블에 RLS 정책을 표시해줘."
 
-같은 방식으로 **Page Map**에는 실제 App Router 경로를, **User Flow**에는 인증 흐름을 반영한다.
+같은 방식으로 **Page Map**에는 확장 기능의 App Router 경로(`/posts/[id]`의 댓글 영역, `/tags`, `/search`)를, **User Flow**에는 댓글 작성·태그 필터링·검색 흐름을 반영한다.
 
-copilot-instructions.md도 함께 업데이트한다. Ch7에서 작성한 초기 버전에 다음 내용을 추가한다:
+copilot-instructions.md도 함께 업데이트한다. 기존 규칙에 확장 기능 관련 내용을 추가한다:
 
 ```markdown
-## Supabase 규칙
+## 확장 기능 규칙 (Ch13)
 
-- 클라이언트: @supabase/ssr 사용 (createBrowserClient / createServerClient)
-- 환경 변수: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY
-- RLS: 모든 테이블에 활성화
-- 인증: 이메일 로그인 (lib/auth-context.tsx 필수)
+- comments 테이블: post_id(FK→posts), user_id(FK→profiles) 필수
+- tags 테이블: name 컬럼에 UNIQUE 제약
+- post_tags 테이블: 복합 PK (post_id, tag_id)
+- 검색: Supabase textSearch 또는 ilike 사용
+- RLS: 모든 새 테이블에 활성화
 ```
 
 다음 체크리스트로 설계서를 점검한다.
 
-**설계서 보완 체크리스트**:
+**설계서 최신화 체크리스트**:
 
-- [ ] **Page Map**: 모든 페이지 경로가 정의되어 있는가?
-- [ ] **User Flow**: 로그인 → 기능 사용 → 로그아웃 흐름이 완성되어 있는가?
-- [ ] **Data Model**: 테이블명, 컬럼, 관계(FK)가 구체적인가?
-- [ ] **RLS 정책**: 각 테이블에 누가 읽고/쓰고/수정/삭제할 수 있는지 명시했는가?
-- [ ] **인증 방식**: 이메일 로그인 설정이 반영되어 있는가?
-- [ ] **역할(Role)**: 사용자 역할이 정의되어 있는가?
-- [ ] **Design Tokens**: shadcn/ui 컴포넌트와 색상 변수가 정리되어 있는가?
-- [ ] **copilot-instructions.md**: 프로젝트 규칙이 최신 상태인가?
+- [ ] **Page Map**: 확장 기능 경로(댓글, 태그, 검색)가 추가되어 있는가?
+- [ ] **User Flow**: 댓글 작성, 태그 필터링, 검색 흐름이 반영되어 있는가?
+- [ ] **Data Model**: 새 테이블(comments, tags, post_tags)의 컬럼, 관계(FK)가 구체적인가?
+- [ ] **RLS 정책**: 새 테이블에 누가 읽고/쓰고/삭제할 수 있는지 명시했는가?
+- [ ] **기존 테이블 영향**: posts 테이블에 변경이 필요한 부분은 없는가?
+- [ ] **Design Tokens**: 댓글/태그/검색 UI에 사용할 컴포넌트가 정리되어 있는가?
+- [ ] **copilot-instructions.md**: 확장 기능 규칙이 추가되어 있는가?
 
-> **팁**: 5분간 설계서를 읽고 "Ch8~12를 배우고 나서 바꾸고 싶은 부분"을 메모해보자. 대부분 Data Model과 인증 부분을 수정하게 된다.
+> **팁**: 5분간 설계서를 읽고 "댓글·태그·검색을 추가하려면 뭘 바꿔야 하나"를 메모해보자. 대부분 Data Model에 새 테이블을 추가하게 된다.
 
-### 13.1.2 기능 우선순위 정리 `🤖 바이브코딩`
+### 13.1.2 확장 기능 우선순위 정리 `🤖 바이브코딩`
 
 > **원리 — MoSCoW 기법**
 >
-> - **Must have** — 없으면 앱이 성립 안 되는 핵심 (예: 로그인, 메인 CRUD)
-> - **Should have** — 있으면 좋지만 없어도 동작 (예: 검색, 필터)
+> - **Must have** — 없으면 블로그 확장이 성립 안 되는 핵심 (예: 댓글, 태그)
+> - **Should have** — 있으면 좋지만 없어도 동작 (예: 검색, 좋아요)
 > - **Could have** — 시간 남으면 추가 (예: 다크 모드, 알림)
-> - **Won't have** — 이번 학기 안 함 (예: 결제, 실시간 채팅)
+> - **Won't have** — 이번 학기 안 함 (예: 실시간 채팅, RSS 피드)
 >
-> 핵심: **Must have만으로 배포 가능한 앱**이어야 한다.
+> 핵심: **Must have만으로 의미 있는 확장**이어야 한다.
 
 
 > [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "ARCHITECTURE.md의 기능 목록을 MoSCoW 기법으로 분류해줘.
-> Must have는 핵심 CRUD와 인증, Should have는 UX 개선, Could have는 부가 기능으로 나눠줘."
+> "블로그 확장 기능을 MoSCoW 기법으로 분류해줘.
+> Must have는 댓글·태그, Should have는 검색·좋아요, Could have는 부가 기능으로 나눠줘."
 
-**표 13.3** 개인 프로젝트 필수/선택 기능
+**표 13.3** 블로그 확장 기능 필수/선택 분류
 
 | 분류 | 기능 | 설명 |
 |------|------|------|
-| **Must** | 핵심 CRUD | 프로젝트 주제의 메인 기능 |
-| **Must** | 이메일 인증 | 로그인/로그아웃 + 보호된 페이지 |
-| **Must** | RLS 보안 | 모든 테이블에 RLS 정책 적용 |
-| **Must** | 댓글 기능 | 게시글에 댓글 작성/조회/삭제 (1:N 관계) |
-| **Must** | 좋아요/이모지 반응 | 게시글에 좋아요 또는 이모지 반응 기능 (M:N 관계) |
-| **Must** | 관리자 대시보드 | role에 'admin' 추가 + 관리자 전용 페이지 + 역할 기반 RLS |
-| **Should** | 검색/필터 | 게시글 검색, 카테고리 필터링 |
+| **Must** | 댓글 시스템 | 블로그 글에 댓글 작성/조회/삭제 (1:N 관계) |
+| **Must** | 태그/카테고리 | 블로그 글에 태그 부여 + 태그별 필터링 (M:N 관계) |
+| **Must** | RLS 확장 | 새 테이블(comments, tags, post_tags)에 RLS 정책 적용 |
+| **Should** | 검색 기능 | 블로그 글 제목/내용 검색 |
+| **Should** | 좋아요/이모지 반응 | 블로그 글에 좋아요 또는 이모지 반응 기능 |
+| **Should** | 관리자 대시보드 | role에 'admin' 추가 + 관리자 전용 페이지 + 역할 기반 RLS |
 | **Could** | 다크 모드 | 다크/라이트 테마 전환 |
+| **Won't** | 실시간 채팅 | 이번 학기에는 구현하지 않음 |
 
-> 댓글, 좋아요/이모지 반응, 관리자 대시보드는 이번 프로젝트의 **필수(Must)** 기능이다. 수업에서 단계적으로 배우지 않았지만, Ch8~12에서 학습한 CRUD, RLS, 인증의 **종합 응용**으로서 직접 구현한다.
+> 댓글과 태그는 이번 블로그 확장의 **필수(Must)** 기능이다. Ch8~12에서 학습한 CRUD, RLS, 인증의 **종합 응용**으로서 기존 블로그에 새 테이블과 관계를 추가한다.
 
 ### 댓글 기능 구현 가이드
 
-댓글은 게시글과 **1:N 관계**이다. 하나의 게시글에 여러 개의 댓글이 달릴 수 있다.
+댓글은 블로그 글과 **1:N 관계**이다. 하나의 블로그 글에 여러 개의 댓글이 달릴 수 있다.
 
 **① 테이블 설계**:
 
@@ -234,199 +238,208 @@ CREATE POLICY "작성자만 댓글 삭제" ON comments
   FOR DELETE USING (auth.uid() = user_id);
 ```
 
-**② CRUD 함수** (`lib/comments.ts`): `insert` (댓글 작성) + `select` (게시글별 댓글 조회) + `delete` (본인 댓글 삭제)
+**② CRUD 함수** (`lib/comments.ts`): `insert` (댓글 작성) + `select` (블로그 글별 댓글 조회) + `delete` (본인 댓글 삭제)
 
-**③ UI 연결**: 게시글 상세 페이지(`/posts/[id]`)에 댓글 목록 + 댓글 입력 폼을 추가한다.
+**③ UI 연결**: 블로그 글 상세 페이지(`/posts/[id]`)에 댓글 목록 + 댓글 입력 폼을 추가한다.
 
 
 > [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "posts 테이블과 1:N 관계인 comments 테이블을 만들어줘.
+> "기존 블로그의 posts 테이블과 1:N 관계인 comments 테이블을 만들어줘.
 > 댓글 작성/조회/삭제 CRUD 함수를 lib/comments.ts에 만들고,
-> 게시글 상세 페이지에 댓글 목록과 작성 폼을 추가해줘.
+> 블로그 글 상세 페이지(/posts/[id])에 댓글 목록과 작성 폼을 추가해줘.
 > RLS: 누구나 읽기, 로그인 사용자만 작성, 작성자만 삭제."
 
-### 좋아요/이모지 반응 구현 가이드
+### 태그/카테고리 구현 가이드
 
-좋아요는 사용자와 게시글 사이의 **M:N 관계**이다. 한 사용자가 여러 게시글에 좋아요를 누를 수 있고, 하나의 게시글에 여러 사용자가 좋아요를 누를 수 있다.
+태그는 블로그 글과 **M:N 관계**이다. 하나의 블로그 글에 여러 태그를 붙일 수 있고, 하나의 태그에 여러 블로그 글이 연결될 수 있다.
 
 **① 테이블 설계**:
 
 ```sql
-CREATE TABLE likes (
+-- 태그 테이블
+CREATE TABLE tags (
   id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  post_id bigint REFERENCES posts(id) ON DELETE CASCADE NOT NULL,
-  user_id uuid REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
-  emoji text NOT NULL DEFAULT '👍',
-  created_at timestamptz DEFAULT now(),
-  UNIQUE (post_id, user_id)  -- 한 사용자가 같은 글에 중복 좋아요 방지
+  name text NOT NULL UNIQUE,
+  created_at timestamptz DEFAULT now()
 );
 
-ALTER TABLE likes ENABLE ROW LEVEL SECURITY;
+-- 블로그 글-태그 연결 테이블 (M:N)
+CREATE TABLE post_tags (
+  post_id bigint REFERENCES posts(id) ON DELETE CASCADE NOT NULL,
+  tag_id bigint REFERENCES tags(id) ON DELETE CASCADE NOT NULL,
+  PRIMARY KEY (post_id, tag_id)
+);
 
--- 누구나 좋아요 수 조회
-CREATE POLICY "누구나 좋아요 읽기" ON likes
+ALTER TABLE tags ENABLE ROW LEVEL SECURITY;
+ALTER TABLE post_tags ENABLE ROW LEVEL SECURITY;
+
+-- 누구나 태그 조회
+CREATE POLICY "누구나 태그 읽기" ON tags
   FOR SELECT USING (true);
 
--- 로그인 사용자만 좋아요
-CREATE POLICY "로그인 사용자만 좋아요" ON likes
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+-- 로그인 사용자만 태그 생성
+CREATE POLICY "로그인 사용자만 태그 생성" ON tags
+  FOR INSERT WITH CHECK (auth.uid() IS NOT NULL);
 
--- 본인 좋아요만 취소
-CREATE POLICY "본인 좋아요만 취소" ON likes
-  FOR DELETE USING (auth.uid() = user_id);
-```
+-- 누구나 글-태그 연결 조회
+CREATE POLICY "누구나 글-태그 읽기" ON post_tags
+  FOR SELECT USING (true);
 
-**② 토글 로직**: 좋아요 버튼 클릭 시 — 이미 좋아요했으면 `DELETE`(취소), 아직이면 `INSERT`(추가). `UNIQUE` 제약 덕분에 중복이 방지된다.
-
-**③ 카운트 표시**: `.select("*", { count: "exact" }).eq("post_id", postId)`로 좋아요 수를 조회한다.
-
-
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
-> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
-> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "게시글에 좋아요(이모지 반응) 기능을 만들어줘.
-> likes 테이블: post_id + user_id + emoji, UNIQUE(post_id, user_id).
-> 토글 로직: 이미 좋아요면 취소(DELETE), 아니면 추가(INSERT).
-> 게시글 목록과 상세에서 좋아요 수를 표시해줘.
-> RLS: 누구나 읽기, 로그인 사용자만 추가/취소."
-
-### 관리자 대시보드 구현 가이드
-
-Ch7~12에서는 `'user'`와 `'counselor'` 2가지 역할만 사용했다. 개인 프로젝트에서는 **`'admin'` 역할을 추가**하고 관리자 전용 페이지를 직접 구현한다.
-
-**① profiles 테이블에 admin 역할 추가**:
-
-```sql
--- CHECK 제약 수정: admin 역할 추가
-ALTER TABLE profiles DROP CONSTRAINT IF EXISTS profiles_role_check;
-ALTER TABLE profiles ADD CONSTRAINT profiles_role_check
-  CHECK (role IN ('user', 'counselor', 'admin'));
-```
-
-관리자 역할은 Supabase Table Editor에서 특정 사용자의 `role`을 `'admin'`으로 직접 변경한다.
-
-**② 관리자 전용 RLS 정책**:
-
-```sql
--- 관리자는 모든 데이터 조회 가능
-CREATE POLICY "관리자_전체_조회" ON posts
-  FOR SELECT USING (
-    auth.uid() = user_id
-    OR EXISTS (
-      SELECT 1 FROM profiles
-      WHERE id = auth.uid() AND role = 'admin'
+-- 글 작성자만 태그 부여/제거
+CREATE POLICY "글 작성자만 태그 관리" ON post_tags
+  FOR ALL USING (
+    EXISTS (
+      SELECT 1 FROM posts WHERE id = post_id AND user_id = auth.uid()
     )
   );
 ```
 
-`EXISTS` 서브쿼리로 현재 로그인한 사용자의 `role`이 `'admin'`인지 확인한다. 이 패턴은 Ch11에서 배운 RLS의 응용이다.
+**② CRUD 함수** (`lib/tags.ts`): `getTags` (전체 태그 조회) + `addTagToPost` (글에 태그 부여) + `removeTagFromPost` (글에서 태그 제거) + `getPostsByTag` (태그별 글 필터링)
 
-**③ 접근 제어**: `/admin` 레이아웃 컴포넌트에서 `profile.role === 'admin'`을 확인하고, 관리자가 아니면 리다이렉트한다.
-
-**④ 대시보드 UI**: 관리자 전용 페이지(`app/admin/page.tsx`)에 전체 게시글 수, 사용자 수, 최근 활동 등 통계를 표시한다.
+**③ UI 연결**: 블로그 글 작성/수정 시 태그를 선택하는 UI + `/tags` 페이지에서 태그별 글 목록 표시
 
 
 > [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "관리자 대시보드를 구현해줘.
-> 1. profiles 테이블에 'admin' 역할 추가 (CHECK 제약 수정)
-> 2. app/admin/page.tsx: 관리자만 접근 가능 (profile.role 확인)
-> 3. 전체 게시글 수, 사용자 수, 최근 게시글 5개 표시
-> 4. RLS: admin 역할은 모든 데이터 조회 가능
+> "블로그에 태그/카테고리 기능을 만들어줘.
+> tags 테이블: id + name(UNIQUE). post_tags 테이블: post_id + tag_id (복합 PK).
+> CRUD 함수를 lib/tags.ts에 만들고, 글 작성 시 태그 선택 UI와
+> /tags 페이지에서 태그별 글 목록을 보여줘.
+> RLS: 누구나 읽기, 로그인 사용자만 태그 생성, 글 작성자만 태그 부여/제거."
+
+### 검색 기능 구현 가이드
+
+블로그 글이 많아지면 검색 기능이 필요하다. Supabase에서는 **`ilike`** (대소문자 무시 패턴 매칭) 또는 **Full Text Search** (`textSearch`)를 사용할 수 있다. 여기서는 간단한 `ilike` 방식을 먼저 구현한다.
+
+**① 검색 쿼리**:
+
+```typescript
+// lib/search.ts
+import { createBrowserClient } from '@supabase/ssr';
+
+export async function searchPosts(query: string) {
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
+  const { data, error } = await supabase
+    .from('posts')
+    .select('id, title, content, created_at, profiles(display_name)')
+    .or(`title.ilike.%${query}%,content.ilike.%${query}%`)
+    .order('created_at', { ascending: false });
+
+  return { data, error };
+}
+```
+
+`ilike`는 SQL의 `LIKE`와 같지만 대소문자를 구분하지 않는다. `%`는 "아무 문자"를 뜻하는 와일드카드이다.
+
+**② 검색 UI**: `/search` 페이지에 검색 입력 폼 + 결과 목록을 표시한다. 검색어를 URL 쿼리 파라미터(`?q=검색어`)로 전달하면 공유도 가능하다.
+
+**③ 검색 결과 하이라이팅**: 검색어와 일치하는 부분을 `<mark>` 태그로 강조하면 사용자 경험이 좋아진다.
+
+
+> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
+> [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
+> "블로그 검색 기능을 구현해줘.
+> 1. lib/search.ts: posts 테이블에서 title, content를 ilike로 검색하는 함수
+> 2. app/search/page.tsx: 검색 입력 폼 + 결과 목록 (URL 쿼리 파라미터 사용)
+> 3. 검색어 하이라이팅 (일치 부분 강조)
+> 4. 검색 결과에 글 제목, 작성자, 날짜 표시
 > copilot-instructions.md의 디자인 토큰을 따라줘."
 
-### 13.1.3 MVP(최소 기능 제품) 범위 확정 `🤖 바이브코딩`
+### 13.1.3 확장 기능 범위 확정 `🤖 바이브코딩`
 
-> **원리 — MVP(Minimum Viable Product)**
+> **원리 — 점진적 확장**
 >
-> 사용자에게 가치를 전달할 수 있는 **최소한의 완성품**. Must have 항목 = MVP 범위.
+> 기존에 동작하는 블로그가 있으므로 "새로 만드는" 것이 아니라 "기능을 추가하는" 것이다. Must have 항목만 확실히 구현하고, 나머지는 시간이 남으면 추가한다.
 
-**표 13.3** MVP 체크리스트 템플릿
+**표 13.4** 블로그 확장 기능 체크리스트
 
-| 구분 | 기능                            | 완료 |
-| ---- | ------------------------------- | :--: |
-| 인증 | 이메일 로그인/로그아웃          |  ☐   |
-| 메인 | [핵심 기능 1] CRUD              |  ☐   |
-| 메인 | [핵심 기능 2] CRUD              |  ☐   |
-| DB   | Supabase 테이블 생성 + RLS 정책 |  ☐   |
-| UI   | 메인 페이지 레이아웃            |  ☐   |
-| UI   | 반응형 (모바일/데스크톱)        |  ☐   |
-| 배포 | Vercel 배포 + 환경 변수 설정    |  ☐   |
+| 구분 | 기능                                | 완료 |
+| ---- | ----------------------------------- | :--: |
+| 댓글 | comments 테이블 생성 + RLS          |  ☐   |
+| 댓글 | 댓글 작성/조회/삭제 CRUD            |  ☐   |
+| 댓글 | 블로그 글 상세에 댓글 UI 연결       |  ☐   |
+| 태그 | tags + post_tags 테이블 생성 + RLS  |  ☐   |
+| 태그 | 글 작성 시 태그 선택 UI             |  ☐   |
+| 태그 | 태그별 글 필터링 페이지             |  ☐   |
+| 검색 | 블로그 글 제목/내용 검색 기능       |  ☐   |
+| 배포 | Vercel 재배포 + 전 기능 동작 확인   |  ☐   |
 
-> [핵심 기능 1], [핵심 기능 2]는 자신의 프로젝트에 맞게 채운다. 예를 들어 독서 기록 앱이라면 "책 등록 CRUD"와 "독서 메모 CRUD"가 된다.
+확장 범위를 정할 때 자주 하는 실수:
 
-MVP 범위를 정할 때 자주 하는 실수:
+- **"기존 코드를 처음부터 다시 만들고 싶어"** → 이미 동작하는 블로그를 버리지 않는다. 확장만 한다.
+- **"댓글에 대댓글도 넣고 싶어"** → 대댓글은 재귀 관계로 복잡하다. 1단계 댓글만 Must이다.
+- **"디자인을 예쁘게 하고 싶어"** → 기능이 먼저다. Tailwind 기본 스타일만으로도 충분히 깔끔하다. UI 다듬기는 기능 완성 후에 한다.
 
-- **"로그인 없이도 쓸 수 있게 하고 싶어"** → 인증 없이 만들면 RLS를 쓸 수 없다. 인증은 Must이다.
-- **"검색 기능도 필수 아닌가?"** → 데이터가 10개일 때 검색은 불필요하다. 목록에서 눈으로 찾으면 된다. Should로 분류한다.
-- **"디자인을 예쁘게 하고 싶어"** → 기능이 먼저다. Tailwind 기본 스타일만으로도 충분히 깔끔하다. UI 다듬기는 4단계에서 한다.
-
-> **팁**: MVP를 너무 크게 잡지 말자. "Must have 3개 이하"가 핵심이다. 기능이 적어도 완성된 앱이 미완성된 대형 앱보다 낫다.
+> **팁**: 확장 범위를 너무 크게 잡지 말자. 댓글 + 태그만 제대로 구현해도 훌륭한 블로그이다.
 
 ---
 
-## 13.2 바이브코딩으로 구현 `🤖 바이브코딩`
+## 13.2 바이브코딩으로 확장 구현 `🤖 바이브코딩`
 
 ### 13.2.1 기능별 Copilot 프롬프트 전략 `🤖 바이브코딩`
 
-MVP 체크리스트의 기능을 하나씩 구현한다. 다음 순서를 권장한다.
+확장 기능 체크리스트의 기능을 하나씩 구현한다. 기존 블로그에 인증과 기본 CRUD가 이미 있으므로, 다음 순서를 권장한다.
 
-**표 13.4** 권장 구현 순서 5단계
+**표 13.5** 블로그 확장 권장 구현 순서 4단계
 
-| 단계 | 작업                       | 이유                                            | 예상 소요 |
-| :--: | -------------------------- | ----------------------------------------------- | :-------: |
-|  1   | Supabase 테이블 생성 + RLS | 데이터 구조가 먼저 있어야 코드를 짤 수 있다     |   짧음    |
-|  2   | 인증 (이메일 로그인)       | 로그인이 있어야 RLS가 동작하고 테스트할 수 있다 |   보통    |
-|  3   | 핵심 CRUD 기능             | 앱의 존재 이유 — 가장 많은 시간을 여기에 쓴다   |   길다    |
-|  4   | UI/레이아웃 정리           | 기능이 동작하면 보기 좋게 다듬는다              |   보통    |
-|  5   | 배포 + 테스트              | Vercel에 올리고 실제 URL에서 확인한다           |   짧음    |
+| 단계 | 작업                               | 이유                                            | 예상 소요 |
+| :--: | ---------------------------------- | ----------------------------------------------- | :-------: |
+|  1   | 새 테이블 생성 + RLS               | 댓글·태그 데이터 구조가 먼저 있어야 한다        |   짧음    |
+|  2   | 댓글 CRUD + UI                     | 블로그의 핵심 확장 — 가장 많은 시간을 여기에 쓴다 |   길다    |
+|  3   | 태그/카테고리 + 검색               | 글 분류와 탐색 기능 추가                        |   보통    |
+|  4   | UI 정리 + 배포 + 테스트            | Vercel에 올리고 실제 URL에서 확인한다           |   짧음    |
 
-이 순서가 중요한 이유: 1단계(DB)와 2단계(인증)가 없으면 3단계(CRUD)를 테스트할 수 없다. 반대로 4단계(UI)는 기능이 동작한 후에 해야 한다 — 동작하지 않는 기능의 UI를 꾸미는 것은 시간 낭비이다.
+이 순서가 중요한 이유: 1단계(DB)가 없으면 2~3단계(CRUD)를 만들 수 없다. 4단계(UI 정리)는 기능이 동작한 후에 해야 한다 — 동작하지 않는 기능의 UI를 꾸미는 것은 시간 낭비이다.
 
 각 단계별 프롬프트 예시:
 
-> **Copilot 프롬프트 (1단계 — DB)**
-> "Supabase SQL Editor에서 실행할 books 테이블 생성 SQL을 작성해줘.
-> 컬럼: id(uuid, PK, default gen_random_uuid()), title(text, NOT NULL), author(text),
-> user_id(uuid, FK→auth.users), created_at(timestamptz, default now()).
-> RLS를 활성화하고, SELECT는 전체 허용, INSERT/UPDATE/DELETE는 auth.uid() = user_id인 경우만 허용해줘."
+> **Copilot 프롬프트 (1단계 — 확장 테이블)**
+> "Supabase SQL Editor에서 실행할 comments, tags, post_tags 테이블 생성 SQL을 작성해줘.
+> comments: id(bigint, PK), post_id(FK→posts), user_id(FK→profiles), content(text), created_at.
+> tags: id(bigint, PK), name(text, UNIQUE). post_tags: post_id + tag_id (복합 PK).
+> 모든 테이블에 RLS를 활성화하고 적절한 정책을 설정해줘."
 
-> **Copilot 프롬프트 (2단계 — 인증)**
-> "이메일 로그인/로그아웃 기능을 구현해줘.
-> @supabase/ssr의 createBrowserClient 사용. 로그인 버튼 클릭 시 signInWithOAuth,
-> 로그아웃은 signOut. auth/callback 라우트 핸들러도 만들어줘.
+> **Copilot 프롬프트 (2단계 — 댓글 CRUD)**
+> "블로그 글 상세 페이지(/posts/[id])에 댓글 기능을 추가해줘.
+> lib/comments.ts에 CRUD 함수를 만들고, 댓글 목록 + 작성 폼 컴포넌트를 추가해줘.
+> 로그인한 사용자만 댓글 작성 가능, 본인 댓글만 삭제 가능.
 > copilot-instructions.md를 참고해줘."
 
-> **Copilot 프롬프트 (3단계 — CRUD)**
-> "books 테이블의 전체 목록을 카드형으로 보여주는 app/books/page.tsx를 만들어줘.
-> Server Component로 작성하고, 로그인한 사용자만 접근 가능하게 해줘.
-> 새 책 추가 버튼과 각 카드에 수정/삭제 버튼을 포함해줘."
+> **Copilot 프롬프트 (3단계 — 태그 + 검색)**
+> "블로그에 태그 기능을 추가해줘. 글 작성/수정 시 태그를 선택하는 UI를 만들고,
+> /tags 페이지에서 태그별로 글을 필터링할 수 있게 해줘.
+> /search 페이지에서 제목/내용으로 글을 검색하는 기능도 추가해줘."
 
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
 ```text
 나쁜 프롬프트:
-"게시판 만들어줘"
+"댓글 기능 만들어줘"
 
 좋은 프롬프트:
-"Supabase의 books 테이블에서 데이터를 읽어 목록을 보여주는 페이지를 만들어줘.
-- Next.js App Router, Server Component로 작성
-- @supabase/ssr의 createServerClient 사용
-- Tailwind CSS로 카드형 레이아웃
-- 각 카드에 제목, 저자, 등록일 표시
+"블로그 글 상세 페이지(/posts/[id])에 댓글 기능을 추가해줘.
+- Supabase의 comments 테이블에서 post_id로 필터링하여 댓글 조회
+- @supabase/ssr의 createBrowserClient 사용 (클라이언트 컴포넌트)
+- Tailwind CSS로 댓글 목록 + 작성 폼 레이아웃
+- 로그인한 사용자만 작성 가능, 본인 댓글만 삭제 가능
 - copilot-instructions.md의 디자인 토큰을 따라줘"
 ```
 
 좋은 프롬프트의 공통점: **기술 스택 명시** + **데이터 소스 지정** + **UI 구조 설명** + **프로젝트 규칙 참조**.
 
-나쁜 프롬프트가 문제인 이유는 AI가 "추측"해야 할 부분이 많기 때문이다. "게시판 만들어줘"라고 하면 AI는 기술 스택을 추측하고, DB 구조를 추측하고, UI를 추측한다. 추측이 많을수록 AI 3대 한계(버전 불일치, 컨텍스트 소실, 환각)에 빠질 확률이 높아진다.
+나쁜 프롬프트가 문제인 이유는 AI가 "추측"해야 할 부분이 많기 때문이다. "댓글 기능 만들어줘"라고 하면 AI는 테이블 구조를 추측하고, 기존 코드를 추측하고, UI를 추측한다. 추측이 많을수록 AI 3대 한계(버전 불일치, 컨텍스트 소실, 환각)에 빠질 확률이 높아진다.
 
 **기능별 프롬프트 작성 팁** — 프롬프트에 반드시 포함할 정보:
 
-**표 13.5** 기능별 프롬프트 필수 포함 정보
+**표 13.6** 기능별 프롬프트 필수 포함 정보
 
 | 기능        | 프롬프트에 포함할 정보                                       |
 | ----------- | ------------------------------------------------------------ |
@@ -454,7 +467,7 @@ MVP 체크리스트의 기능을 하나씩 구현한다. 다음 순서를 권장
 1. **문제 추적이 쉽다**: 에러가 나면 방금 추가한 기능이 원인이다. 한 번에 5개 기능을 넣으면 어디가 문제인지 찾기 어렵다.
 2. **항상 배포 가능하다**: 기능을 하나 추가할 때마다 배포하므로, 중간에 멈춰도 "동작하는 앱"이 있다.
 
-**표 13.6** 기능당 구현 체크리스트
+**표 13.7** 기능당 구현 체크리스트
 
 | 순서 | 항목                                          | 확인 |
 | :--: | --------------------------------------------- | :--: |
@@ -474,7 +487,7 @@ AI가 여러 파일을 수정할 때 주의할 점:
 - AI가 **패키지를 새로 설치**했으면 package.json에 버전이 올바른지 확인
 - AI가 제안하는 터미널 명령어(npm install, git 등)는 실행 전에 한 번 읽어보기
 
-**copilot-instructions.md 업데이트**: 기능을 추가할 때마다 copilot-instructions.md에 새로운 규칙이 필요한지 확인한다. 예를 들어 books 테이블을 만들었다면 "books 테이블의 컬럼 목록"을 추가하고, RLS 정책을 설정했다면 "RLS 정책 요약"을 추가한다. 이 문서가 최신 상태를 유지할수록 AI의 다음 출력이 정확해진다.
+**copilot-instructions.md 업데이트**: 기능을 추가할 때마다 copilot-instructions.md에 새로운 규칙이 필요한지 확인한다. 예를 들어 comments 테이블을 만들었다면 "comments 테이블의 컬럼 목록"을 추가하고, RLS 정책을 설정했다면 "RLS 정책 요약"을 추가한다. 이 문서가 최신 상태를 유지할수록 AI의 다음 출력이 정확해진다.
 
 > copilot-instructions.md는 Copilot이 프로젝트를 이해하기 위해 자동으로 읽는 설정 파일이다. 프로젝트의 기술 스택, 디자인 토큰, 컴포넌트 규칙, Supabase 설정 등 **항상 적용되어야 할 규칙**을 모두 이 파일에 정리한다.
 
@@ -482,7 +495,7 @@ AI가 여러 파일을 수정할 때 주의할 점:
 
 구현 중 에러는 반드시 발생한다. 당황하지 말고 패턴별로 대응하자. Ch12에서 배운 에러 처리의 핵심 원칙을 떠올려보면: 에러 메시지를 읽고, 유형을 분류하고, 해당 유형에 맞는 조치를 취한다.
 
-**표 13.7** 흔한 에러 패턴 5가지
+**표 13.8** 흔한 에러 패턴 5가지
 
 |  #  | 에러 패턴              | 원인                                | 대응 방법                             |
 | :-: | ---------------------- | ----------------------------------- | ------------------------------------- |
@@ -505,8 +518,8 @@ AI가 여러 파일을 수정할 때 주의할 점:
 좋은 디버깅 프롬프트:
 "다음 에러가 발생했어:
 [에러 메시지 전체 붙여넣기]
-현재 파일은 app/books/page.tsx이고, Supabase에서 books 테이블을 읽는 Server Component야.
-RLS 정책은 authenticated 사용자만 SELECT 가능하게 설정했어."
+현재 파일은 app/posts/[id]/page.tsx이고, Supabase에서 comments 테이블을 읽는 컴포넌트야.
+RLS 정책은 누구나 SELECT 가능하게 설정했어."
 ```
 
 좋은 디버깅 프롬프트의 3요소: **에러 메시지 원문** + **현재 파일/컨텍스트** + **의도한 동작**.
@@ -519,67 +532,67 @@ RLS 정책은 authenticated 사용자만 SELECT 가능하게 설정했어."
 
 ---
 
-## 워크숍: 설계서 보완 + MVP 확정
+## 워크숍: 설계서 최신화 + 확장 범위 확정
 
-> **팁**: 이 시간에는 각자 설계서를 열고 보완 작업을 시작한다. MVP 범위가 적절한지, 설계서에 빠진 부분이 없는지 스스로 점검하자.
+> **팁**: 이 시간에는 각자 블로그 프로젝트의 설계서를 열고 확장 설계를 시작한다. 어떤 확장 기능을 넣을지, 설계서에 빠진 부분이 없는지 점검하자.
 
 **워크숍 순서** (30분):
 
-① ARCHITECTURE.md를 열고, 설계서 보완 체크리스트(13.1.1)로 점검한다 (10분)
+① ARCHITECTURE.md를 열고, 설계서 최신화 체크리스트(13.1.1)로 점검한다 (10분)
 
-② MVP 체크리스트(표 13.2)를 자신의 프로젝트에 맞게 작성한다 — Must have 3개 이하 (5분)
+② 확장 기능 체크리스트(표 13.4)를 확인하고, Must have 기능을 확정한다 (5분)
 
-③ copilot-instructions.md에 Supabase 규칙과 최신 기능 목록을 추가한다 (5분)
+③ copilot-instructions.md에 확장 기능 규칙(댓글·태그·검색 테이블 정보)을 추가한다 (5분)
 
-④ 권장 구현 순서(표 13.3)에 따라 첫 번째 기능(DB 테이블 생성)을 시작한다 (10분)
+④ 권장 구현 순서(표 13.5)에 따라 첫 번째 기능(확장 테이블 생성)을 시작한다 (10분)
 
-> **함께 진행**: 첫 번째 기능(테이블 생성 + RLS)은 화면을 보며 함께 진행한다. 이후 기능은 자율적으로 진행하자.
+> **함께 진행**: 첫 번째 기능(comments, tags 테이블 생성 + RLS)은 화면을 보며 함께 진행한다. 이후 기능은 자율적으로 진행하자.
 
 ---
 
 ## 13.3 컨텍스트 업데이트 `🤖 바이브코딩`
 
-Ch13은 지금까지 쌓아온 모든 컨텍스트를 **총정리**하는 장이다. context.md를 최신 상태로 갱신하고, todo.md에서 남은 작업을 확인하는 것이 MVP 완성의 출발점이다.
+Ch13은 지금까지 쌓아온 모든 컨텍스트를 **총정리**하는 장이다. context.md를 최신 상태로 갱신하고, todo.md에서 남은 작업을 확인하는 것이 블로그 확장 완성의 출발점이다.
 
 **세션 시작 프롬프트** — Ch13 작업을 시작할 때:
 
 ```text
 #file:context.md #file:todo.md #file:ARCHITECTURE.md #file:copilot-instructions.md
 
-Ch13 프로젝트 통합을 시작하려고 해.
+Ch13 블로그 확장 기능 구현을 시작하려고 해.
 1) context.md에서 Ch8~12까지의 모든 기술 결정 사항과 해결된 이슈를 확인해줘
 2) todo.md에서 미완료 항목을 정리하고 우선순위를 매겨줘
 3) ARCHITECTURE.md가 현재 코드와 일치하는지 검토해줘
-4) 불일치하는 부분이 있으면 ARCHITECTURE.md 수정안을 제안해줘
+4) 확장 기능(댓글, 태그, 검색)에 필요한 변경사항을 제안해줘
 ```
 
 **이 장에서 context.md에 추가할 내용**:
 
 ```markdown
-## 프로젝트 통합 상태 (Ch13)
+## 블로그 확장 상태 (Ch13)
 
-- MVP 범위: [Must have 기능 3개 이하 기록]
-- ARCHITECTURE.md 보완: Ch8~12 내용 반영 완료
-- copilot-instructions.md 보완: Supabase 규칙, RLS 패턴, 에러 처리 규칙 추가
-- 통합 테스트: 예약 플로우 / 마음톡 플로우 / 인증 플로우 확인
+- 확장 범위: 댓글 + 태그/카테고리 + 검색
+- ARCHITECTURE.md 최신화: 확장 테이블(comments, tags, post_tags) 추가 완료
+- copilot-instructions.md 보완: 확장 기능 규칙, RLS 패턴 추가
+- 통합 테스트: 댓글 플로우 / 태그 필터 플로우 / 검색 플로우 확인
 
 ## 남은 작업 (Ch13 이후)
 
-- [Nice to have 기능 목록]
+- [Should/Could have 기능 목록]
 - 배포 전 최종 점검 사항
 ```
 
 **세션 종료 프롬프트** — Ch13 작업은 특히 **전체 정리**가 중요하다:
 
 ```text
-Ch13 프로젝트 통합을 마무리하려고 해.
-1) context.md를 전체 갱신해줘 — Ch8~13까지의 모든 내용이 최신 상태인지 확인
+Ch13 블로그 확장 기능 구현을 마무리하려고 해.
+1) context.md를 전체 갱신해줘 — Ch1~13까지의 모든 내용이 최신 상태인지 확인
 2) todo.md에서 완료 항목을 체크하고 최종 진행률을 갱신해줘
-3) ARCHITECTURE.md에 빠진 페이지나 컴포넌트가 있으면 추가해줘
-4) 남은 작업(Nice to have)을 todo.md 하단에 정리해줘
+3) ARCHITECTURE.md에 확장 기능으로 추가된 페이지나 컴포넌트를 반영해줘
+4) 남은 작업(Should/Could have)을 todo.md 하단에 정리해줘
 ```
 
-> **팁**: Ch13 종료 시점의 context.md가 가장 완성도 높은 "프로젝트 기억"이다. 이후 유지보수나 기능 추가 시 이 파일 하나로 Copilot에게 프로젝트 전체를 전달할 수 있다.
+> **팁**: Ch13 종료 시점의 context.md가 가장 완성도 높은 "블로그 프로젝트 기억"이다. 이후 유지보수나 기능 추가 시 이 파일 하나로 Copilot에게 프로젝트 전체를 전달할 수 있다.
 
 ---
 
@@ -587,42 +600,41 @@ Ch13 프로젝트 통합을 마무리하려고 해.
 
 ### 이번 시간 핵심 3가지
 
-1. **설계서 보완**: Ch7 설계서에 Supabase 테이블 구조, RLS 정책, 인증 흐름을 반영한다
-2. **MVP 우선**: Must have 3개 이하로 기능을 확정하고, 이것만 완성한다
-3. **점진적 구현**: DB → 인증 → CRUD → UI → 배포 순서로, 기능 하나씩 만들고 테스트하고 커밋한다
+1. **설계서 최신화**: 기존 블로그 설계서에 확장 테이블(comments, tags, post_tags)과 RLS 정책을 추가한다
+2. **확장 범위 확정**: Must have(댓글, 태그)를 먼저 구현하고, Should have(검색, 좋아요)는 시간이 남으면 추가한다
+3. **점진적 구현**: 확장 테이블 → CRUD → UI → 배포 순서로, 기능 하나씩 만들고 테스트하고 커밋한다
 
 ### B회차 과제 스펙
 
-**개인 프로젝트 MVP 구현 + 배포**:
+**블로그 확장 기능 구현 + 배포**:
 
-① ARCHITECTURE.md 보완 (Data Model + RLS + 인증 반영)
-② 핵심 CRUD 기능 구현
-③ 댓글 기능 구현 (comments 테이블 + RLS)
-④ 좋아요/이모지 반응 기능 구현 (likes 테이블 + 토글)
-⑤ 관리자 대시보드 구현 (admin role + 역할 기반 접근 제어)
-⑥ Vercel 배포 + 전 기능 동작 확인
-⑦ README.md + AI_LOG.md 작성
-⑧ 배포 URL + GitHub 저장소 제출
+① ARCHITECTURE.md 최신화 (확장 테이블 + RLS 추가)
+② 댓글 기능 구현 (comments 테이블 + RLS + CRUD + UI)
+③ 태그/카테고리 기능 구현 (tags + post_tags 테이블 + 필터링)
+④ 검색 기능 구현 (제목/내용 검색 + 검색 페이지)
+⑤ Vercel 배포 + 전 기능 동작 확인
+⑥ README.md + AI_LOG.md 작성
+⑦ 배포 URL + GitHub 저장소 제출
 
 ### Skills 활용 가이드 (B회차 적용)
 
 - `nextjs-basic-check`: App Router 경로, 컴포넌트 경계, `next/navigation` import 규칙을 최종 점검한다.
 - `api-safety-check`: 인증/CRUD/RLS/폼 검증에서 에러 처리 누락과 위험한 패턴을 점검한다.
-- 권장 타이밍: MVP 기능 완성 후, 발표 전 최종 리허설 단계.
+- 권장 타이밍: 확장 기능 완성 후, 배포 전 최종 점검 단계.
 
-**스타터 코드**: `practice/chapter13/starter/` — 기본 Next.js + Supabase + 인증 설정이 완료된 프로젝트 템플릿이다. 여기서 시작하거나, 기존 프로젝트에 기능을 추가해도 된다.
+**스타터 코드**: Ch12까지 완성한 블로그 프로젝트를 그대로 사용한다. 별도 스타터 코드 없이 기존 프로젝트에 확장 기능을 추가한다.
 
 ---
 
 ## Exit ticket
 
-다음 중 올바른 구현 순서를 고르라:
+블로그에 댓글 기능을 추가할 때 올바른 순서를 고르라:
 
-- (A) UI 디자인 → DB 테이블 → 인증 → CRUD → 배포
-- (B) DB 테이블 → CRUD → 인증 → UI → 배포
-- (C) DB 테이블 → 인증 → CRUD → UI → 배포
+- (A) 댓글 UI 만들기 → comments 테이블 생성 → CRUD 함수 작성
+- (B) comments 테이블 생성 + RLS → CRUD 함수 작성 → 댓글 UI 연결
+- (C) CRUD 함수 작성 → comments 테이블 생성 → 댓글 UI 만들기
 
-정답: (C) — DB가 먼저 있어야 CRUD를, 인증이 있어야 RLS 테스트를 할 수 있다. UI는 기능 완성 후에 다듬는다.
+정답: (B) — 테이블이 먼저 있어야 CRUD 함수를 만들 수 있고, CRUD가 동작해야 UI를 연결할 수 있다.
 
 ---
 
@@ -638,15 +650,15 @@ Ch13 프로젝트 통합을 마무리하려고 해.
 
 **수업 전 준비**:
 
-- [ ] Ch7 설계서 (ARCHITECTURE.md) 준비
+- [ ] Ch12까지 완성한 블로그 프로젝트 확인
+- [ ] ARCHITECTURE.md 최신 상태 확인
 - [ ] Supabase 대시보드 접속 확인
-- [ ] MVP 체크리스트 빈 템플릿 준비
 
 **자기 점검**:
 
-- [ ] ARCHITECTURE.md 보완을 시작했는가
-- [ ] MVP 체크리스트를 작성했는가 (Must have 3개 이하)
-- [ ] DB 테이블 생성을 시작했는가
-- [ ] context.md에 Ch8~12의 모든 기술 결정 사항이 반영되었는가
+- [ ] ARCHITECTURE.md에 확장 테이블(comments, tags, post_tags)을 추가했는가
+- [ ] 확장 기능 체크리스트를 확인했는가 (Must have: 댓글 + 태그)
+- [ ] 확장 테이블 생성을 시작했는가
+- [ ] context.md에 확장 기능 관련 내용이 반영되었는가
 - [ ] todo.md의 최종 진행률이 갱신되었는가
 

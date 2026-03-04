@@ -16,7 +16,7 @@ practice/chapter2/complete/
 │   └── copilot-instructions.md  ← 모범 copilot-instructions.md
 ├── app/
 │   ├── layout.js       ← 공통 레이아웃 (Tailwind 설정)
-│   ├── page.js         ← 자기소개 페이지 (모범 구현)
+│   ├── page.js         ← 블로그 소개 페이지 (모범 구현)
 │   └── globals.css     ← Tailwind 기본 import
 ├── package.json
 ├── tailwind.config.js
@@ -70,7 +70,7 @@ export default function Home() {
 }
 ```
 
-**왜 이렇게 했는가**: 자기소개 페이지는 정적 콘텐츠이다. 상태(useState)나 이벤트 처리(onClick)가 필요 없으므로 **서버 컴포넌트**로 충분하다. `"use client"`를 추가하면 불필요하게 클라이언트 번들 크기가 커진다.
+**왜 이렇게 했는가**: 블로그 소개 페이지는 정적 콘텐츠이다. 상태(useState)나 이벤트 처리(onClick)가 필요 없으므로 **서버 컴포넌트**로 충분하다. `"use client"`를 추가하면 불필요하게 클라이언트 번들 크기가 커진다.
 
 > Copilot은 습관적으로 `"use client"`를 추가하는 경향이 있다. 이것이 Ch2에서 가장 흔한 AI 실수 중 하나이다.
 
@@ -216,7 +216,7 @@ export default function Home() {
 
 이번 장에서 설정한 Copilot과 copilot-instructions.md는 **이후 모든 장에서 사용**된다:
 
-- Ch3(HTML + Tailwind): Copilot에게 게시판 UI 생성을 요청하고, 시맨틱 태그와 Tailwind 클래스를 검증한다
+- Ch3(HTML + Tailwind): Copilot에게 블로그 레이아웃 생성을 요청하고, 시맨틱 태그와 Tailwind 클래스를 검증한다
 - Ch4(JavaScript): Copilot에게 동적 기능 구현을 요청하고, 비동기 패턴을 검증한다
 - Ch5~12: 매 장마다 copilot-instructions.md에 새로운 규칙을 추가하며, AI와의 협업 품질을 높여간다
 

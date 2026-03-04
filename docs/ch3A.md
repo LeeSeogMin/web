@@ -1,6 +1,6 @@
 # Chapter 3. HTML 시맨틱과 Tailwind CSS — A회차: 강의
 
-> **미션**: Copilot과 함께 게시판 UI를 마크업하고 스타일링한다
+> **미션**: Copilot과 함께 블로그 레이아웃을 마크업하고 스타일링한다
 
 ---
 
@@ -23,7 +23,7 @@
 | 00:00~00:05 | 오늘의 미션 + 빠른 진단 |
 | 00:05~00:25 | HTML5 시맨틱 태그 + 폼 요소 |
 | 00:25~00:45 | Tailwind CSS 기초 + 클래스 읽는 법 |
-| 00:45~01:20 | 라이브 코딩 시연: 게시판 레이아웃 구현 |
+| 00:45~01:20 | 라이브 코딩 시연: 블로그 레이아웃 구현 |
 | 01:20~01:27 | 핵심 정리 + B회차 과제 스펙 공개 |
 | 01:27~01:30 | Exit ticket |
 
@@ -56,7 +56,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>게시판</title>
+  <title>블로그</title>
 </head>
 <body>
   <!-- 페이지 내용 -->
@@ -85,7 +85,7 @@ Next.js에서는 이 구조를 직접 작성하지 않는다. `app/layout.js`가
 |----------|------|------|
 | `charset` | 문자 인코딩 | `<meta charset="UTF-8">` |
 | `viewport` | 모바일 화면 최적화 | `<meta name="viewport" content="width=device-width, initial-scale=1.0">` |
-| `description` | 검색 결과 미리보기 | `<meta name="description" content="게시판 서비스">` |
+| `description` | 검색 결과 미리보기 | `<meta name="description" content="블로그 서비스">` |
 
 `viewport` 메타 태그가 없으면 모바일에서 데스크톱 화면이 축소되어 보인다. Next.js는 이를 자동 처리하지만, AI가 순수 HTML을 생성할 때 누락하는 경우가 있으므로 확인이 필요하다.
 
@@ -104,11 +104,11 @@ Next.js에서는 이 구조를 직접 작성하지 않는다. `app/layout.js`가
 
 > **강의 팁**: "div만 쓰는 것은 모든 서류를 '문서'라고만 적는 것과 같다. 시맨틱 태그는 '이력서', '계약서', '보고서'처럼 이름표를 붙이는 것이다."
 
-### 3.2.2 주요 시맨틱 태그 — 게시판 구조로 설명
+### 3.2.2 주요 시맨틱 태그 — 블로그 구조로 설명
 
 **표 3.4** 시맨틱 태그와 용도
 
-| 태그 | 역할 | 게시판 예시 |
+| 태그 | 역할 | 블로그 예시 |
 |------|------|-----------|
 | `<header>` | 머리말 영역 | 사이트 제목, 로고 |
 | `<nav>` | 내비게이션 | 메뉴 링크 |
@@ -118,7 +118,7 @@ Next.js에서는 이 구조를 직접 작성하지 않는다. `app/layout.js`가
 | `<aside>` | 보조 정보 | 사이드바, 카테고리 |
 | `<footer>` | 바닥글 영역 | 저작권, 연락처 |
 
-게시판을 시맨틱 태그로 구성하면 다음과 같다:
+블로그을 시맨틱 태그로 구성하면 다음과 같다:
 
 ```
 ┌─────────────────────────────┐
@@ -140,13 +140,13 @@ heading 태그(`<h1>`~`<h6>`)는 반드시 순서대로 사용한다. 한 페이
 
 ```html
 <!-- ✅ 올바른 구조 -->
-<h1>게시판</h1>
+<h1>블로그</h1>
   <h2>최신 게시글</h2>
     <h3>React 18 새 기능</h3>
     <h3>Tailwind CSS 4 변경점</h3>
 
 <!-- ❌ 잘못된 구조 — h1 다음에 h3가 바로 온다 -->
-<h1>게시판</h1>
+<h1>블로그</h1>
   <h3>최신 게시글</h3>
 ```
 
@@ -158,7 +158,7 @@ heading 태그(`<h1>`~`<h6>`)는 반드시 순서대로 사용한다. 한 페이
 
 ### 3.3.1 input, select, textarea
 
-게시판에서 폼은 "글 작성", "로그인", "검색" 등에 사용된다.
+블로그에서 폼은 "글 작성", "로그인", "검색" 등에 사용된다.
 
 **표 3.5** 주요 폼 요소
 
@@ -287,7 +287,7 @@ VS Code에서 **Tailwind CSS IntelliSense** 확장을 설치하면 클래스명 
 
 ## 3.5 레이아웃과 반응형
 
-> **라이브 코딩 시연**: 교수가 게시판 레이아웃을 Tailwind CSS로 처음부터 구현한다. 내비게이션 바 → 카드 리스트 → 반응형 적용 순서로 진행한다.
+> **라이브 코딩 시연**: 교수가 블로그 레이아웃을 Tailwind CSS로 처음부터 구현한다. 내비게이션 바 → 카드 리스트 → 반응형 적용 순서로 진행한다.
 
 ### 3.5.1 Flexbox: flex, justify, items, gap
 
@@ -308,7 +308,7 @@ Flexbox는 **한 줄로 요소를 배치**할 때 사용한다. 내비게이션 
 
 ```jsx
 <nav className="flex justify-between items-center p-4 bg-white shadow">
-  <h1 className="text-xl font-bold">게시판</h1>
+  <h1 className="text-xl font-bold">블로그</h1>
   <div className="flex gap-4">
     <a href="/" className="hover:text-blue-500">홈</a>
     <a href="/login" className="hover:text-blue-500">로그인</a>
@@ -398,7 +398,7 @@ _전체 프로젝트는 practice/chapter3/ 참고_
 
 ### B회차 과제 스펙
 
-**게시판 메인 페이지 만들기**:
+**블로그 메인 페이지 만들기**:
 1. 내비게이션 바: 사이트 제목 + 메뉴 링크
 2. 게시글 목록: 카드 형태, 최소 3개의 더미 게시글
 3. 반응형: 모바일 1열, 데스크톱 2열 이상
@@ -415,7 +415,7 @@ _전체 프로젝트는 practice/chapter3/ 참고_
 
 ```jsx
 <div>
-  <h1>게시판</h1>
+  <h1>블로그</h1>
   <div>
     <h3>최신 게시글</h3>
     <div class="p-4">
@@ -436,7 +436,7 @@ _전체 프로젝트는 practice/chapter3/ 참고_
 - [ ] B회차 스타터 코드 준비 (`practice/chapter3/starter/`)
 - [ ] Tailwind CSS IntelliSense 확장 설치 확인
 - [ ] DevTools 디바이스 모드 시연 준비
-- [ ] 게시판 레이아웃 라이브 코딩 순서 리허설
+- [ ] 블로그 레이아웃 라이브 코딩 순서 리허설
 
 **수업 후 체크**:
 - [ ] 학생들이 시맨틱 태그 vs div 차이를 이해했는가

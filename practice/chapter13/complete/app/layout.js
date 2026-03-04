@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "독서 기록 — 나의 책장",
-  description: "읽은 책을 기록하고 관리하는 웹 앱",
+  title: "내 블로그 — 카테고리 확장",
+  description: "Ch13 개인 프로젝트 모범 구현 — 블로그에 카테고리와 댓글 기능 추가",
 };
 
 export default function RootLayout({ children }) {

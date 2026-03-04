@@ -14,7 +14,7 @@ _전체 프로젝트는 practice/chapter1/complete/ 참고_
 practice/chapter1/complete/
 ├── app/
 │   ├── layout.js       ← 공통 레이아웃 (Tailwind 설정)
-│   ├── page.js         ← 프로필 페이지 (모범 구현)
+│   ├── page.js         ← 블로그 첫 페이지 (모범 구현)
 │   └── globals.css     ← Tailwind 기본 import
 ├── package.json
 ├── tailwind.config.js
@@ -80,8 +80,8 @@ export default function Home() {
 import "./globals.css";
 
 export const metadata = {
-  title: "내 프로필",
-  description: "Ch1 개인 프로필 페이지",
+  title: "내 블로그",
+  description: "Ch1 블로그 첫 페이지",
 };
 
 export default function RootLayout({ children }) {
@@ -171,8 +171,8 @@ export default function Home() {
 
 ## 다음 장 연결
 
-이번 장에서 완성한 프로필 페이지는 Ch2(Copilot 세팅과 바이브코딩)에서 업그레이드된다:
-- GitHub Copilot을 설치하고 AI에게 프로필 페이지 개선을 요청한다
+이번 장에서 완성한 블로그 첫 페이지는 Ch2(Copilot 세팅과 바이브코딩)에서 업그레이드된다:
+- GitHub Copilot을 설치하고 AI에게 블로그 소개 페이지 개선을 요청한다
 - copilot-instructions.md를 작성하여 프로젝트 컨텍스트를 제공한다
 - AI가 생성한 코드를 검증하는 방법을 배운다
 

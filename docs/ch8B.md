@@ -16,7 +16,7 @@
 | 00:30~00:50 | 체크포인트 2: 클라이언트 초기화 + SQL 테이블 생성 |
 | 00:50~01:05 | 체크포인트 3: 연결 테스트 + Vercel 배포 |
 | 01:05~01:10 | Google Classroom 제출 |
-| 01:10~01:25 | 결과 공유 + 코드리뷰 토론 |
+| 01:10~01:25 | C파일 공개 + 비교 + 코드 수정 |
 | 01:25~01:30 | 교수 종합 피드백 + 다음 주 예고 |
 
 ---
@@ -70,11 +70,28 @@ macOS Terminal도 동일하다.
 
 > **Copilot 활용**: 이번 실습에서는 Copilot Chat에 Supabase 연동 코드를 요청한다. 환경 변수와 클라이언트 설정은 A회차에서 배운 패턴과 정확히 일치하는지 반드시 검증한다.
 
-### Skills 활용 가이드 (권장)
+### 이번 실습에서 활용할 MCP · Skills
 
-- `api-safety-check`: 환경 변수 사용, `anon` 키 사용 여부, Supabase 호출 에러 처리 누락을 점검한다.
-- 사용 시점: `lib/supabase/client.ts`, `lib/supabase/server.ts` 작성 직후.
-- 점검 프롬프트 예시: `api-safety-check 기준으로 키 사용/에러 처리/검증 누락을 찾아줘.`
+이번 챕터부터 **Supabase MCP**를 처음 사용한다. Ch2에서 설치한 Context7과 함께 활용한다.
+
+**Supabase MCP 설치** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
+
+> **Copilot 프롬프트**
+> ".vscode/mcp.json에 supabase MCP 서버를 추가해줘.
+> command는 npx, args는 ["-y", "supabase-mcp-server@latest", "--read-only"].
+> env에 SUPABASE_URL과 SUPABASE_SERVICE_ROLE_KEY를 ${input:...} 방식으로 설정해줘."
+
+<!-- COPILOT_VERIFY: 위 프롬프트로 Supabase MCP가 mcp.json에 추가되고 정상 동작하는지 확인해주세요 -->
+
+| 도구 | 활용 방법 |
+|------|----------|
+| **Context7** | `@supabase/ssr` 최신 API로 클라이언트를 설정한다. `use context7`을 붙인다. |
+| **Supabase MCP** | 테이블 목록 조회, 스키마 확인을 Copilot 안에서 직접 수행한다. |
+| **secret-guard** | `lib/supabase/client.ts`, `lib/supabase/server.ts` 작성 직후, 키 노출과 `.env.local` 사용을 점검한다. |
+
+- Context7 예시: `use context7. @supabase/ssr에서 createBrowserClient와 createServerClient 사용법을 알려줘`
+- Supabase MCP 예시: `Supabase 프로젝트의 테이블 목록을 보여줘`
+- Skills 점검 예시: `secret-guard 기준으로 Supabase 키 노출이나 .env.local 미사용을 찾아줘`
 
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
@@ -245,20 +262,25 @@ Google Classroom의 "Ch8 과제"에 아래 두 항목을 제출한다:
 
 ---
 
-## 코드리뷰 토론 가이드
+## C파일 비교 + 코드 수정 가이드
 
-> **토론 가이드**: 2-3명이 자발적으로 화면을 공유하며 결과를 발표한다.
+> 제출 마감 후 교수가 C파일(모범 구현)을 화면에 공개한다. 학생은 자기 코드와 비교하여 차이점을 찾고 수정한다.
 
-**발표 포인트** (1인당 3-5분):
-1. 배포된 URL을 브라우저에 띄운다
-2. Supabase 대시보드의 테이블 구조를 보여준다
-3. 데이터가 화면에 표시되는지 보여준다
-4. Copilot이 틀린 부분과 어떻게 수정했는지 설명한다
+**진행 순서** (15분):
 
-**토론 질문**:
-- "브라우저 클라이언트와 서버 클라이언트를 왜 분리하는가?"
-- "`.env.local`에 저장한 키가 GitHub에 올라가면 어떤 위험이 있는가?"
-- "Vercel에 환경 변수를 별도 등록해야 하는 이유는 무엇인가?"
+| 시간 | 활동 |
+|------|------|
+| 3분 | 교수가 C파일 핵심 구조를 화면 공유로 설명 |
+| 5분 | 학생이 자기 코드와 C파일을 비교 — 다른 부분 3개 이상 찾기 |
+| 5분 | 다른 부분 중 1개를 선택하여 자기 코드 수정 |
+| 2분 | 교수가 핵심 차이점 1~2개 짚어줌 |
+
+**비교 포인트**:
+- 클라이언트 분리: `lib/supabase/client.ts`(브라우저)와 `server.ts`(서버)가 올바르게 분리되었는가?
+- 환경 변수: `.env.local`에 저장했는가? `service_role` 키가 브라우저 코드에 없는가?
+- 테이블 구조: SQL 스키마가 모범 구현과 동일한가? FK, 타입이 다른 부분은?
+
+_전체 모범 구현은 practice/chapter8/complete/ 참고_
 
 ---
 

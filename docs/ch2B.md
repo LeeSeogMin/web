@@ -1,6 +1,6 @@
 ﻿# Chapter 2. Copilot 세팅과 바이브코딩 — B회차: 실습
 
-> **미션**: Copilot으로 자기소개 페이지를 만들고 배포한다
+> **미션**: Copilot으로 블로그 소개 페이지를 만들고 배포한다
 
 ---
 
@@ -13,10 +13,10 @@
 | 00:00~00:05 | A회차 핵심 리캡 + 과제 스펙 확인 |
 | 00:05~00:10 | 바이브코딩 가이드 + 스타터 코드 안내 |
 | 00:10~00:25 | 체크포인트 1: Copilot 확인 + copilot-instructions.md 완성 |
-| 00:25~00:45 | 체크포인트 2: 자기소개 페이지 생성 + 검증 |
+| 00:25~00:45 | 체크포인트 2: 블로그 소개 페이지 생성 + 검증 |
 | 00:45~01:00 | 체크포인트 3: AI 사용 로그 + 배포 |
 | 01:00~01:05 | Google Classroom 제출 |
-| 01:05~01:25 | 결과 공유 + 코드리뷰 토론 |
+| 01:05~01:25 | C파일 공개 + 비교 + 코드 수정 |
 | 01:25~01:30 | 교수 종합 피드백 + 다음 주 예고 |
 
 ---
@@ -25,11 +25,11 @@
 
 ### 과제 요구사항
 
-**Copilot 설정 + 자기소개 페이지**를 만든다:
+**Copilot 설정 + 블로그 소개 페이지**를 만든다:
 
 ① GitHub Copilot / Copilot Chat 확장 설치 완료
 ② `.github/copilot-instructions.md` 파일 작성 완료
-③ Copilot Chat을 사용하여 자기소개 페이지 생성 (이름, 학교, 전공, 취미 등)
+③ Copilot Chat을 사용하여 블로그 소개 페이지 생성 (이름, 학교, 전공, 취미 등)
 ④ AI 코드 검증 체크리스트 수행
 ⑤ git push → Vercel 배포 + AI 사용 로그 작성
 
@@ -43,7 +43,7 @@ practice/chapter2/starter/
 │   └── copilot-instructions.md  ← 템플릿 (TODO 항목 채워넣기)
 ├── app/
 │   ├── layout.js       ← 공통 레이아웃 (Tailwind 설정 완료)
-│   ├── page.js         ← 메인 페이지 (Ch1 프로필 뼈대)
+│   ├── page.js         ← 메인 페이지 (Ch1 블로그 첫 페이지 뼈대)
 │   └── globals.css     ← Tailwind 기본 import
 ├── package.json        ← 의존성 (버전 고정)
 ├── tailwind.config.js
@@ -67,12 +67,38 @@ macOS Terminal도 동일하다.
 
 ## 바이브코딩 가이드
 
-> **Copilot 활용**: 이번 실습에서는 Copilot Chat에 프롬프트를 입력하여 자기소개 페이지를 생성한다. 생성된 코드를 그대로 쓰지 말고, A회차에서 배운 검증 체크리스트로 반드시 확인한다.
+> **Copilot 활용**: 이번 실습에서는 Copilot Chat에 프롬프트를 입력하여 블로그 소개 페이지를 생성한다. 생성된 코드를 그대로 쓰지 말고, A회차에서 배운 검증 체크리스트로 반드시 확인한다.
+
+### MCP · Skills 초기 설정
+
+이번 실습에서 MCP와 Skills를 처음 설정한다. 이후 모든 챕터에서 활용하므로 반드시 완료한다.
+
+**① MCP 설치** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
+
+> **Copilot 프롬프트**
+> "이 프로젝트에 .vscode/mcp.json 파일을 생성하고, context7 MCP 서버를 설정해줘.
+> command는 npx, args는 ["-y", "@upstash/context7-mcp@latest"]로 설정해줘."
+
+<!-- COPILOT_VERIFY: 위 프롬프트로 .vscode/mcp.json이 정상 생성되는지 확인해주세요 -->
+
+설치 후 테스트: `use context7. Next.js App Router에서 page.tsx의 역할을 설명해줘`
+
+> Supabase MCP는 Ch8에서 Supabase 프로젝트를 생성한 후 설정한다.
+
+**② Skills 생성** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
+
+> **Copilot 프롬프트**
+> "이 프로젝트 루트에 아래 2개 Skill을 생성해줘.
+> 1) .github/skills/nextjs-basic-check/SKILL.md — App Router(app/) 구조, Server/Client 컴포넌트 구분, next/navigation 사용 규칙
+> 2) .github/skills/secret-guard/SKILL.md — API 키 하드코딩 금지, .env.local 사용 강제, NEXT_PUBLIC_ 접두사에 민감한 키 금지
+> 각 SKILL.md는 한국어 지침 4~6줄로 작성해줘."
+
+<!-- COPILOT_VERIFY: 위 프롬프트로 .github/skills/ 아래 두 Skill 파일이 정상 생성되는지 확인해주세요 -->
 
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
 ❌ 나쁜 프롬프트:
-> "자기소개 페이지 만들어줘"
+> "블로그 소개 페이지 만들어줘"
 
 문제: 기술 스택, 파일 위치, 디자인 요구사항이 전혀 없다.
 
@@ -82,7 +108,7 @@ macOS Terminal도 동일하다.
 > [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "Next.js App Router의 app/page.js에 자기소개 페이지를 만들어줘.
+> "Next.js App Router의 app/page.js에 블로그 소개 페이지를 만들어줘.
 > Tailwind CSS를 사용하고, 배경은 밝은 회색(bg-gray-50).
 > 중앙에 흰색 카드(bg-white, rounded-lg, shadow) 배치.
 > 카드 안에 이름, 학교, 전공, 취미를 표시해줘.
@@ -106,11 +132,11 @@ macOS Terminal도 동일하다.
 
 > **강의 팁**: Copilot이 설치 안 된 학생은 Codeium(무료 대안)을 설치하도록 안내한다. copilot-instructions.md는 AI 도구에 관계없이 작성한다.
 
-### 체크포인트 2: 자기소개 페이지 생성 + 검증 (20분)
+### 체크포인트 2: 블로그 소개 페이지 생성 + 검증 (20분)
 
-**목표**: Copilot으로 자기소개 페이지를 만들고 검증한다.
+**목표**: Copilot으로 블로그 소개 페이지를 만들고 검증한다.
 
-① Copilot Chat에 프롬프트를 입력하여 자기소개 코드를 생성한다
+① Copilot Chat에 프롬프트를 입력하여 블로그 소개 코드를 생성한다
 ② 생성된 코드를 `app/page.js`에 붙여넣는다
 ③ **검증 체크리스트 수행**:
    - import 경로가 올바른가?
@@ -124,7 +150,7 @@ macOS Terminal도 동일하다.
 > [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "이 자기소개 페이지에 GitHub 링크와 이메일 링크를 추가해줘. 아이콘 대신 텍스트 링크로 하고, hover:text-blue-500 효과를 넣어줘."
+> "이 블로그 소개 페이지에 GitHub 링크와 이메일 링크를 추가해줘. 아이콘 대신 텍스트 링크로 하고, hover:text-blue-500 효과를 넣어줘."
 
 > **강의 팁**: 순회하며 학생들이 검증 체크리스트를 실제로 수행하고 있는지 확인한다. "Copilot이 생성한 코드에서 뭔가 이상한 점을 발견했나요?"라고 질문한다.
 
@@ -143,7 +169,7 @@ macOS Terminal도 동일하다.
 ② git add → git commit → git push로 배포한다:
 ```bash
 git add .
-git commit -m "Ch2: 자기소개 페이지 + copilot-instructions.md"
+git commit -m "Ch2: 블로그 소개 페이지 + copilot-instructions.md"
 git push
 ```
 ③ Vercel 대시보드에서 배포 완료를 확인한다
@@ -199,20 +225,25 @@ Google Classroom의 "Ch2 과제"에 아래 항목을 제출한다:
 
 ---
 
-## 코드리뷰 토론 가이드
+## C파일 비교 + 코드 수정 가이드
 
-> **토론 가이드**: 2-3명이 자발적으로 화면을 공유하며 결과를 발표한다.
+> 제출 마감 후 교수가 C파일(모범 구현)을 화면에 공개한다. 학생은 자기 코드와 비교하여 차이점을 찾고 수정한다.
 
-**발표 포인트** (1인당 3-5분):
-1. 배포된 URL을 브라우저에 띄운다
-2. Copilot에게 어떤 프롬프트를 줬는지 보여준다
-3. AI가 틀린 부분과 어떻게 수정했는지 설명한다
-4. copilot-instructions.md에 추가한 규칙이 있으면 공유한다
+**진행 순서** (20분):
 
-**토론 질문**:
-- "같은 프롬프트인데 다른 결과가 나왔다면, 왜 그런가?"
-- "copilot-instructions.md가 있을 때와 없을 때 AI 응답이 달랐는가?"
-- "AI 사용 로그에서 가장 흔한 실수 유형은 무엇이었는가?"
+| 시간 | 활동 |
+|------|------|
+| 3분 | 교수가 C파일 핵심 구조를 화면 공유로 설명 |
+| 7분 | 학생이 자기 코드와 C파일을 비교 — 다른 부분 3개 이상 찾기 |
+| 7분 | 다른 부분 중 1개를 선택하여 자기 코드 수정 |
+| 3분 | 교수가 핵심 차이점 1~2개 짚어줌 |
+
+**비교 포인트**:
+- copilot-instructions.md: 모범 구현의 지시사항과 내가 작성한 것의 차이는?
+- 프롬프트 전략: 같은 기능을 모범 구현은 어떤 프롬프트로 만들었는가?
+- AI 사용 로그: 모범 구현의 검증 과정과 내 검증 과정을 비교
+
+_전체 모범 구현은 practice/chapter2/complete/ 참고_
 
 ---
 
@@ -228,5 +259,5 @@ Google Classroom의 "Ch2 과제"에 아래 항목을 제출한다:
 - copilot-instructions.md에 새로운 규칙을 추가한 사례
 
 **다음 주 예고**:
-> 다음 주에는 **HTML 시맨틱과 Tailwind CSS**를 배운다. 오늘 설정한 Copilot과 함께, 게시판 UI를 마크업하고 스타일링하는 실습을 진행한다.
+> 다음 주에는 **HTML 시맨틱과 Tailwind CSS**를 배운다. 오늘 설정한 Copilot과 함께, 블로그 레이아웃을 마크업하고 스타일링하는 실습을 진행한다.
 

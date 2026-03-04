@@ -1,4 +1,4 @@
-// Ch4 API 연동 게시판 — 스타터 코드
+// Ch4 API 연동 블로그 — 스타터 코드
 // Ch3 complete 기반 + fetch 스켈레톤
 // B회차에서 Copilot을 활용하여 API 연동과 필터/검색을 구현한다.
 
@@ -23,7 +23,7 @@ export default function Home() {
       {/* ── 헤더 + 내비게이션 ── */}
       <header className="bg-blue-600 text-white">
         <nav className="max-w-4xl mx-auto flex justify-between items-center p-4">
-          <h1 className="text-xl font-bold">게시판</h1>
+          <h1 className="text-xl font-bold">내 블로그</h1>
           <div className="flex gap-4">
             <a href="/" className="hover:underline">홈</a>
           </div>
@@ -52,7 +52,7 @@ export default function Home() {
 
       {/* ── 푸터 ── */}
       <footer className="mt-16 bg-gray-800 text-gray-400 text-center p-6">
-        <p className="text-sm">&copy; 2026 게시판. All rights reserved.</p>
+        <p className="text-sm">&copy; 2026 내 블로그. All rights reserved.</p>
       </footer>
     </div>
   );

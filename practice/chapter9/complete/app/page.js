@@ -1,4 +1,4 @@
-// Ch9 모범 구현 — 인증 연동 게시판 메인 페이지
+// Ch9 모범 구현 — 인증 연동 블로그 메인 페이지
 "use client";
 
 import { createClient } from "@/lib/supabase";
@@ -62,7 +62,7 @@ export default function Home() {
       </main>
 
       <footer className="mt-16 bg-gray-800 text-gray-400 text-center p-6">
-        <p className="text-sm">&copy; 2026 게시판. All rights reserved.</p>
+        <p className="text-sm">&copy; 2026 내 블로그. All rights reserved.</p>
       </footer>
     </div>
   );

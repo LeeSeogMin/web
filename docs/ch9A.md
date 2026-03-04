@@ -1,6 +1,6 @@
 ﻿# Chapter 9. Supabase Authentication — A회차: 강의
 
-> **미션**: 공감터(`mind-center`) 웹사이트에 이메일/비밀번호 로그인을 연결한다
+> **미션**: 내 블로그(`my-blog`)에 이메일/비밀번호 로그인을 연결한다
 
 ---
 
@@ -25,8 +25,8 @@
 [확정된 요구사항]
 - 로그인 방식: 이메일/비밀번호
 - 회원가입: 이메일/비밀번호 + 이름 입력
-- 로그인 필요 기능: (예: `/mindtalk/new`, `/mypage/*`, 예약 신청 폼 제출)
-- 로그인 후 이동: (예: `/mypage` 또는 `/mindtalk`)
+- 로그인 필요 기능: (예: `/posts/new`, `/mypage/*`)
+- 로그인 후 이동: (예: `/mypage` 또는 `/posts`)
 - 로그아웃 후 이동: (예: `/`)
 
 [환경]
@@ -94,7 +94,7 @@ graph LR
 
 ## 오늘의 미션 + 빠른 진단
 
-> **오늘의 질문**: "현재 게시판에 아무나 글을 쓸 수 있다. 어떻게 하면 '로그인한 사용자만' 글을 쓸 수 있게 만들 수 있을까?"
+> **오늘의 질문**: "현재 블로그에 아무나 글을 쓸 수 있다. 어떻게 하면 '로그인한 사용자만' 글을 쓸 수 있게 만들 수 있을까?"
 
 **빠른 진단** (1문항):
 
@@ -416,7 +416,7 @@ function AuthButtons() {
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "Next.js 미들웨어에서 Supabase 인증 상태를 확인하고,
 > 로그인하지 않은 사용자를 /login으로 리다이렉트하는 코드를 만들어줘.
-> 보호할 경로: /mypage, /mindtalk/new
+> 보호할 경로: /mypage, /posts/new
 > @supabase/ssr의 createServerClient를 사용해줘."
 
 ```typescript
@@ -462,7 +462,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/mypage/:path*", "/mindtalk/new"],
+  matcher: ["/mypage/:path*", "/posts/new"],
 };
 ```
 
@@ -509,7 +509,7 @@ todo.md에서 인증 관련 할 일을 찾아줘.
 - 인증: Supabase Auth (이메일/비밀번호)
 - 세션 관리: Supabase가 JWT 자동 발급/갱신
 - 전역 상태: AuthContext + useAuth Hook (lib/auth-context.tsx)
-- 보호된 라우트: middleware.ts에서 /mypage, /mindtalk/new 등 체크
+- 보호된 라우트: middleware.ts에서 /mypage, /posts/new 등 체크
 
 ## 해결된 이슈 (Ch9)
 

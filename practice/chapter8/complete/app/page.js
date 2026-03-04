@@ -1,4 +1,4 @@
-// Ch8 모범 구현 — Supabase에서 게시글을 읽어와 표시하는 페이지
+// Ch8 모범 구현 — Supabase에서 블로그 글을 읽어와 표시하는 페이지
 "use client";
 
 import { createClient } from "@/lib/supabase";
@@ -33,7 +33,7 @@ export default function Home() {
       {/* ── 헤더 ── */}
       <header className="bg-blue-600 text-white">
         <nav className="max-w-4xl mx-auto flex justify-between items-center p-4">
-          <h1 className="text-xl font-bold">게시판</h1>
+          <h1 className="text-xl font-bold">내 블로그</h1>
           <div className="flex gap-4">
             <a href="/" className="hover:underline">홈</a>
           </div>
@@ -80,7 +80,7 @@ export default function Home() {
 
       {/* ── 푸터 ── */}
       <footer className="mt-16 bg-gray-800 text-gray-400 text-center p-6">
-        <p className="text-sm">&copy; 2026 게시판. All rights reserved.</p>
+        <p className="text-sm">&copy; 2026 내 블로그. All rights reserved.</p>
       </footer>
     </div>
   );

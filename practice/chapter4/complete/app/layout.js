@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "게시판 — API 연동",
-  description: "Ch4 API 연동 게시판 — 모범 구현",
+  title: "내 블로그 — API 연동",
+  description: "Ch4 API 연동 블로그 — 모범 구현",
 };
 
 export default function RootLayout({ children }) {
