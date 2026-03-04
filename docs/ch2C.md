@@ -32,8 +32,8 @@ practice/chapter2/complete/
 
 ```markdown
 ## Tech Stack
-- Next.js 15.x (App Router ONLY — Pages Router 사용 금지)
-- Tailwind CSS 4.x
+- Next.js 14.2.21 (App Router ONLY — Pages Router 사용 금지)
+- Tailwind CSS 3.4.17
 - Vercel 배포
 ```
 
@@ -51,7 +51,6 @@ practice/chapter2/complete/
 
 **이 섹션이 가장 중요하다.** AI가 자주 틀리는 패턴을 "금지" + "대안"으로 명시한다. 단순히 "금지"만 적으면 AI가 무엇을 대신 써야 하는지 모른다. 반드시 **올바른 대안**을 함께 적는다.
 
-> **강의 팁**: 학생들에게 "앞으로 AI가 새로운 실수를 할 때마다 이 섹션에 추가하라"고 강조한다. 학기가 끝날 때쯤 이 섹션이 가장 길어져 있을 것이다.
 
 ---
 

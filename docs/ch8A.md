@@ -52,10 +52,10 @@ flowchart TD
 
 | 패키지                  | 버전   |
 | ----------------------- | ------ |
-| `next`                  | 16.1.6 |
-| `@supabase/supabase-js` | 2.97.0 |
-| `@supabase/ssr`         | 0.8.0  |
-| `tailwindcss`           | 4.x    |
+| `next`                  | 14.2.21 |
+| `@supabase/supabase-js` | 2.47.12 |
+| `@supabase/ssr`         | 0.5.2   |
+| `tailwindcss`           | 3.4.17  |
 
 ---
 
@@ -255,7 +255,7 @@ Ch6까지 만든 블로그는 `lib/posts.js`의 더미 데이터를 사용한다
 
 ### 8.2.1 가입 및 새 프로젝트 만들기
 
-> **함께 진행**: 화면을 보며 함께 따라한다
+> **실습 안내**: 안내 순서를 따라 Supabase 프로젝트를 설정한다.
 
 ① **Supabase 가입**: https://supabase.com 에서 **GitHub 계정으로 가입**한다 (별도 이메일 가입 불필요)
 
@@ -318,7 +318,8 @@ API Keys 페이지에는 **두 개의 탭**이 있다:
 | **Publishable and secret API keys**    | 새로운 키 체계 (`sb_publishable_...`, `sb_secret_...` 형식) |
 | **Legacy anon, service_role API keys** | 기존 JWT 기반 키 (`eyJhbG...` 형식)                         |
 
-현재 `@supabase/supabase-js` 라이브러리는 **Legacy 탭**의 JWT 형식 키를 사용한다. **"Legacy anon, service_role API keys"** 탭을 클릭하여 `anon` `public` 키를 복사한다:
+이 교재의 실습 코드(`practice/`)는 **Legacy `anon` 키 표기**를 기준으로 설명한다.  
+Supabase 대시보드에서 **Publishable/Secret 키만 보이는 경우**, 브라우저 코드에는 **Publishable(공개용) 키**를 사용하고 Secret 키는 절대 넣지 않는다.
 
 ```text
 anon  public    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...    [Copy]
@@ -485,7 +486,7 @@ export async function createClient() {
 - [ ] `service_role` 키가 아닌 `anon` 키를 사용하는가?
 - [ ] `lib/supabase/client.ts`와 `lib/supabase/server.ts` 두 파일이 모두 있는가?
 
-> **함께 진행**: 함께 `lib/supabase/client.ts` 파일을 만들고, 개발 서버에서 에러 없이 실행되는지 확인한다
+> **실습 안내**: `lib/supabase/client.ts` 파일을 만들고 개발 서버에서 에러 없이 실행되는지 확인한다.
 
 ### 8.3.4 Vercel 환경 변수 등록 + 배포 `🖱️ 직접 실행`
 
@@ -672,7 +673,7 @@ Copilot이 생성한 SQL을 Supabase 대시보드의 **SQL Editor**에 붙여넣
 
 > **왜 수동인가?** — SQL Editor는 브라우저 대시보드이므로 Copilot이 직접 실행할 수 없다. Copilot이 만든 SQL을 **복사 → SQL Editor에 붙여넣기 → Run 버튼 클릭**으로 진행한다.
 
-> **함께 진행**: SQL Editor를 열고, SQL을 붙여넣고, "Run" 버튼을 클릭한다
+> **실습 안내**: SQL Editor를 열고 SQL을 실행한다.
 
 실행 후 **Table Editor**로 이동하면 `profiles`와 `posts` 테이블이 생성된 것을 확인할 수 있다.
 

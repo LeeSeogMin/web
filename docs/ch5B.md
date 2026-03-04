@@ -17,7 +17,7 @@
 | 00:45~01:00 | 체크포인트 3: 검증 + 배포 |
 | 01:00~01:05 | Google Classroom 제출 |
 | 01:05~01:25 | C파일 공개 + 비교 + 코드 수정 |
-| 01:25~01:30 | 교수 종합 피드백 + 다음 주 예고 |
+| 01:25~01:30 | 학습 정리 + 다음 주 예고 |
 
 ---
 
@@ -119,7 +119,6 @@ macOS Terminal도 동일하다.
 ⑤ **key 속성 확인**: `map()` 안에 `key={post.id}`가 있는지 검사한다
 ⑥ **import 경로 확인**: `lib/posts.js`에서 올바르게 import했는지 검사한다
 
-> **강의 팁**: 순회하며 학생들이 Link 컴포넌트를 올바르게 사용하고 있는지 확인한다. `<a href>` 태그를 쓴 학생이 있으면 "Next.js에서는 Link를 사용한다"고 안내한다.
 
 ### 체크포인트 2: 상세 + 작성 페이지 (20분)
 
@@ -131,9 +130,9 @@ macOS Terminal도 동일하다.
 > [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "app/posts/[id]/page.js를 만들어줘. Next.js 14 App Router이므로 params는 Promise — await로 id 추출. lib/posts.js에서 해당 id의 게시글을 find로 찾아 표시. 없으면 next/navigation의 notFound() 호출. 목록으로 돌아가기 Link 포함. Tailwind CSS 사용."
+> "app/posts/[id]/page.js를 만들어줘. Next.js 14 App Router이므로 params에서 id를 추출해줘. lib/posts.js에서 해당 id의 게시글을 find로 찾아 표시. 없으면 next/navigation의 notFound() 호출. 목록으로 돌아가기 Link 포함. Tailwind CSS 사용."
 
-① 생성된 코드에서 `await params` 패턴을 사용했는지 확인한다
+① 생성된 코드에서 `const { id } = params` 패턴을 사용했는지 확인한다
 ② `find()`로 해당 id의 게시글을 찾는지 확인한다
 ③ 목록으로 돌아가는 Link가 있는지 확인한다
 
@@ -180,7 +179,7 @@ git push
 |------|------|
 | App Router 구조인가? (`app/posts/page.js`, `app/posts/[id]/page.js`, `app/posts/new/page.js`) | ☐ |
 | 모든 페이지가 `export default function`인가? | ☐ |
-| `[id]/page.js`에서 `const { id } = await params`를 사용하는가? | ☐ |
+| `[id]/page.js`에서 `const { id } = params`를 사용하는가? | ☐ |
 | Link import가 `next/link`인가? (`next/router` 아님) | ☐ |
 | useRouter import가 `next/navigation`인가? (`next/router` 아님) | ☐ |
 | `useState`/`useRouter` 사용 파일에 `"use client"` 있는가? | ☐ |
@@ -197,7 +196,7 @@ git push
 | AI 실수 | 올바른 방법 | 발생 원인 |
 |---------|------------|----------|
 | `import { useRouter } from "next/router"` | `from "next/navigation"` | Pages Router 학습 데이터 |
-| `const { id } = params` (await 없음) | `const { id } = await params` | Next.js 15 변경사항 미반영 |
+| `const { id } = await params` | `const { id } = params` | 교재 고정 버전(Next.js 14.2.21)과 불일치 |
 | `<a href="/posts">` 내부 링크 | `<Link href="/posts">` | HTML 기본 태그로 대체 |
 | `class="btn"` in JSX | `className="btn"` | HTML과 JSX 혼동 |
 | `pages/` 폴더 구조 | `app/` 폴더 구조 | Pages Router(구버전) 패턴 |
@@ -223,16 +222,16 @@ Google Classroom의 "Ch5 과제"에 아래 두 항목을 제출한다:
 
 ## C파일 비교 + 코드 수정 가이드
 
-> 제출 마감 후 교수가 C파일(모범 구현)을 화면에 공개한다. 학생은 자기 코드와 비교하여 차이점을 찾고 수정한다.
+> 제출 마감 후 C파일(모범 구현)을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
 
 **진행 순서** (20분):
 
 | 시간 | 활동 |
 |------|------|
-| 3분 | 교수가 C파일 핵심 구조를 화면 공유로 설명 |
+| 3분 | C파일 핵심 구조 확인 |
 | 7분 | 학생이 자기 코드와 C파일을 비교 — 다른 부분 3개 이상 찾기 |
 | 7분 | 다른 부분 중 1개를 선택하여 자기 코드 수정 |
-| 3분 | 교수가 핵심 차이점 1~2개 짚어줌 |
+| 3분 | 핵심 차이점 1~2개 정리 |
 
 **비교 포인트**:
 - 라우팅 구조: `app/posts/[id]/page.js`와 같은 동적 라우트 경로가 동일한가?
@@ -242,18 +241,4 @@ Google Classroom의 "Ch5 과제"에 아래 두 항목을 제출한다:
 _전체 모범 구현은 practice/chapter5/complete/ 참고_
 
 ---
-
-## 교수 피드백 포인트
-
-**확인할 것**:
-- App Router 구조 사용 여부 — `pages/` 폴더가 아닌 `app/` 폴더인지 확인
-- Link 컴포넌트 사용 여부 — `<a>` 태그 대신 Link 사용
-- params await 여부 — 동적 라우트에서 가장 흔한 실수
-- `"use client"` 적절한 사용 — 필요한 파일에만 붙였는지
-
-**우수 사례 공유**:
-- 잘 만든 페이지 1-2개를 화면에 띄워 동기부여
-
-**다음 주 예고**:
-> 다음 주에는 **상태 관리와 데이터 페칭**을 배운다. 지금까지는 정적 데이터를 표시만 했지만, 다음 주에는 검색, 좋아요, 폼 입력 같은 사용자 인터랙션을 처리한다. `useState`, `useEffect`, Server/Client Component의 차이를 배우고 블로그 프론트엔드를 완성한다.
 

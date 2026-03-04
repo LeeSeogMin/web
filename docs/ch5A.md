@@ -90,7 +90,6 @@ function PostCard() {
 }
 ```
 
-> **강의 팁**: "레고 블록처럼 조립한다"는 비유가 효과적이다. PostCard 블록을 여러 개 쌓으면 블로그가 되고, NavBar 블록을 얹으면 완성된 페이지가 된다.
 
 ### 5.1.2 JSX 문법: 표현식, 조건부 렌더링, 리스트
 
@@ -232,7 +231,7 @@ export default function PostsPage() {
 }
 ```
 
-> **함께 진행**: 학생들과 함께 `app/posts/page.js`를 만들고 브라우저에서 `/posts`에 접속하여 확인한다.
+> **실습 안내**: `app/posts/page.js`를 만들고 브라우저에서 `/posts` 접속 결과를 확인한다.
 
 **코드 읽기 포인트**:
 - `export default function` — 페이지 컴포넌트는 반드시 **default export**
@@ -330,7 +329,7 @@ export default function Error({ error, reset }) {
 
 ## 5.3 동적 라우트
 
-> **라이브 코딩 시연**: 교수가 게시글 목록/상세 페이지를 App Router로 구현하는 과정을 시연한다. 더미 데이터 배열 → 목록 페이지 → [id] 동적 라우트 → Link 내비게이션 순서로 진행한다.
+> **라이브 코딩 시연**: 게시글 목록/상세 페이지를 App Router로 구현하는 과정을 시연한다. 더미 데이터 배열 → 목록 페이지 → [id] 동적 라우트 → Link 내비게이션 순서로 진행한다.
 
 블로그에서 각 게시글은 고유한 URL을 가진다: `/posts/1`, `/posts/2`, `/posts/3`... 매번 `app/posts/1/page.js`, `app/posts/2/page.js`를 만들 수는 없다. **동적 라우트**(Dynamic Route)가 이 문제를 해결한다.
 
@@ -356,8 +355,8 @@ app/
 
 ```jsx
 // app/posts/[id]/page.js
-export default async function PostDetailPage({ params }) {
-  const { id } = await params; // Next.js 15+에서 params는 Promise
+export default function PostDetailPage({ params }) {
+  const { id } = params; // Next.js 14(App Router) 기준
 
   // 지금은 더미 데이터 사용 (Ch8에서 Supabase 연결 예정)
   const post = {
@@ -382,11 +381,10 @@ export default async function PostDetailPage({ params }) {
 }
 ```
 
-> ⚠️ **Next.js 15+ 주의사항**: `params`는 **Promise**이므로 반드시 `await`가 필요하다. AI가 `const { id } = params;`(await 없음)로 생성하면 에러가 발생한다. 이것은 Ch2에서 배운 **버전 불일치** 문제의 대표적 사례이다.
+> ⚠️ **이 교재 고정 버전(Next.js 14.2.21) 주의사항**: `params`는 객체로 전달된다. AI가 버전을 혼동해 `await params` 패턴을 제안하면 현재 실습 기준과 맞지 않으므로 `const { id } = params`로 맞춘다.
 
 **코드 읽기 포인트**:
-- `async function` — 서버 컴포넌트에서 `await`를 쓰기 위해 `async` 필수
-- `const { id } = await params` — Ch4에서 배운 구조 분해 할당으로 id 추출
+- `const { id } = params` — Ch4에서 배운 구조 분해 할당으로 id 추출
 - 현재 더미 데이터 객체 → Ch8에서 Supabase `select()`로 교체 예정
 
 **좋은 프롬프트 vs 나쁜 프롬프트**:
@@ -398,11 +396,11 @@ export default async function PostDetailPage({ params }) {
 > [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "app/posts/[id]/page.js를 만들어줘. Next.js 15+ App Router 사용. params는 Promise이므로 await로 id를 추출해줘. 더미 게시글 데이터(id, title, content, author, date)를 표시하고 Tailwind CSS로 기사 스타일 레이아웃 적용."
+> "app/posts/[id]/page.js를 만들어줘. Next.js 14 App Router 사용. params에서 id를 추출해줘. 더미 게시글 데이터(id, title, content, author, date)를 표시하고 Tailwind CSS로 기사 스타일 레이아웃 적용."
 
 나쁜 프롬프트는 어떤 폴더에 만들지, 어떤 버전의 Next.js인지, 어떤 데이터를 표시하는지 명시하지 않는다. AI는 Pages Router(구 방식)로 만들거나, params를 await하지 않을 수 있다. **copilot-instructions.md에 설치된 Next.js 버전과 App Router를 명시**해 두면 이 문제가 크게 줄어든다.
 
-<!-- COPILOT_VERIFY: Copilot이 params를 await하는지 반드시 확인. Next.js 15+에서 가장 흔한 AI 실수 -->
+<!-- COPILOT_VERIFY: Copilot이 교재 고정 버전(Next.js 14.2.21)에 맞게 params를 객체로 처리하는지 확인해주세요 -->
 
 ---
 
@@ -510,7 +508,7 @@ function NavLink({ href, children }) {
 
 `usePathname`도 `next/navigation`에서 가져온다. `useRouter`, `usePathname` 모두 `"use client"` 파일에서만 사용할 수 있다.
 
-> **함께 진행**: `app/layout.js`의 내비게이션 바에 NavLink 컴포넌트를 적용하고, 페이지를 이동할 때 활성 링크가 변하는지 확인한다. NavLink는 `components/NavLink.js` 파일로 분리한다.
+> **실습 안내**: `app/layout.js`의 내비게이션 바에 NavLink 컴포넌트를 적용하고, 페이지 이동 시 활성 링크 변화를 확인한다. NavLink는 `components/NavLink.js`로 분리한다.
 
 ---
 
@@ -562,19 +560,4 @@ export default function PostDetail({ params }) {
 정답: (1) `next/router` → `next/navigation`, (2) `params`는 Promise이므로 `await` 필요 + 함수에 `async` 추가, (3) `<a href="/posts">` → `<Link href="/posts">` (내부 이동)
 
 ---
-
-## 교수 메모
-
-**준비물 체크리스트**:
-- [ ] B회차 스타터 코드 준비 (`practice/chapter5/starter/`)
-- [ ] 라이브 코딩용 프로젝트 (Ch1의 my-first-web 또는 새 create-next-app)
-- [ ] `app/about/page.js` 시연용 코드 준비 (파일 기반 라우팅 시연)
-- [ ] 더미 게시글 데이터 파일 (`lib/posts.js`) 미리 작성
-- [ ] 학생 전원 `npm run dev` 실행 가능한지 사전 확인
-
-**수업 후 체크**:
-- [ ] 학생들이 파일 기반 라우팅 개념을 이해했는가
-- [ ] JSX의 핵심 규칙(className, key, 단일 부모)을 이해했는가
-- [ ] 동적 라우트 [id]와 params의 관계를 설명할 수 있는가
-- [ ] Link와 useRouter의 차이를 구분할 수 있는가
 

@@ -377,7 +377,7 @@ const { data: posts, error } = await supabase
 > 작성자 이름도 함께 표시하고, 최신순으로 정렬해줘.
 > useEffect와 useState를 사용하는 클라이언트 컴포넌트로 만들어줘."
 
-> **함께 진행**: PostList 컴포넌트를 함께 만들며 Supabase 쿼리가 React에서 어떻게 연결되는지 확인한다
+> **실습 안내**: PostList 컴포넌트를 만들며 Supabase 쿼리와 React 연결 흐름을 확인한다.
 
 ```tsx
 // components/post-list.tsx
@@ -664,7 +664,7 @@ await supabase.from("posts").update({ title: "수정된 제목" });
 ## 현재 상태
 
 - 마지막 작업일: 2026-02-26
-- 완료된 작업: 2026년 기준 교육 자료 업데이트 및 동기화 (Next.js 16, Tailwind v4 준수)
+- 완료된 작업: 2026년 기준 교육 자료 업데이트 및 동기화 (Next.js 14.2.21, Tailwind 3.4.17 기준)
 - 작업자: Bive AI (GitHub Copilot)
 
 ---
@@ -683,4 +683,3 @@ await supabase.from("posts").update({ title: "수정된 제목" });
 - [ ] `{ data, error }` 응답 패턴과 에러 처리의 중요성을 인식했는가
 - [ ] "UI에서 숨기기 != 보안"이라는 포인트를 이해했는가
 - [ ] 세션 종료 시 context.md에 CRUD 패턴과 컴포넌트 구조를 기록했는가
-

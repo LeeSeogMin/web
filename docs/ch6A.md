@@ -365,7 +365,6 @@ function PostList({ posts }) {
 | 데이터베이스 접근 | 가능 (보안) | 불가 (Supabase 클라이언트 제외) |
 | 번들 크기 | 브라우저에 포함 안 됨 | 브라우저에 포함됨 |
 
-> **강의 팁**: "기본은 서버 컴포넌트. 인터랙션이 필요한 부분만 'use client'로 빼낸다"가 핵심 원칙이다. 전체 페이지를 클라이언트 컴포넌트로 만들지 않는다.
 
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
@@ -382,7 +381,7 @@ function PostList({ posts }) {
 
 ---
 
-> **라이브 코딩 시연**: 교수가 블로그에 상태 관리와 데이터 페칭을 추가하는 과정을 시연한다. 구체적으로 (1) 검색 기능(useState + filter), (2) 서버 컴포넌트에서 데이터 가져오기(async/await fetch), (3) 클라이언트 컴포넌트에서 데이터 가져오기(useEffect + fetch) 3가지를 순서대로 구현한다.
+> **라이브 코딩 시연**: 블로그에 상태 관리와 데이터 페칭을 추가하는 과정을 시연한다. 구체적으로 (1) 검색 기능(useState + filter), (2) 서버 컴포넌트에서 데이터 가져오기(async/await fetch), (3) 클라이언트 컴포넌트에서 데이터 가져오기(useEffect + fetch) 3가지를 순서대로 구현한다.
 
 ## 6.4 데이터 페칭 패턴
 
@@ -559,7 +558,6 @@ export default function ThemeToggle() {
 
 <!-- COPILOT_VERIFY: ThemeContext를 Copilot에게 생성시키고 createContext, Provider, useContext 구조가 올바른지 확인해주세요 -->
 
-> **강의 팁**: "이 Context 패턴이 Ch9에서 로그인 상태를 관리하는 AuthContext의 기반이다"라고 미리 예고하면 학생들이 동기부여를 얻는다.
 
 ### 6.5.2 커스텀 훅으로 로직 재사용
 
@@ -656,18 +654,4 @@ function TodoList() {
 정답: (1) `todos.push()`로 기존 배열을 직접 수정하고 있다 — `setTodos([...todos, "새 할일"])`로 새 배열을 만들어야 한다. (2) 같은 참조를 setTodos에 전달하므로 React가 변경을 감지하지 못할 수 있다.
 
 ---
-
-## 교수 메모
-
-**준비물 체크리스트**:
-- [ ] Ch5 완성 프로젝트 (블로그 3페이지: 목록/상세/작성)
-- [ ] JSONPlaceholder API 동작 확인 (https://jsonplaceholder.typicode.com/posts)
-- [ ] 좋아요 버튼 라이브 코딩 시연 준비 (useState 기초)
-- [ ] Server/Client Component 비교 시연 준비 (같은 데이터 페칭을 두 방식으로)
-- [ ] B회차 스타터 코드 준비 (`practice/chapter6/starter/`)
-
-**수업 후 체크**:
-- [ ] 학생들이 useState/useEffect 차이를 이해했는가
-- [ ] Server Component vs Client Component 구분 기준을 설명할 수 있는가
-- [ ] 불변성 패턴(스프레드/filter/map)을 이해했는가
 

@@ -47,7 +47,6 @@ const [error, setError] = useState(null);                // 에러 상태
 
 **왜 이렇게 했는가**: 원본 데이터(`posts`)와 표시용 데이터(`filteredPosts`)를 분리했다. 필터/검색 조건이 바뀌면 원본에서 다시 걸러내는 방식이다. 원본을 직접 수정하면 "전체 보기"로 되돌릴 수 없다.
 
-> **강의 팁**: "왜 상태를 이렇게 많이 나누었는가?" 질문이 나올 수 있다. 각 상태가 독립적인 역할을 한다는 점을 설명한다 — posts는 API 원본, filteredPosts는 화면 표시용, selectedUser와 searchTerm은 필터 조건.
 
 #### 3. fetch 패턴 (async/await + 에러 처리)
 

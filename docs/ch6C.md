@@ -44,7 +44,6 @@ app/page.js (Server Component)
 
 **왜 이렇게 했는가**: 메인 페이지(`page.js`)는 더미 데이터를 표시하기만 하므로 Server Component로 유지한다. 검색 기능은 사용자 입력(onChange)이 필요하므로 `SearchBar`만 Client Component로 분리한다.
 
-> **강의 팁**: 전체 페이지에 `"use client"`를 넣은 학생이 있다면, "Server Component가 기본이고, 인터랙션이 필요한 최소 단위만 Client Component로 빼낸다"는 원칙을 다시 강조한다.
 
 **잘못된 구조 vs 올바른 구조**:
 

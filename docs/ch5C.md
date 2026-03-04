@@ -51,7 +51,6 @@ export const posts = [
 
 **왜 이렇게 했는가**: 데이터를 별도 파일로 분리하면 여러 페이지에서 같은 데이터를 import할 수 있다. 목록 페이지에서는 전체 배열을, 상세 페이지에서는 `find()`로 한 개를 꺼낸다. Ch8에서 Supabase를 연결할 때 이 파일만 교체하면 된다.
 
-> **강의 팁**: id를 문자열(`"1"`)로 지정한 이유 — URL 파라미터(`params.id`)는 항상 문자열이다. `find()`에서 `===`로 비교할 때 타입이 일치해야 한다. 숫자(`1`)로 저장하면 `"1" === 1`이 `false`가 되어 게시글을 찾지 못한다.
 
 ---
 
@@ -117,8 +116,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { posts } from "../../../lib/posts";
 
-export default async function PostDetailPage({ params }) {
-  const { id } = await params;
+export default function PostDetailPage({ params }) {
+  const { id } = params;
 
   const post = posts.find((p) => p.id === id);
 
@@ -144,7 +143,7 @@ export default async function PostDetailPage({ params }) {
 ```
 
 **확인 포인트**:
-- `async function` + `await params` — Next.js 15에서 params는 Promise
+- `const { id } = params` — Next.js 14(App Router)에서 URL 파라미터 추출
 - `posts.find((p) => p.id === id)` — Ch4에서 배운 find 메서드 활용
 - `notFound()` — 게시글이 없으면 404 페이지 자동 표시
 - `import { notFound } from "next/navigation"` — next/navigation에서 import
@@ -311,7 +310,7 @@ if (!post) {
 | 실수 | 증상 | 해결 |
 |------|------|------|
 | `next/router` import | 에러 또는 비정상 동작 | `next/navigation`으로 변경 |
-| `params` await 누락 | `params`가 Promise 객체로 표시 | `const { id } = await params` |
+| `params`를 Promise로 가정 | 버전 설명과 코드가 어긋남 | `const { id } = params`로 통일 |
 | `<a>` 태그로 내부 이동 | 전체 새로고침 발생 | `<Link>`로 변경 |
 | `"use client"` 누락 | `useState is not defined` 에러 | 파일 맨 위에 추가 |
 | id 타입 불일치 | 상세 페이지에서 게시글 못 찾음 | 더미 데이터 id를 문자열로 통일 |

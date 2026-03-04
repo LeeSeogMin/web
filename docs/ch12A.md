@@ -478,16 +478,16 @@ export const metadata = {
 };
 ```
 
-페이지별로 다른 메타데이터도 설정할 수 있다. Next.js 16에서 `params`는 Promise이므로 `await`가 필요하다:
+페이지별로 다른 메타데이터도 설정할 수 있다. 이 교재 고정 버전(Next.js 14.2.21)에서는 `params`를 객체로 받는다:
 
 ```typescript
 // app/posts/[id]/page.tsx
 interface Props {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 
 export async function generateMetadata({ params }: Props) {
-  const { id } = await params;
+  const { id } = params;
   const post = await fetchPost(id);
   return {
     title: `${post.title} — 내 블로그`,
@@ -604,7 +604,7 @@ export default function PostList({ posts, error }) {
 ## 현재 상태
 
 - 마지막 작업일: 2026-02-26
-- 완료된 작업: 2026년 기준 교육 자료 업데이트 및 동기화 (Next.js 16, Tailwind v4 준수)
+- 완료된 작업: 2026년 기준 교육 자료 업데이트 및 동기화 (Next.js 14.2.21, Tailwind 3.4.17 기준)
 - 작업자: Bive AI (GitHub Copilot)
 
 ---
@@ -622,4 +622,3 @@ export default function PostList({ posts, error }) {
 - [ ] error.tsx / loading.tsx 파일 기반 처리를 이해했는가
 - [ ] 사용자 친화적 에러 메시지의 3원칙을 이해했는가
 - [ ] 세션 종료 시 context.md에 에러/로딩/검증 패턴을 기록했는가
-

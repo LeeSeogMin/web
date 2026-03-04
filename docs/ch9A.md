@@ -585,7 +585,7 @@ export async function signIn(email, password) {
 ## 현재 상태
 
 - 마지막 작업일: 2026-02-26
-- 완료된 작업: 2026년 기준 교육 자료 업데이트 및 동기화 (Next.js 16, Tailwind v4 준수)
+- 완료된 작업: 2026년 기준 교육 자료 업데이트 및 동기화 (Next.js 14.2.21, Tailwind 3.4.17 기준)
 - 작업자: Bive AI (GitHub Copilot)
 
 ---
@@ -602,4 +602,3 @@ export async function signIn(email, password) {
 - [ ] 이메일 인증 흐름 (사용자 → Supabase → JWT)을 이해했는가
 - [ ] signInWithPassword, signOut, onAuthStateChange 역할을 이해했는가
 - [ ] 세션 종료 시 context.md에 인증 설정 내용을 기록했는가
-
