@@ -1,4 +1,14 @@
 # Book Project .gitignore
+# docs/, practice/, 강의계획서.md 만 원격에 업로드
+
+# 루트의 모든 항목 무시
+/*
+
+# 추적할 항목만 허용
+!.gitignore
+!/docs/
+!/practice/
+!/강의계획서.md
 
 # ===================
 # Python
