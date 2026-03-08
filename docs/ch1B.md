@@ -163,7 +163,7 @@ git push
 | 실수 | 증상 | 해결 |
 |------|------|------|
 | Node.js 미설치 | `npx: command not found` | Node.js LTS 설치 |
-| 프로젝트 폴더 밖에서 `npm run dev` | `Missing script: dev` | `cd my-first-web`으로 폴더 이동 |
+| 프로젝트 폴더 밖에서 `npm run dev` | `Missing script: dev` | `cd my-blog`으로 폴더 이동 |
 | `git push` 인증 실패 | `Authentication failed` | `gh auth login` 또는 PAT 발급 |
 | Vercel에 저장소가 안 보임 | Import 목록 비어있음 | GitHub 앱 권한 재설정 |
 | 기본 템플릿 미삭제 | 블로그 첫 페이지 대신 Next.js 기본 페이지 | `app/page.js` 내용 교체 |
@@ -176,7 +176,7 @@ Google Classroom의 "Ch1 과제"에 아래 항목을 제출한다:
 
 ```
 ① 배포 URL
-   예: https://my-first-web-xxxxx.vercel.app
+  예: https://my-blog-xxxxx.vercel.app
 ```
 
 > Ch1은 첫 수업이므로 "AI가 틀린 부분" 항목은 없다. 배포 URL만 제출한다.
