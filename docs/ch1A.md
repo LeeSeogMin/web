@@ -14,19 +14,6 @@
 
 ---
 
-## 수업 타임라인
-
-**표 1.1** A회차 수업 타임라인
-
-| 시간 | 내용 |
-|------|------|
-| 00:00~00:05 | 오늘의 미션 + 빠른 진단 |
-| 00:05~00:25 | 웹의 구조: 클라이언트-서버, HTTP, 브라우저 렌더링 |
-| 00:25~00:45 | 개발 환경 설정: Node.js, VS Code, Git |
-| 00:45~01:15 | 라이브 코딩 시연: create-next-app → GitHub → Vercel 배포 |
-| 01:15~01:27 | 핵심 정리 + B회차 과제 스펙 공개 |
-| 01:27~01:30 | Exit ticket |
-
 ---
 
 ## 오늘의 미션
@@ -216,7 +203,7 @@ git config --global user.email "본인@이메일.com"
 터미널을 열고, 프로젝트를 만들 폴더로 이동한 뒤 다음 명령어를 실행한다:
 
 ```bash
-npx create-next-app@latest my-blog
+npx create-next-app@latest my-first-web
 ```
 
 설치 중 질문이 나오면 다음과 같이 선택한다:
