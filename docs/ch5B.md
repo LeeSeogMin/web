@@ -18,40 +18,24 @@
 ④ 공통 레이아웃 — 내비게이션 바에 홈, 블로그, 새 글 쓰기 링크
 ⑤ Vercel 배포
 
-### 스타터 코드
+### 이번 챕터에서 추가/수정할 파일
 
-`practice/chapter5/starter/` 폴더에 기본 구조가 준비되어 있다.
+Ch4에서 만든 블로그 프로젝트를 이어서 사용한다. 아래 파일을 새로 만들거나 수정한다.
 
+- `lib/posts.js` — 새로 생성 (더미 게시글 데이터 3개)
+- `app/posts/page.js` — 새로 생성 (게시글 목록 페이지)
+- `app/posts/[id]/page.js` — 새로 생성 (게시글 상세 페이지)
+- `app/posts/new/page.js` — 새로 생성 (게시글 작성 페이지, `"use client"` 필요)
+- `app/layout.js` — 수정 (내비게이션 바에 홈, 블로그, 새 글 쓰기 링크 추가)
+
+```js
+// lib/posts.js — 더미 데이터 예시
+export const posts = [
+  { id: "1", title: "첫 번째 글", content: "첫 번째 글의 내용입니다.", author: "홍길동", date: "2025-01-01" },
+  { id: "2", title: "두 번째 글", content: "두 번째 글의 내용입니다.", author: "홍길동", date: "2025-01-02" },
+  { id: "3", title: "세 번째 글", content: "세 번째 글의 내용입니다.", author: "홍길동", date: "2025-01-03" },
+]
 ```
-practice/chapter5/starter/
-├── app/
-│   ├── layout.js       ← 공통 레이아웃 (네비 뼈대)
-│   ├── page.js         ← 홈 페이지 (블로그 안내)
-│   ├── globals.css     ← Tailwind 기본 import
-│   └── posts/
-│       ├── page.js     ← 목록 페이지 (뼈대만 있음)
-│       ├── new/
-│       │   └── page.js ← 작성 페이지 (빈 파일)
-│       └── [id]/
-│           └── page.js ← 상세 페이지 (빈 파일)
-├── lib/
-│   └── posts.js        ← 더미 게시글 데이터 (3개)
-├── components/         ← (비어있음 — NavLink 등 생성용)
-├── package.json        ← 의존성 (버전 고정)
-├── tailwind.config.js
-├── postcss.config.js
-└── next.config.js
-```
-
-**시작 방법** (PowerShell 기준):
-```bash
-cd practice/chapter5/starter
-npm install
-npm run dev
-```
-macOS Terminal도 동일하다.
-
-브라우저에서 http://localhost:3000 을 열어 기본 페이지가 보이는지 확인한다.
 
 ---
 
@@ -205,16 +189,16 @@ Google Classroom의 "Ch5 과제"에 아래 두 항목을 제출한다:
 
 ---
 
-## C파일 비교 + 코드 수정 가이드
+## 참고 구현
 
-> 제출 마감 후 C파일(모범 구현)을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
+> 제출 마감 후 모범 구현을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
 
 **진행 순서**:
 
 | 시간 | 활동 |
 |------|------|
-| 3분 | C파일 핵심 구조 확인 |
-| 7분 | 학생이 자기 코드와 C파일을 비교 — 다른 부분 3개 이상 찾기 |
+| 3분 | 참고 구현 핵심 구조 확인 |
+| 7분 | 자기 코드와 참고 구현을 비교 — 다른 부분 3개 이상 찾기 |
 | 7분 | 다른 부분 중 1개를 선택하여 자기 코드 수정 |
 | 3분 | 핵심 차이점 1~2개 정리 |
 
@@ -222,8 +206,6 @@ Google Classroom의 "Ch5 과제"에 아래 두 항목을 제출한다:
 - 라우팅 구조: `app/posts/[id]/page.js`와 같은 동적 라우트 경로가 동일한가?
 - Link vs `<a>`: 모범 구현은 모든 내비게이션에 `Link`를 사용했는가?
 - `"use client"`: 모범 구현에서 어떤 파일에만 `"use client"`를 사용했는가?
-
-_전체 모범 구현은 practice/chapter5/complete/ 참고_
 
 ---
 

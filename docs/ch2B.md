@@ -18,33 +18,12 @@
 ④ AI 코드 검증 체크리스트 수행
 ⑤ git push → Vercel 배포 + AI 사용 로그 작성
 
-### 스타터 코드
+### 이번 챕터에서 추가/수정할 파일
 
-`practice/chapter2/starter/` 폴더에 Ch1 결과물 + copilot-instructions.md 템플릿이 준비되어 있다.
+Ch1에서 만든 블로그 프로젝트를 이어서 사용한다.
 
-```
-practice/chapter2/starter/
-├── .github/
-│   └── copilot-instructions.md  ← 템플릿 (TODO 항목 채워넣기)
-├── app/
-│   ├── layout.js       ← 공통 레이아웃 (Tailwind 설정 완료)
-│   ├── page.js         ← 메인 페이지 (Ch1 블로그 첫 페이지 뼈대)
-│   └── globals.css     ← Tailwind 기본 import
-├── package.json        ← 의존성 (버전 고정)
-├── tailwind.config.js
-├── postcss.config.js
-└── next.config.js
-```
-
-**시작 방법** (PowerShell 기준):
-```bash
-cd practice/chapter2/starter
-npm install
-npm run dev
-```
-macOS Terminal도 동일하다.
-
-브라우저에서 http://localhost:3000 을 열어 기본 페이지가 보이는지 확인한다.
+- `.github/copilot-instructions.md` — 새로 생성 (Copilot 지시사항)
+- `app/page.js` — Copilot으로 블로그 소개 페이지 생성
 
 
 ---
@@ -65,7 +44,7 @@ macOS Terminal도 동일하다.
 
 <!-- COPILOT_VERIFY: 위 프롬프트로 .vscode/mcp.json이 정상 생성되는지 확인해주세요 -->
 
-설치 후 테스트: `use context7. Next.js App Router에서 page.tsx의 역할을 설명해줘`
+설치 후 테스트: `use context7. Next.js App Router에서 page.js의 역할을 설명해줘`
 
 > Supabase MCP는 Ch8에서 Supabase 프로젝트를 생성한 후 설정한다.
 
@@ -207,16 +186,16 @@ Google Classroom의 "Ch2 과제"에 아래 항목을 제출한다:
 
 ---
 
-## C파일 비교 + 코드 수정 가이드
+## 참고 구현
 
-> 제출 마감 후 C파일(모범 구현)을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
+> 제출 마감 후 모범 구현을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
 
 **진행 순서**:
 
 | 시간 | 활동 |
 |------|------|
-| 3분 | C파일 핵심 구조 확인 |
-| 7분 | 학생이 자기 코드와 C파일을 비교 — 다른 부분 3개 이상 찾기 |
+| 3분 | 참고 구현 핵심 구조 확인 |
+| 7분 | 자기 코드와 참고 구현을 비교 — 다른 부분 3개 이상 찾기 |
 | 7분 | 다른 부분 중 1개를 선택하여 자기 코드 수정 |
 | 3분 | 핵심 차이점 1~2개 정리 |
 
@@ -224,8 +203,6 @@ Google Classroom의 "Ch2 과제"에 아래 항목을 제출한다:
 - copilot-instructions.md: 모범 구현의 지시사항과 내가 작성한 것의 차이는?
 - 프롬프트 전략: 같은 기능을 모범 구현은 어떤 프롬프트로 만들었는가?
 - AI 사용 로그: 모범 구현의 검증 과정과 내 검증 과정을 비교
-
-_전체 모범 구현은 practice/chapter2/complete/ 참고_
 
 ---
 

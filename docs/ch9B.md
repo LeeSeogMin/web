@@ -13,49 +13,23 @@
 Ch8에서 연결한 Supabase에 이메일/비밀번호 인증을 추가한다:
 
 ① Supabase Auth Provider(Email) 설정 확인
-② `lib/auth.ts` — signInWithEmail, signUpWithEmail, signOut 구현
-③ `lib/auth-context.tsx` — AuthProvider + useAuth
-④ `components/layout/header.tsx` — 로그인/로그아웃 UI (기존 헤더에 통합)
-⑤ `app/login/page.tsx` — 이메일 로그인 UI
-⑥ `app/signup/page.tsx` — 이메일 회원가입 UI
+② `lib/auth.js` — signInWithEmail, signUpWithEmail, signOut 구현
+③ `contexts/AuthContext.js` — AuthProvider + useAuth
+④ `components/Navbar.js` — 로그인/로그아웃 UI (기존 헤더에 통합)
+⑤ `app/login/page.js` — 이메일 로그인 UI
+⑥ `app/signup/page.js` — 이메일 회원가입 UI
 ⑦ 이메일 로그인 → 로그아웃 → 재로그인 테스트 성공
 
-### 스타터 코드
+### 이번 챕터에서 추가/수정할 파일
 
-`practice/chapter9/starter/` 폴더에 Ch8 완성 코드 기반 + 인증 관련 파일 뼈대(TODO 주석)가 준비되어 있다.
+Ch8에서 만든 블로그 프로젝트를 이어서 사용한다.
 
-```
-practice/chapter9/starter/
-├── app/
-│   ├── layout.tsx          ← AuthProvider 감싸기 (TODO)
-│   ├── page.tsx            ← 메인 페이지
-│   ├── login/
-│   │   └── page.tsx        ← 로그인 폼 (TODO)
-│   └── signup/
-│       └── page.tsx        ← 회원가입 폼 (TODO)
-├── components/
-│   └── layout/
-│       └── header.tsx      ← 로그인/로그아웃 버튼 (TODO)
-├── lib/
-│   ├── supabase/
-│   │   ├── client.ts       ← 브라우저 클라이언트 (완성)
-│   │   └── server.ts       ← 서버 클라이언트 (완성)
-│   ├── auth.ts             ← 인증 함수 (TODO)
-│   └── auth-context.tsx    ← AuthContext (TODO)
-├── .env.local.example
-├── package.json
-└── next.config.ts
-```
-
-**시작 방법** (PowerShell 기준):
-```bash
-cd practice/chapter9/starter
-npm install
-npm run dev
-```
-macOS Terminal도 동일하다.
-
-브라우저에서 http://localhost:3000 을 열어 기본 페이지가 보이는지 확인한다.
+- `lib/auth.js` — 새로 생성 (signInWithEmail, signUpWithEmail, signOut 함수)
+- `contexts/AuthContext.js` — 새로 생성 (AuthProvider + useAuth Hook, `"use client"`)
+- `app/login/page.js` — 새로 생성 (이메일 로그인 폼, `"use client"`)
+- `app/signup/page.js` — 새로 생성 (이메일 회원가입 폼, `"use client"`)
+- `components/Navbar.js` — 새로 생성 (로그인/로그아웃 조건부 렌더링, `"use client"`)
+- `app/layout.js` — 수정 (AuthProvider로 전체 앱 감싸기)
 
 ---
 
@@ -89,8 +63,8 @@ macOS Terminal도 동일하다.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "Supabase Auth로 이메일/비밀번호 로그인을 구현해줘.
-> lib/auth.ts에 signInWithEmail, signUpWithEmail, signOut 함수를 만들어줘.
-> lib/auth-context.tsx에 AuthProvider + useAuth Hook으로 전역 상태 관리.
+> lib/auth.js에 signInWithEmail, signUpWithEmail, signOut 함수를 만들어줘.
+> contexts/AuthContext.js에 AuthProvider + useAuth Hook으로 전역 상태 관리.
 > onAuthStateChange로 세션 변화를 감지하고, user/profile/loading 상태를 관리.
 > @supabase/ssr 패키지 사용, Next.js 14 App Router 환경."
 
@@ -105,10 +79,10 @@ macOS Terminal도 동일하다.
 **목표**: 인증 함수를 작성하고, AuthContext로 전역 상태를 관리한다.
 
 ① Supabase 대시보드 → Authentication → Providers에서 Email이 활성화되어 있는지 확인한다
-② `lib/auth.ts`에 인증 함수 3개를 작성한다:
+② `lib/auth.js`에 인증 함수 3개를 작성한다:
 
 ```typescript
-// lib/auth.ts — 핵심 구조
+// lib/auth.js — 핵심 구조
 import { createClient } from "@/lib/supabase/client"
 
 export async function signInWithEmail(email: string, password: string) {
@@ -121,8 +95,8 @@ export async function signInWithEmail(email: string, password: string) {
 // signUpWithEmail, signOut도 동일 패턴
 ```
 
-③ `lib/auth-context.tsx`에 AuthProvider와 useAuth Hook을 작성한다
-④ `app/layout.tsx`에서 `<AuthProvider>`로 전체 앱을 감싼다
+③ `contexts/AuthContext.js`에 AuthProvider와 useAuth Hook을 작성한다
+④ `app/layout.js`에서 `<AuthProvider>`로 전체 앱을 감싼다
 ⑤ 콘솔에서 AuthProvider가 정상 로드되는지 확인한다
 
 
@@ -130,9 +104,9 @@ export async function signInWithEmail(email: string, password: string) {
 
 **목표**: 로그인·회원가입 페이지와 헤더의 로그인/로그아웃 UI를 완성한다.
 
-① `app/login/page.tsx`에 로그인 폼을 만든다 — 이메일 + 비밀번호 + 로그인 버튼
-② `app/signup/page.tsx`에 회원가입 폼을 만든다 — 이메일 + 비밀번호 + 가입 버튼
-③ `components/layout/header.tsx`에 조건부 렌더링을 추가한다:
+① `app/login/page.js`에 로그인 폼을 만든다 — 이메일 + 비밀번호 + 로그인 버튼
+② `app/signup/page.js`에 회원가입 폼을 만든다 — 이메일 + 비밀번호 + 가입 버튼
+③ `components/Navbar.js`에 조건부 렌더링을 추가한다:
 
 ```tsx
 // 핵심 구조
@@ -216,16 +190,16 @@ Google Classroom의 "Ch9 과제"에 아래 두 항목을 제출한다:
 
 ---
 
-## C파일 비교 + 코드 수정 가이드
+## 참고 구현
 
-> 제출 마감 후 C파일(모범 구현)을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
+> 제출 마감 후 모범 구현을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
 
 **진행 순서**:
 
 | 시간 | 활동 |
 |------|------|
-| 3분 | C파일 핵심 구조 확인 |
-| 5분 | 학생이 자기 코드와 C파일을 비교 — 다른 부분 3개 이상 찾기 |
+| 3분 | 참고 구현 핵심 구조 확인 |
+| 5분 | 자기 코드와 참고 구현을 비교 — 다른 부분 3개 이상 찾기 |
 | 5분 | 다른 부분 중 1개를 선택하여 자기 코드 수정 |
 | 2분 | 핵심 차이점 1~2개 정리 |
 
@@ -233,8 +207,6 @@ Google Classroom의 "Ch9 과제"에 아래 두 항목을 제출한다:
 - AuthContext 구조: `onAuthStateChange` 리스너와 클린업이 동일한가?
 - 인증 함수: `signInWithEmail`, `signUp`, `signOut`의 에러 처리가 다른가?
 - 보호 페이지: 미로그인 사용자 차단 방식(미들웨어 vs 리다이렉트)이 같은가?
-
-_전체 모범 구현은 practice/chapter9/complete/ 참고_
 
 ---
 

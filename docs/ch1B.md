@@ -18,12 +18,21 @@
 ④ git push하여 Vercel에 자동 배포한다
 ⑤ 배포된 URL을 제출한다
 
-### 스타터 코드
+### 프로젝트 시작
 
-`practice/chapter1/starter/` 폴더에 create-next-app 기본 결과물 + 간단한 블로그 첫 페이지 뼈대가 준비되어 있다.
+저장소의 `template/` 폴더를 복사하여 자신의 블로그 프로젝트를 만든다.
+
+```bash
+cp -r template my-blog
+cd my-blog
+npm install
+npm run dev
+```
+
+`template/` 폴더 구조:
 
 ```
-practice/chapter1/starter/
+template/
 ├── app/
 │   ├── layout.js       ← 공통 레이아웃 (Tailwind 설정 완료)
 │   ├── page.js         ← 메인 페이지 (블로그 첫 페이지 뼈대)
@@ -34,15 +43,11 @@ practice/chapter1/starter/
 └── next.config.js
 ```
 
-**시작 방법** (PowerShell 기준):
-```bash
-cd practice/chapter1/starter
-npm install
-npm run dev
-```
-macOS Terminal도 동일하다.
-
 브라우저에서 http://localhost:3000 을 열어 기본 페이지가 보이는지 확인한다.
+
+### 이번 챕터에서 수정할 파일
+
+- `app/page.js` — 기본 내용을 삭제하고 본인 이름/자기소개로 교체
 
 
 ---
@@ -168,16 +173,16 @@ Google Classroom의 "Ch1 과제"에 아래 항목을 제출한다:
 
 ---
 
-## C파일 비교 + 코드 수정 가이드
+## 참고 구현
 
-> 제출 마감 후 C파일(모범 구현)을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
+> 제출 마감 후 모범 구현을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
 
 **진행 순서**:
 
 | 시간 | 활동 |
 |------|------|
-| 3분 | C파일 핵심 구조 확인 |
-| 7분 | 학생이 자기 코드와 C파일을 비교 — 다른 부분 3개 이상 찾기 |
+| 3분 | 참고 구현 핵심 구조 확인 |
+| 7분 | 자기 코드와 참고 구현을 비교 — 다른 부분 3개 이상 찾기 |
 | 7분 | 다른 부분 중 1개를 선택하여 자기 코드 수정 |
 | 3분 | 핵심 차이점 1~2개 정리 |
 
@@ -185,8 +190,6 @@ Google Classroom의 "Ch1 과제"에 아래 항목을 제출한다:
 - 프로젝트 구조: `app/` 폴더 안의 파일 배치가 동일한가?
 - Tailwind 클래스: 비슷한 스타일링인데 다른 클래스를 사용했는가?
 - git 커밋: 모범 구현은 어떤 단위로 커밋했는가?
-
-_전체 모범 구현은 practice/chapter1/complete/ 참고_
 
 ---
 

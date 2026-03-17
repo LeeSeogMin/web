@@ -161,7 +161,7 @@ SQL의 원리를 알았으니, 이제 JavaScript로 같은 작업을 한다. Sup
 import { createClient } from "@/lib/supabase/client";
 
 const supabase = createClient();
-// createClient()는 Ch8에서 만든 lib/supabase.ts의 래퍼 함수
+// createClient()는 Ch8에서 만든 lib/supabase.js의 래퍼 함수
 // 내부적으로 @supabase/ssr의 createBrowserClient를 호출한다
 
 // 모든 블로그 글 조회 (최신순)
@@ -367,7 +367,7 @@ const { data: posts, error } = await supabase
 > **실습 안내**: PostList 컴포넌트를 만들며 Supabase 쿼리와 React 연결 흐름을 확인한다.
 
 ```tsx
-// components/post-list.tsx
+// components/PostList.js
 "use client";
 
 import { useEffect, useState } from "react";
@@ -430,7 +430,7 @@ export default function PostList() {
 > useAuth Hook에서 user를 가져올 수 있어."
 
 ```tsx
-// components/post-form.tsx
+// components/PostForm.js
 "use client";
 
 import { useState } from "react";
@@ -497,7 +497,7 @@ export default function PostForm() {
 ### 10.4.3 게시글 수정/삭제
 
 ```typescript
-// lib/posts.ts — 블로그 글 관련 함수 모음
+// lib/posts.js — 블로그 글 관련 함수 모음
 import { createClient } from "@/lib/supabase/client";
 
 export async function updatePost(postId, { title, content }) {

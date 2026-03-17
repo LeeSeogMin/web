@@ -18,31 +18,11 @@
 ④ 제목 검색 — 키워드 입력 시 제목에 해당 키워드가 포함된 글만 표시
 ⑤ Vercel 배포
 
-### 스타터 코드
+### 이번 챕터에서 수정할 파일
 
-`practice/chapter4/starter/` 폴더에 Ch3 complete 기반 + fetch 스켈레톤이 준비되어 있다.
+Ch3에서 만든 블로그 프로젝트를 이어서 사용한다.
 
-```
-practice/chapter4/starter/
-├── app/
-│   ├── layout.js       ← 공통 레이아웃 (Tailwind 설정 완료)
-│   ├── page.js         ← 메인 페이지 (fetch 뼈대만 있음)
-│   └── globals.css     ← Tailwind 기본 import
-├── package.json        ← 의존성 (버전 고정)
-├── tailwind.config.js
-├── postcss.config.js
-└── next.config.js
-```
-
-**시작 방법** (PowerShell 기준):
-```bash
-cd practice/chapter4/starter
-npm install
-npm run dev
-```
-macOS Terminal도 동일하다.
-
-브라우저에서 http://localhost:3000 을 열어 기본 페이지가 보이는지 확인한다.
+- `app/page.js` — JSONPlaceholder API 연동 + 필터/검색 기능 추가 (`"use client"` 필요)
 
 ---
 
@@ -182,16 +162,16 @@ Google Classroom의 "Ch4 과제"에 아래 두 항목을 제출한다:
 
 ---
 
-## C파일 비교 + 코드 수정 가이드
+## 참고 구현
 
-> 제출 마감 후 C파일(모범 구현)을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
+> 제출 마감 후 모범 구현을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
 
 **진행 순서**:
 
 | 시간 | 활동 |
 |------|------|
-| 3분 | C파일 핵심 구조 확인 |
-| 7분 | 학생이 자기 코드와 C파일을 비교 — 다른 부분 3개 이상 찾기 |
+| 3분 | 참고 구현 핵심 구조 확인 |
+| 7분 | 자기 코드와 참고 구현을 비교 — 다른 부분 3개 이상 찾기 |
 | 7분 | 다른 부분 중 1개를 선택하여 자기 코드 수정 |
 | 3분 | 핵심 차이점 1~2개 정리 |
 
@@ -199,8 +179,6 @@ Google Classroom의 "Ch4 과제"에 아래 두 항목을 제출한다:
 - 비동기 패턴: 모범 구현은 `async/await` + `try-catch`를 어떻게 구조화했는가?
 - 필터/검색: `filter`와 `map` 체이닝 순서가 다른가?
 - 에러 처리: API 호출 실패 시 사용자에게 어떤 메시지를 보여주는가?
-
-_전체 모범 구현은 practice/chapter4/complete/ 참고_
 
 ---
 
