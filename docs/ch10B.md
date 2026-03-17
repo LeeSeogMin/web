@@ -23,7 +23,7 @@ Ch9에서 구현한 인증 기반 위에 블로그 CRUD 기능을 완성한다:
 
 Ch9에서 만든 블로그 프로젝트를 이어서 사용한다.
 
-- `lib/posts.js` — 수정 (Supabase CRUD 함수: getPosts, getPost, createPost, updatePost, deletePost)
+- `lib/posts.js` — **완전 교체** (Ch5의 더미 데이터 배열을 삭제하고 Supabase CRUD 함수로 대체: getPosts, getPost, createPost, updatePost, deletePost)
 - `app/posts/page.js` — 수정 (Supabase에서 게시글 목록 조회)
 - `app/posts/new/page.js` — 수정 (Supabase insert로 게시글 작성)
 - `app/posts/[id]/page.js` — 수정 (Supabase에서 단건 조회 + 수정/삭제 버튼)

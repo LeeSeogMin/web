@@ -43,15 +43,42 @@ export const posts = [
 
 > **Copilot 활용**: 이번 실습에서는 Copilot Chat에 프롬프트를 입력하여 3개의 페이지를 구현한다. 생성된 코드를 그대로 쓰지 말고, A회차에서 배운 기준으로 반드시 검증한다.
 
+### MCP · Skills 초기 설정
+
+이번 실습부터 MCP와 Skills를 설정한다. App Router 라우팅이 본격적으로 시작되므로, AI가 최신 문서를 참조하고 규칙을 자동 점검하도록 한다.
+
+**① Context7 MCP 설치** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
+
+> **Copilot 프롬프트**
+> "이 프로젝트에 .vscode/mcp.json 파일을 생성하고, context7 MCP 서버를 설정해줘.
+> command는 npx, args는 ["-y", "@upstash/context7-mcp@latest"]로 설정해줘."
+
+<!-- COPILOT_VERIFY: 위 프롬프트로 .vscode/mcp.json이 정상 생성되는지 확인해주세요 -->
+
+설치 후 테스트: `use context7. Next.js App Router에서 동적 라우트 [id] 폴더와 params 사용법을 알려줘`
+
+**② Skills 생성** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
+
+> **Copilot 프롬프트**
+> "이 프로젝트 루트에 아래 2개 Skill을 생성해줘.
+> 1) .github/skills/nextjs-basic-check/SKILL.md — App Router(app/) 구조, Server/Client 컴포넌트 구분, next/navigation 사용 규칙
+> 2) .github/skills/api-safety-check/SKILL.md — fetch 호출의 response.ok 체크, try-catch 에러 처리, 사용자 에러 메시지 표시 규칙
+> 각 SKILL.md는 한국어 지침 4~6줄로 작성해줘."
+
+<!-- COPILOT_VERIFY: 위 프롬프트로 .github/skills/ 아래 두 Skill 파일이 정상 생성되는지 확인해주세요 -->
+
 ### 이번 실습에서 활용할 MCP · Skills
 
 | 도구 | 활용 방법 |
 |------|----------|
 | **Context7** | App Router 라우팅 문법이 정확한지 최신 문서로 확인한다. 프롬프트 앞에 `use context7`을 붙인다. |
 | **nextjs-basic-check** | 목록/상세/작성 페이지를 만든 직후, App Router 경로·`next/navigation` import·`"use client"` 위치를 점검한다. |
+| **api-safety-check** | fetch 호출의 에러 처리를 점검한다. |
 
 - Context7 프롬프트 예시: `use context7. Next.js App Router에서 동적 라우트 [id] 폴더와 params 사용법을 알려줘`
 - Skills 점검 프롬프트 예시: `nextjs-basic-check 기준으로 라우팅 구조와 import 오류를 점검해줘`
+
+> Supabase MCP와 secret-guard Skill은 Ch8에서 Supabase 프로젝트를 생성한 후 설정한다.
 
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
@@ -99,11 +126,12 @@ export const posts = [
 > [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "app/posts/[id]/page.js를 만들어줘. Next.js 14 App Router이므로 params에서 id를 추출해줘. lib/posts.js에서 해당 id의 게시글을 find로 찾아 표시. 없으면 next/navigation의 notFound() 호출. 목록으로 돌아가기 Link 포함. Tailwind CSS 사용."
+> "app/posts/[id]/page.js를 만들어줘. Next.js 14 App Router이므로 params에서 id를 추출해줘. lib/posts.js에서 해당 id의 게시글을 find로 찾아 표시. 없으면 '게시글을 찾을 수 없습니다' 메시지 표시. 목록으로 돌아가기 Link 포함. Tailwind CSS 사용."
 
 ① 생성된 코드에서 `const { id } = params` 패턴을 사용했는지 확인한다
 ② `find()`로 해당 id의 게시글을 찾는지 확인한다
-③ 목록으로 돌아가는 Link가 있는지 확인한다
+③ 게시글이 없을 때 안내 메시지가 표시되는지 확인한다
+④ 목록으로 돌아가는 Link가 있는지 확인한다
 
 **작성 페이지**:
 

@@ -74,7 +74,7 @@ Ch5에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 ① `components/SearchBar.js`에서 useState로 검색어 상태를 관리한다
 ② onChange 이벤트로 검색어를 실시간 업데이트한다
-③ 부모 컴포넌트에서 검색어에 따라 게시글을 filter한다
+③ `app/page.js`(또는 `app/posts/page.js`)에서 SearchBar를 import하고, 검색어에 따라 게시글을 filter한다
 ④ 검색 결과가 0건이면 "검색 결과가 없습니다" 메시지를 표시한다
 ⑤ `"use client"`가 SearchBar에만 있는지 확인한다 (메인 페이지에는 없어야 함)
 

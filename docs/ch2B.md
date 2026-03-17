@@ -32,32 +32,6 @@ Ch1에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 > **Copilot 활용**: 이번 실습에서는 Copilot Chat에 프롬프트를 입력하여 블로그 소개 페이지를 생성한다. 생성된 코드를 그대로 쓰지 말고, A회차에서 배운 검증 체크리스트로 반드시 확인한다.
 
-### MCP · Skills 초기 설정
-
-이번 실습에서 MCP와 Skills를 처음 설정한다. 이후 모든 챕터에서 활용하므로 반드시 완료한다.
-
-**① MCP 설치** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
-
-> **Copilot 프롬프트**
-> "이 프로젝트에 .vscode/mcp.json 파일을 생성하고, context7 MCP 서버를 설정해줘.
-> command는 npx, args는 ["-y", "@upstash/context7-mcp@latest"]로 설정해줘."
-
-<!-- COPILOT_VERIFY: 위 프롬프트로 .vscode/mcp.json이 정상 생성되는지 확인해주세요 -->
-
-설치 후 테스트: `use context7. Next.js App Router에서 page.js의 역할을 설명해줘`
-
-> Supabase MCP는 Ch8에서 Supabase 프로젝트를 생성한 후 설정한다.
-
-**② Skills 생성** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
-
-> **Copilot 프롬프트**
-> "이 프로젝트 루트에 아래 2개 Skill을 생성해줘.
-> 1) .github/skills/nextjs-basic-check/SKILL.md — App Router(app/) 구조, Server/Client 컴포넌트 구분, next/navigation 사용 규칙
-> 2) .github/skills/secret-guard/SKILL.md — API 키 하드코딩 금지, .env.local 사용 강제, NEXT_PUBLIC_ 접두사에 민감한 키 금지
-> 각 SKILL.md는 한국어 지침 4~6줄로 작성해줘."
-
-<!-- COPILOT_VERIFY: 위 프롬프트로 .github/skills/ 아래 두 Skill 파일이 정상 생성되는지 확인해주세요 -->
-
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
 ❌ 나쁜 프롬프트:

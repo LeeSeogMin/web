@@ -554,7 +554,6 @@ export async function deletePost(postId) {
 
 > 이 조건부 렌더링은 **UI만 숨기는 것**이다. 실제 보안은 Ch11의 **RLS(Row Level Security)**가 담당한다. 개발자 도구에서 직접 API를 호출하면 이 UI 제한은 무시할 수 있다. 반드시 서버 레벨 보안(RLS)이 필요하다.
 
-_전체 프로젝트는 practice/chapter10/ 참고_
 
 ---
 
@@ -632,7 +631,7 @@ todo.md에서 "블로그 글 목록/상세/작성(CRUD)" 항목을 체크하고 
 - `nextjs-basic-check`: 수정/삭제 UI가 App Router 구조와 컴포넌트 경계에 맞는지 확인한다.
 - 권장 타이밍: CRUD 함수 구현 직후.
 
-**스타터 코드**: `practice/chapter10/starter/` — 블로그 프론트엔드(인증 포함)가 준비되어 있고, CRUD 함수 부분이 TODO로 비어 있다.
+B회차에서는 Ch9에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 ---
 

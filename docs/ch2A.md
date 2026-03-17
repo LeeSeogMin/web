@@ -536,7 +536,7 @@ when: "nextjs", "app router", "server component", "page", "layout" 키워드 포
 5. git push → Vercel 배포
 6. AI 사용 로그 작성
 
-**스타터 코드**: `practice/chapter2/starter/` — Ch1 블로그 첫 페이지 결과물 + `.github/copilot-instructions.md` 템플릿이 준비되어 있다.
+B회차에서는 Ch1에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 ---
 

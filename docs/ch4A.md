@@ -496,7 +496,7 @@ lib/
 
 **사용할 API**: `https://jsonplaceholder.typicode.com/posts`
 
-**스타터 코드**: `practice/chapter4/starter/` — Ch3 complete 기반 + fetch 스켈레톤이 준비되어 있다. B회차에서 이 코드를 기반으로 시작한다.
+B회차에서는 Ch3에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 ---
 

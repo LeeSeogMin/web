@@ -30,7 +30,7 @@ npm install @supabase/supabase-js@2.47.12 @supabase/ssr@0.5.2
 - `lib/supabase/client.js` — 새로 생성 (브라우저용 Supabase 클라이언트)
 - `lib/supabase/server.js` — 새로 생성 (서버용 Supabase 클라이언트)
 - `.env.local` — 새로 생성 (Supabase URL + anon 키)
-- `app/page.js` — 수정 (Supabase 데이터 조회 + 표시)
+- `app/page.js` — 수정 (Ch6까지의 더미 데이터/API 연동을 Supabase 조회로 교체)
 
 ---
 
@@ -40,9 +40,9 @@ npm install @supabase/supabase-js@2.47.12 @supabase/ssr@0.5.2
 
 ### 이번 실습에서 활용할 MCP · Skills
 
-이번 챕터부터 **Supabase MCP**를 처음 사용한다. Ch2에서 설치한 Context7과 함께 활용한다.
+이번 챕터부터 **Supabase MCP**와 **secret-guard Skill**을 추가한다. Ch5에서 설치한 Context7과 함께 활용한다.
 
-**Supabase MCP 설치** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
+**① Supabase MCP 설치** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
 
 > **Copilot 프롬프트**
 > ".vscode/mcp.json에 supabase MCP 서버를 추가해줘.
@@ -50,6 +50,15 @@ npm install @supabase/supabase-js@2.47.12 @supabase/ssr@0.5.2
 > env에 SUPABASE_URL과 SUPABASE_SERVICE_ROLE_KEY를 ${input:...} 방식으로 설정해줘."
 
 <!-- COPILOT_VERIFY: 위 프롬프트로 Supabase MCP가 mcp.json에 추가되고 정상 동작하는지 확인해주세요 -->
+
+**② secret-guard Skill 생성** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
+
+> **Copilot 프롬프트**
+> "이 프로젝트에 Skill을 생성해줘.
+> .github/skills/secret-guard/SKILL.md — API 키 하드코딩 금지, .env.local 사용 강제, NEXT_PUBLIC_ 접두사에 민감한 키 금지, service_role 키 클라이언트 노출 금지
+> 한국어 지침 4~6줄로 작성해줘."
+
+<!-- COPILOT_VERIFY: 위 프롬프트로 .github/skills/secret-guard/SKILL.md가 정상 생성되는지 확인해주세요 -->
 
 | 도구 | 활용 방법 |
 |------|----------|

@@ -909,7 +909,7 @@ copilot-instructions.md의 규칙을 지켜서 작업해줘.
 7. context.md (프로젝트 초기 상태 기록 — 기술 결정 사항 포함)
 8. todo.md (전체 작업 체크리스트 — 단계별 구분, 진행률 포함)
 
-**스타터 코드**: `practice/chapter7/starter/` -- 설계서 템플릿 파일들 (ARCHITECTURE.md 템플릿, copilot-instructions.md 템플릿, context.md 템플릿, todo.md 템플릿)
+B회차에서는 Ch6까지 만든 블로그 프로젝트를 이어서 사용한다. 설계서 파일(ARCHITECTURE.md, context.md, todo.md)은 프로젝트 루트에 직접 생성한다.
 
 ---
 

@@ -20,34 +20,18 @@
 
 ### 프로젝트 시작
 
-저장소의 `template/` 폴더를 복사하여 자신의 블로그 프로젝트를 만든다.
+A회차에서 `npx create-next-app@latest`로 만든 프로젝트를 그대로 사용한다.
 
 ```bash
-cp -r template my-blog
-cd my-blog
-npm install
+cd my-first-web
 npm run dev
-```
-
-`template/` 폴더 구조:
-
-```
-template/
-├── app/
-│   ├── layout.js       ← 공통 레이아웃 (Tailwind 설정 완료)
-│   ├── page.js         ← 메인 페이지 (블로그 첫 페이지 뼈대)
-│   └── globals.css     ← Tailwind 기본 import
-├── package.json        ← 의존성 (버전 고정)
-├── tailwind.config.js
-├── postcss.config.js
-└── next.config.js
 ```
 
 브라우저에서 http://localhost:3000 을 열어 기본 페이지가 보이는지 확인한다.
 
 ### 이번 챕터에서 수정할 파일
 
-- `app/page.js` — 기본 내용을 삭제하고 본인 이름/자기소개로 교체
+- `app/page.js` — 기본 Next.js 템플릿 내용을 삭제하고 본인 이름/자기소개로 교체
 
 
 ---
