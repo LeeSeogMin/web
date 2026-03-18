@@ -394,7 +394,7 @@ todo.md에서 RLS 관련 항목을 체크하고 진행률을 갱신해줘.
 - `api-safety-check`: RLS 실패 메시지 처리, 권한 오류 안내 문구, 테스트 누락 케이스를 점검한다.
 - 권장 타이밍: 정책 SQL 작성 후, 다른 계정 검증 직전.
 
-**스타터 코드**: `practice/chapter11/starter/` -- Ch10 완성 코드 기반이며, `supabase/policies.sql`에 TODO로 정책 작성 가이드가 제공된다.
+B회차에서는 Ch10에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 ---
 

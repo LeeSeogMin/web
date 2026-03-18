@@ -161,7 +161,7 @@ SQL의 원리를 알았으니, 이제 JavaScript로 같은 작업을 한다. Sup
 import { createClient } from "@/lib/supabase/client";
 
 const supabase = createClient();
-// createClient()는 Ch8에서 만든 lib/supabase.ts의 래퍼 함수
+// createClient()는 Ch8에서 만든 lib/supabase.js의 래퍼 함수
 // 내부적으로 @supabase/ssr의 createBrowserClient를 호출한다
 
 // 모든 블로그 글 조회 (최신순)
@@ -367,7 +367,7 @@ const { data: posts, error } = await supabase
 > **실습 안내**: PostList 컴포넌트를 만들며 Supabase 쿼리와 React 연결 흐름을 확인한다.
 
 ```tsx
-// components/post-list.tsx
+// components/PostList.js
 "use client";
 
 import { useEffect, useState } from "react";
@@ -430,7 +430,7 @@ export default function PostList() {
 > useAuth Hook에서 user를 가져올 수 있어."
 
 ```tsx
-// components/post-form.tsx
+// components/PostForm.js
 "use client";
 
 import { useState } from "react";
@@ -497,7 +497,7 @@ export default function PostForm() {
 ### 10.4.3 게시글 수정/삭제
 
 ```typescript
-// lib/posts.ts — 블로그 글 관련 함수 모음
+// lib/posts.js — 블로그 글 관련 함수 모음
 import { createClient } from "@/lib/supabase/client";
 
 export async function updatePost(postId, { title, content }) {
@@ -554,7 +554,6 @@ export async function deletePost(postId) {
 
 > 이 조건부 렌더링은 **UI만 숨기는 것**이다. 실제 보안은 Ch11의 **RLS(Row Level Security)**가 담당한다. 개발자 도구에서 직접 API를 호출하면 이 UI 제한은 무시할 수 있다. 반드시 서버 레벨 보안(RLS)이 필요하다.
 
-_전체 프로젝트는 practice/chapter10/ 참고_
 
 ---
 
@@ -632,7 +631,7 @@ todo.md에서 "블로그 글 목록/상세/작성(CRUD)" 항목을 체크하고 
 - `nextjs-basic-check`: 수정/삭제 UI가 App Router 구조와 컴포넌트 경계에 맞는지 확인한다.
 - 권장 타이밍: CRUD 함수 구현 직후.
 
-**스타터 코드**: `practice/chapter10/starter/` — 블로그 프론트엔드(인증 포함)가 준비되어 있고, CRUD 함수 부분이 TODO로 비어 있다.
+B회차에서는 Ch9에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 ---
 

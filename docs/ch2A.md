@@ -294,7 +294,7 @@ Context7 MCP는 **버전 불일치 문제의 핵심 해결 도구**이다. copil
 
 ### 2.4.4 package.json 버전 고정
 
-학생 전원이 **같은 버전**을 사용해야 같은 결과를 얻을 수 있다.
+수강생 전원이 **같은 버전**을 사용해야 같은 결과를 얻을 수 있다.
 
 ```bash
 npm ci
@@ -536,7 +536,7 @@ when: "nextjs", "app router", "server component", "page", "layout" 키워드 포
 5. git push → Vercel 배포
 6. AI 사용 로그 작성
 
-**스타터 코드**: `practice/chapter2/starter/` — Ch1 블로그 첫 페이지 결과물 + `.github/copilot-instructions.md` 템플릿이 준비되어 있다.
+B회차에서는 Ch1에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 ---
 

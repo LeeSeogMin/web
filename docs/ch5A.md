@@ -521,7 +521,7 @@ function NavLink({ href, children }) {
 - `nextjs-basic-check`: `app/` 경로 구조, 동적 라우트(`[id]`), `next/navigation` 사용 여부를 점검한다.
 - 권장 타이밍: 3개 페이지 구현 완료 후, 제출 전 최종 점검.
 
-**스타터 코드**: `practice/chapter5/starter/` — 기본 App Router 구조 + 더미 데이터 배열 + 목록 페이지 뼈대가 준비되어 있다. B회차에서 이 코드를 기반으로 시작한다.
+B회차에서는 Ch4에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 ---
 

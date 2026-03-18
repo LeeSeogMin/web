@@ -609,7 +609,7 @@ function PostList() {
 - `api-safety-check`: 데이터 페칭의 `try-catch`와 사용자 에러 메시지 처리를 점검한다.
 - 권장 타이밍: 체크포인트 2 완료 후 1회, 제출 전 1회.
 
-**스타터 코드**: `practice/chapter6/starter/` — Ch5 완성 코드 기반 + 상태 관리 뼈대 (useState 빈 구조). B회차에서 이 코드를 기반으로 시작한다.
+B회차에서는 Ch5에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 ---
 

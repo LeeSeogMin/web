@@ -20,40 +20,19 @@ Ch12까지 완성한 블로그에 확장 기능을 추가하고 배포한다:
 ⑥ README.md + AI_LOG.md 작성
 ⑦ 배포 URL + GitHub 저장소 제출
 
-### 기존 프로젝트 확인
+### 이번 챕터에서 추가할 파일
 
-Ch12까지 완성한 블로그 프로젝트를 그대로 사용한다. 별도 스타터 코드 없이 기존 프로젝트에 확장 기능을 추가한다.
+Ch12까지 완성한 블로그 프로젝트를 이어서 사용한다.
 
-```
-기존 블로그 프로젝트 (Ch12까지 완성)
-├── app/
-│   ├── layout.tsx           ← AuthProvider + metadata (완성)
-│   ├── page.tsx             ← 블로그 메인 (완성)
-│   ├── posts/               ← 블로그 글 CRUD (완성)
-│   ├── login/page.tsx       ← 로그인 (완성)
-│   ├── signup/page.tsx      ← 회원가입 (완성)
-│   ├── error.tsx            ← 에러 처리 (완성)
-│   └── loading.tsx          ← 로딩 UI (완성)
-├── components/              ← 공통 컴포넌트 (완성)
-├── lib/
-│   ├── supabase/            ← 클라이언트 (완성)
-│   ├── posts.ts             ← 블로그 글 CRUD (완성)
-│   ├── comments.ts          ← ⭐ 새로 추가할 파일
-│   ├── tags.ts              ← ⭐ 새로 추가할 파일
-│   └── search.ts            ← ⭐ 새로 추가할 파일
-├── ARCHITECTURE.md          ← 설계서 (최신화 필요)
-├── AI_LOG.md                ← AI 사용 로그
-├── README.md                ← 프로젝트 설명
-└── package.json
-```
-
-**시작 전 확인** (PowerShell 기준):
-```bash
-npm run dev
-```
-macOS Terminal도 동일하다.
-
-브라우저에서 http://localhost:3000 을 열어 기존 블로그가 정상 동작하는지 확인한다.
+- `lib/comments.js` — 새로 생성 (댓글 CRUD 함수)
+- `lib/tags.js` — 새로 생성 (태그 CRUD 함수)
+- `lib/search.js` — 새로 생성 (검색 함수)
+- `components/CommentSection.js` — 새로 생성 (댓글 UI, `"use client"`)
+- `app/search/page.js` — 새로 생성 (검색 페이지)
+- `ARCHITECTURE.md` — 수정 (확장 테이블 반영)
+- `AI_LOG.md` — 새로 생성 (AI 사용 로그)
+- `README.md` — 수정 (프로젝트 설명 + 기술 스택)
+- Supabase SQL Editor에서 comments, tags, post_tags 테이블 + RLS 생성
 
 ---
 
@@ -134,7 +113,7 @@ macOS Terminal도 동일하다.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "#file:ARCHITECTURE.md #file:context.md
 > 블로그 글 상세 페이지(/posts/[id])에 댓글 기능을 추가해줘.
-> 파일: lib/comments.ts (CRUD 함수) + components/CommentSection.tsx (UI)
+> 파일: lib/comments.js (CRUD 함수) + components/CommentSection.js (UI)
 > 데이터: comments 테이블의 post_id, user_id, content 사용
 > 인증: useAuth()로 로그인 사용자 확인
 > 스타일: Tailwind CSS + shadcn/ui"
@@ -153,7 +132,7 @@ git commit -m "feat: 댓글 기능 구현"
 ```
 
 ④ 태그/카테고리 기능 구현: tags + post_tags 테이블 활용 → CRUD 함수 → 글 작성 시 태그 선택 UI → /tags 페이지
-⑤ 검색 기능 구현: lib/search.ts → /search 페이지 → 검색 결과 표시
+⑤ 검색 기능 구현: lib/search.js → /search 페이지 → 검색 결과 표시
 ⑥ 시간이 남으면 Should have 기능(좋아요, 관리자 대시보드)을 추가한다
 
 <!-- COPILOT_VERIFY: #file 참조로 ARCHITECTURE.md와 context.md를 동시에 전달했을 때 Copilot의 코드 품질이 향상되는지 확인해주세요 -->
@@ -224,7 +203,7 @@ git push
 | 댓글 | 댓글 작성/조회/삭제가 동작하는가? | ☐ |
 | 태그 | 글에 태그 부여 + 태그별 필터링이 동작하는가? | ☐ |
 | 검색 | 제목/내용 검색이 동작하는가? | ☐ |
-| 에러 처리 | error.tsx + loading.tsx가 동작하는가? | ☐ |
+| 에러 처리 | error.js + loading.js가 동작하는가? | ☐ |
 | README.md | 프로젝트 설명 + 기술 스택 + 배포 URL이 있는가? | ☐ |
 | AI_LOG.md | AI 사용 기록이 5항목 이상인가? | ☐ |
 | 배포 URL | 배포된 사이트에서 전 기능이 동작하는가? | ☐ |
@@ -267,7 +246,7 @@ Google Classroom의 "Ch13 과제"에 아래 세 항목을 제출한다:
 
 ---
 
-## C파일 공개 + 자기 점검 가이드
+## 참고 구현 + 자기 점검 가이드
 
 > 제출 마감 후 공통 체크리스트를 확인한다. 블로그 확장은 공통 주제이므로 **필수 품질 기준**으로 자기 점검한다.
 
@@ -276,7 +255,7 @@ Google Classroom의 "Ch13 과제"에 아래 세 항목을 제출한다:
 | 시간 | 활동 |
 |------|------|
 | 3분 | 필수 품질 기준 체크리스트 확인 |
-| 5분 | 학생이 자기 블로그를 체크리스트로 점검 — 미달 항목 표시 |
+| 5분 | 자기 블로그를 체크리스트로 점검 — 미달 항목 표시 |
 | 2분 | 가장 흔한 누락 항목 1~2개 정리 |
 
 **필수 품질 기준 체크리스트**:
@@ -284,7 +263,7 @@ Google Classroom의 "Ch13 과제"에 아래 세 항목을 제출한다:
 - [ ] RLS가 모든 테이블에 활성화되어 있는가?
 - [ ] `.env.local`에 키를 저장하고 코드에 하드코딩하지 않았는가?
 - [ ] `"use client"`가 필요한 파일에만 있는가?
-- [ ] error.tsx, loading.tsx가 있는가?
+- [ ] error.js, loading.js가 있는가?
 - [ ] AI_LOG.md에 실제 경험이 기록되어 있는가?
 
 ---

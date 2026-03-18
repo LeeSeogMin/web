@@ -225,7 +225,7 @@ CREATE POLICY "작성자만 댓글 삭제" ON comments
   FOR DELETE USING (auth.uid() = user_id);
 ```
 
-**② CRUD 함수** (`lib/comments.ts`): `insert` (댓글 작성) + `select` (블로그 글별 댓글 조회) + `delete` (본인 댓글 삭제)
+**② CRUD 함수** (`lib/comments.js`): `insert` (댓글 작성) + `select` (블로그 글별 댓글 조회) + `delete` (본인 댓글 삭제)
 
 **③ UI 연결**: 블로그 글 상세 페이지(`/posts/[id]`)에 댓글 목록 + 댓글 입력 폼을 추가한다.
 
@@ -234,7 +234,7 @@ CREATE POLICY "작성자만 댓글 삭제" ON comments
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "기존 블로그의 posts 테이블과 1:N 관계인 comments 테이블을 만들어줘.
-> 댓글 작성/조회/삭제 CRUD 함수를 lib/comments.ts에 만들고,
+> 댓글 작성/조회/삭제 CRUD 함수를 lib/comments.js에 만들고,
 > 블로그 글 상세 페이지(/posts/[id])에 댓글 목록과 작성 폼을 추가해줘.
 > RLS: 누구나 읽기, 로그인 사용자만 작성, 작성자만 삭제."
 
@@ -283,7 +283,7 @@ CREATE POLICY "글 작성자만 태그 관리" ON post_tags
   );
 ```
 
-**② CRUD 함수** (`lib/tags.ts`): `getTags` (전체 태그 조회) + `addTagToPost` (글에 태그 부여) + `removeTagFromPost` (글에서 태그 제거) + `getPostsByTag` (태그별 글 필터링)
+**② CRUD 함수** (`lib/tags.js`): `getTags` (전체 태그 조회) + `addTagToPost` (글에 태그 부여) + `removeTagFromPost` (글에서 태그 제거) + `getPostsByTag` (태그별 글 필터링)
 
 **③ UI 연결**: 블로그 글 작성/수정 시 태그를 선택하는 UI + `/tags` 페이지에서 태그별 글 목록 표시
 
@@ -293,7 +293,7 @@ CREATE POLICY "글 작성자만 태그 관리" ON post_tags
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "블로그에 태그/카테고리 기능을 만들어줘.
 > tags 테이블: id + name(UNIQUE). post_tags 테이블: post_id + tag_id (복합 PK).
-> CRUD 함수를 lib/tags.ts에 만들고, 글 작성 시 태그 선택 UI와
+> CRUD 함수를 lib/tags.js에 만들고, 글 작성 시 태그 선택 UI와
 > /tags 페이지에서 태그별 글 목록을 보여줘.
 > RLS: 누구나 읽기, 로그인 사용자만 태그 생성, 글 작성자만 태그 부여/제거."
 
@@ -304,7 +304,7 @@ CREATE POLICY "글 작성자만 태그 관리" ON post_tags
 **① 검색 쿼리**:
 
 ```typescript
-// lib/search.ts
+// lib/search.js
 import { createBrowserClient } from '@supabase/ssr';
 
 export async function searchPosts(query: string) {
@@ -334,8 +334,8 @@ export async function searchPosts(query: string) {
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "블로그 검색 기능을 구현해줘.
-> 1. lib/search.ts: posts 테이블에서 title, content를 ilike로 검색하는 함수
-> 2. app/search/page.tsx: 검색 입력 폼 + 결과 목록 (URL 쿼리 파라미터 사용)
+> 1. lib/search.js: posts 테이블에서 title, content를 ilike로 검색하는 함수
+> 2. app/search/page.js: 검색 입력 폼 + 결과 목록 (URL 쿼리 파라미터 사용)
 > 3. 검색어 하이라이팅 (일치 부분 강조)
 > 4. 검색 결과에 글 제목, 작성자, 날짜 표시
 > copilot-instructions.md의 디자인 토큰을 따라줘."
@@ -396,7 +396,7 @@ export async function searchPosts(query: string) {
 
 > **Copilot 프롬프트 (2단계 — 댓글 CRUD)**
 > "블로그 글 상세 페이지(/posts/[id])에 댓글 기능을 추가해줘.
-> lib/comments.ts에 CRUD 함수를 만들고, 댓글 목록 + 작성 폼 컴포넌트를 추가해줘.
+> lib/comments.js에 CRUD 함수를 만들고, 댓글 목록 + 작성 폼 컴포넌트를 추가해줘.
 > 로그인한 사용자만 댓글 작성 가능, 본인 댓글만 삭제 가능.
 > copilot-instructions.md를 참고해줘."
 
@@ -505,7 +505,7 @@ AI가 여러 파일을 수정할 때 주의할 점:
 좋은 디버깅 프롬프트:
 "다음 에러가 발생했어:
 [에러 메시지 전체 붙여넣기]
-현재 파일은 app/posts/[id]/page.tsx이고, Supabase에서 comments 테이블을 읽는 컴포넌트야.
+현재 파일은 app/posts/[id]/page.js이고, Supabase에서 comments 테이블을 읽는 컴포넌트야.
 RLS 정책은 누구나 SELECT 가능하게 설정했어."
 ```
 
