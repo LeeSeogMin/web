@@ -1,4 +1,4 @@
-﻿# Chapter 6. Next.js 상태 관리와 데이터 페칭 — A회차: 강의
+# Chapter 6. Next.js 상태 관리와 데이터 페칭 — A회차: 강의
 
 > **미션**: 블로그에 인터랙션을 더한다 — 상태 관리와 데이터 페칭으로 동적 UI를 만든다
 
@@ -16,14 +16,13 @@
 
 ---
 
-## 오늘의 미션 + 빠른 진단
 
 > **오늘의 질문**: "Ch5에서 만든 블로그은 정적이다. 검색을 입력해도, 글을 써도 아무 반응이 없다. 어떻게 하면 '동적'으로 만들 수 있을까?"
 
 **빠른 진단** (1문항):
 
 다음 코드에서 버튼을 클릭하면 화면에 어떤 일이 발생하는가?
-```jsx
+```tsx
 let count = 0;
 function handleClick() {
   count = count + 1;
@@ -46,13 +45,13 @@ Ch5에서 블로그의 페이지 구조를 만들었다. 목록, 상세, 작성 
 
 Ch5에서 배운 Props는 **읽기 전용**이었다. 부모가 전달한 데이터를 표시할 수만 있고, 변경할 수 없었다. **상태**(State)는 컴포넌트가 스스로 **기억하고 변경할 수 있는 데이터**이다.
 
-```jsx
+```tsx
 "use client";
 
 import { useState } from "react";
 
 function LikeButton() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState<number>(0);
   // count = 현재 값, setCount = 값을 바꾸는 함수, 0 = 초기값
 
   return (
@@ -85,19 +84,19 @@ function LikeButton() {
 
 사용자의 동작(클릭, 입력, 폼 제출)에 반응하려면 **이벤트 핸들러**(Event Handler)를 연결한다:
 
-```jsx
+```tsx
 "use client";
 
 import { useState } from "react";
 
 function SearchBar() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState<string>("");
 
-  function handleChange(e) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setQuery(e.target.value);
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault(); // 페이지 새로고침 방지
     alert(`검색어: ${query}`);
   }
@@ -134,22 +133,27 @@ function SearchBar() {
 
 게시글 작성 폼처럼 여러 입력 필드가 있을 때는 **객체 상태**로 관리한다. 이런 방식을 **제어 컴포넌트**(Controlled Component)라 부른다 — 입력값을 React state가 "제어"한다:
 
-```jsx
+```tsx
 "use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+interface PostForm {
+  title: string;
+  content: string;
+}
+
 export default function NewPostPage() {
   const router = useRouter();
-  const [form, setForm] = useState({ title: "", content: "" });
+  const [form, setForm] = useState<PostForm>({ title: "", content: "" });
 
-  function handleChange(e) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value }); // 해당 필드만 업데이트
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!form.title.trim()) {
@@ -191,7 +195,6 @@ export default function NewPostPage() {
 }
 ```
 
-<!-- COPILOT_VERIFY: 위 폼 코드를 Copilot에게 생성시키고, 제어 컴포넌트 패턴(value+onChange)이 올바르게 적용되는지 확인해주세요 -->
 
 **코드 읽기 포인트**:
 - `setForm({ ...form, [name]: value })` — Ch4에서 배운 스프레드 연산자로 **불변성 유지**
@@ -203,7 +206,7 @@ export default function NewPostPage() {
 
 React에서 상태를 업데이트할 때는 **기존 상태를 직접 수정하면 안 된다**. 새로운 값을 만들어서 교체해야 한다. 이것을 **불변성**(Immutability)이라 한다:
 
-```jsx
+```typescript
 // ❌ 직접 수정 (React가 변경을 감지하지 못함)
 posts.push(newPost);          // 배열 끝에 추가
 posts[0].title = "새 제목";    // 객체 속성 변경
@@ -216,7 +219,7 @@ setPosts(posts.filter(p => p.id !== id));                  // 삭제
 ```
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "React에서 posts 배열 state를 불변성을 유지하면서 추가, 수정, 삭제하는 코드를 보여줘. 스프레드 연산자와 map/filter 사용. push, splice 같은 직접 수정은 하지 마."
@@ -231,20 +234,26 @@ setPosts(posts.filter(p => p.id !== id));                  // 삭제
 
 **사이드 이펙트**(Side Effect)는 렌더링 이외의 작업이다: API 호출, 타이머 설정, 외부 라이브러리 초기화 등. **`useEffect`**는 컴포넌트가 화면에 나타난 후 사이드 이펙트를 실행한다:
 
-```jsx
+```tsx
 "use client";
 
 import { useState, useEffect } from "react";
 
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+}
+
 function PostList() {
-  const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     // 컴포넌트가 화면에 나타난 후 실행
     fetch("https://jsonplaceholder.typicode.com/posts?_limit=10")
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: Post[]) => {
         setPosts(data);
         setIsLoading(false);
       });
@@ -274,7 +283,7 @@ function PostList() {
 | `[query]` | `query` 변경 시마다 | 검색어 변경 시 재검색 |
 | 생략 | **매 렌더링마다** | 거의 사용하지 않음 (성능 문제) |
 
-```jsx
+```tsx
 // 검색어가 바뀔 때마다 API 호출
 useEffect(() => {
   if (query.length > 0) {
@@ -289,9 +298,9 @@ useEffect(() => {
 
 useEffect에서 `return`하는 함수는 **클린업**(Cleanup) 함수이다. 컴포넌트가 사라지거나 effect가 다시 실행되기 전에 호출된다:
 
-```jsx
+```tsx
 useEffect(() => {
-  const timer = setInterval(() => {
+  const timer: NodeJS.Timeout = setInterval(() => {
     console.log("1초마다 실행");
   }, 1000);
 
@@ -313,7 +322,7 @@ useEffect(() => {
 
 Next.js App Router에서 모든 컴포넌트는 기본적으로 **서버 컴포넌트**(Server Component)이다. 서버에서 실행되어 HTML을 생성한 후 브라우저에 전송한다. 브라우저에서 인터랙션(클릭, 입력)이 필요하면 파일 맨 위에 `"use client"`를 추가하여 **클라이언트 컴포넌트**(Client Component)로 전환한다:
 
-```jsx
+```tsx
 // 서버 컴포넌트 (기본) — "use client" 없음
 export default async function PostsPage() {
   const posts = await fetchPosts(); // 서버에서 직접 데이터 가져옴
@@ -322,8 +331,11 @@ export default async function PostsPage() {
 
 // 클라이언트 컴포넌트 — "use client" 있음
 "use client";
-function PostList({ posts }) {
-  const [query, setQuery] = useState(""); // useState 사용 가능
+interface PostListProps {
+  posts: Post[];
+}
+function PostList({ posts }: PostListProps) {
+  const [query, setQuery] = useState<string>(""); // useState 사용 가능
   // ...
 }
 ```
@@ -359,10 +371,10 @@ function PostList({ posts }) {
 > "게시글 목록 페이지 만들어줘"
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "app/posts/page.js를 Server Component로 만들어줘. 데이터는 lib/posts.js에서 가져와. 검색 기능이 필요한 SearchBar는 별도 Client Component(components/SearchBar.js)로 분리해줘. 'use client'는 SearchBar에만 적용."
+> "app/posts/page.tsx를 Server Component로 만들어줘. 데이터는 lib/posts.ts에서 가져와. 검색 기능이 필요한 SearchBar는 별도 Client Component(components/SearchBar.tsx)로 분리해줘. 'use client'는 SearchBar에만 적용."
 
 나쁜 프롬프트는 AI가 전체 페이지를 `"use client"`로 만들어 버릴 수 있다. 서버/클라이언트 구분을 명시하면 올바른 구조가 나온다.
 
@@ -376,14 +388,20 @@ function PostList({ posts }) {
 
 서버 컴포넌트는 **컴포넌트 함수 자체를 `async`**로 만들 수 있다. 이것이 Next.js App Router의 가장 큰 장점이다:
 
-```jsx
-// app/posts/page.js — Server Component (기본)
+```tsx
+// app/posts/page.tsx — Server Component (기본)
 import Link from "next/link";
+
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+}
 
 export default async function PostsPage() {
   // 서버에서 직접 데이터 가져옴 (브라우저에서 실행되지 않음)
   const res = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=10");
-  const posts = await res.json();
+  const posts: Post[] = await res.json();
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -405,22 +423,28 @@ export default async function PostsPage() {
 }
 ```
 
-서버 컴포넌트에서 fetch하면: (1) API 키가 브라우저에 노출되지 않고, (2) 로딩 상태를 직접 관리할 필요 없이 `loading.js`가 자동으로 처리하고, (3) 브라우저에 보내는 JavaScript 양이 줄어든다.
+서버 컴포넌트에서 fetch하면: (1) API 키가 브라우저에 노출되지 않고, (2) 로딩 상태를 직접 관리할 필요 없이 `loading.tsx`가 자동으로 처리하고, (3) 브라우저에 보내는 JavaScript 양이 줄어든다.
 
 ### 6.4.2 클라이언트 컴포넌트에서 useEffect + fetch
 
 사용자 인터랙션에 따라 데이터를 가져와야 할 때는 클라이언트 컴포넌트에서 **useState + useEffect + fetch** 패턴을 사용한다:
 
-```jsx
+```tsx
 "use client";
 
 import { useState, useEffect } from "react";
 
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+}
+
 export default function PostSearchPage() {
-  const [query, setQuery] = useState("");
-  const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [query, setQuery] = useState<string>("");
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!query.trim()) {
@@ -436,8 +460,8 @@ export default function PostSearchPage() {
         if (!res.ok) throw new Error("검색에 실패했습니다");
         return res.json();
       })
-      .then((data) => setPosts(data))
-      .catch((err) => setError(err.message))
+      .then((data: Post[]) => setPosts(data))
+      .catch((err: Error) => setError(err.message))
       .finally(() => setIsLoading(false));
   }, [query]); // query 변경 시마다 실행
 
@@ -446,7 +470,7 @@ export default function PostSearchPage() {
       <input
         type="text"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
         placeholder="게시글 검색..."
         className="w-full px-3 py-2 border rounded mb-4"
       />
@@ -462,7 +486,6 @@ export default function PostSearchPage() {
 }
 ```
 
-<!-- COPILOT_VERIFY: 위 useEffect + fetch 패턴을 Copilot에게 생성시키고, 의존성 배열에 query가 포함되는지, 에러 처리가 있는지 확인해주세요 -->
 
 ### 6.4.3 로딩/에러 상태 처리
 
@@ -482,16 +505,21 @@ export default function PostSearchPage() {
 
 Props로 데이터를 전달하면 부모->자식->손자로 깊이 내려갈수록 번거로워진다. **Context API**는 컴포넌트 트리 전체에 데이터를 "방송"한다:
 
-```jsx
-// lib/ThemeContext.js
+```tsx
+// lib/ThemeContext.tsx
 "use client";
 
 import { createContext, useContext, useState } from "react";
 
-const ThemeContext = createContext();
+interface ThemeContextType {
+  isDark: boolean;
+  setIsDark: (value: boolean) => void;
+}
 
-export function ThemeProvider({ children }) {
-  const [isDark, setIsDark] = useState(false);
+const ThemeContext = createContext<ThemeContextType | null>(null);
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [isDark, setIsDark] = useState<boolean>(false);
 
   return (
     <ThemeContext.Provider value={{ isDark, setIsDark }}>
@@ -500,7 +528,7 @@ export function ThemeProvider({ children }) {
   );
 }
 
-export function useTheme() {
+export function useTheme(): ThemeContextType {
   const context = useContext(ThemeContext);
   if (!context) {
     throw new Error("useTheme은 ThemeProvider 안에서 사용해야 합니다");
@@ -511,11 +539,11 @@ export function useTheme() {
 
 사용 방법:
 
-```jsx
-// app/layout.js — Provider로 감싸기
+```tsx
+// app/layout.tsx — Provider로 감싸기
 import { ThemeProvider } from "@/lib/ThemeContext";
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
       <body>
@@ -528,8 +556,8 @@ export default function RootLayout({ children }) {
 }
 ```
 
-```jsx
-// components/ThemeToggle.js — 어떤 컴포넌트에서든 사용
+```tsx
+// components/ThemeToggle.tsx — 어떤 컴포넌트에서든 사용
 "use client";
 import { useTheme } from "@/lib/ThemeContext";
 
@@ -543,29 +571,34 @@ export default function ThemeToggle() {
 }
 ```
 
-<!-- COPILOT_VERIFY: ThemeContext를 Copilot에게 생성시키고 createContext, Provider, useContext 구조가 올바른지 확인해주세요 -->
 
 
 ### 6.5.2 커스텀 훅으로 로직 재사용
 
 **커스텀 훅**(Custom Hook)은 상태 로직을 함수로 추출하여 여러 컴포넌트에서 재사용하는 패턴이다. 이름은 반드시 `use`로 시작한다:
 
-```jsx
-// hooks/usePosts.js
+```tsx
+// hooks/usePosts.ts
 "use client";
 
 import { useState, useEffect } from "react";
 
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+}
+
 export function usePosts() {
-  const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/posts?_limit=10")
       .then((res) => res.json())
-      .then((data) => setPosts(data))
-      .catch((err) => setError(err.message))
+      .then((data: Post[]) => setPosts(data))
+      .catch((err: Error) => setError(err.message))
       .finally(() => setIsLoading(false));
   }, []);
 
@@ -580,7 +613,7 @@ function PostList() {
 ```
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "usePosts 커스텀 훅을 만들어줘. JSONPlaceholder에서 게시글을 가져오고, posts, isLoading, error를 반환해줘. 'use client' 파일로 만들어줘."
@@ -612,33 +645,3 @@ function PostList() {
 B회차에서는 Ch5에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 ---
-
-## Exit ticket
-
-다음 코드에서 문제점은?
-
-```jsx
-"use client";
-import { useState } from "react";
-
-function TodoList() {
-  const [todos, setTodos] = useState(["할일1", "할일2"]);
-
-  function addTodo() {
-    todos.push("새 할일");
-    setTodos(todos);
-  }
-
-  return (
-    <div>
-      {todos.map((t, i) => <p key={i}>{t}</p>)}
-      <button onClick={addTodo}>추가</button>
-    </div>
-  );
-}
-```
-
-정답: (1) `todos.push()`로 기존 배열을 직접 수정하고 있다 — `setTodos([...todos, "새 할일"])`로 새 배열을 만들어야 한다. (2) 같은 참조를 setTodos에 전달하므로 React가 변경을 감지하지 못할 수 있다.
-
----
-

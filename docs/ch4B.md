@@ -1,4 +1,4 @@
-﻿# Chapter 4. JavaScript 핵심 — B회차: 실습
+# Chapter 4. JavaScript 핵심 — B회차: 실습
 
 > **미션**: 더미 API에서 데이터를 가져와 필터/검색 기능이 있는 블로그를 구현하고 배포한다
 
@@ -22,7 +22,7 @@
 
 Ch3에서 만든 블로그 프로젝트를 이어서 사용한다.
 
-- `app/page.js` — JSONPlaceholder API 연동 + 필터/검색 기능 추가 (`"use client"` 필요)
+- `app/page.tsx` — JSONPlaceholder API 연동 + 필터/검색 기능 추가 (`"use client"` 필요)
 
 ---
 
@@ -40,17 +40,16 @@ Ch3에서 만든 블로그 프로젝트를 이어서 사용한다.
 ✅ 좋은 프롬프트:
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "app/page.js를 수정해줘.
+> "app/page.tsx를 수정해줘.
 > JSONPlaceholder API(https://jsonplaceholder.typicode.com/posts)에서
 > 게시글을 가져와서 카드 리스트로 보여줘.
 > async/await와 fetch를 사용하고, response.ok 체크와 try-catch 에러 처리도 포함해줘.
 > Tailwind CSS로 스타일링해줘.
-> Next.js 14 App Router, 'use client' 지시어 포함."
+> Next.js 16 App Router, 'use client' 지시어 포함."
 
-<!-- COPILOT_VERIFY: 위 프롬프트를 Copilot Chat에 입력하고 생성 결과를 캡처해주세요 -->
 
 ---
 
@@ -61,7 +60,7 @@ Ch3에서 만든 블로그 프로젝트를 이어서 사용한다.
 **목표**: JSONPlaceholder API에서 게시글을 가져와 화면에 표시한다.
 
 ① Copilot Chat에 프롬프트를 입력하여 API 연동 코드를 생성한다
-② 생성된 코드를 `app/page.js`에 붙여넣는다
+② 생성된 코드를 `app/page.tsx`에 붙여넣는다
 ③ **async/await 확인**: `.then()` 체이닝이 아닌 async/await를 사용했는지 검사한다
 ④ **response.ok 확인**: fetch 후 `if (!response.ok)` 체크가 있는지 검사한다
 ⑤ **try-catch 확인**: 에러 처리가 포함되어 있는지 검사한다
@@ -79,7 +78,7 @@ Ch3에서 만든 블로그 프로젝트를 이어서 사용한다.
 Copilot에게 필터 기능을 요청할 때:
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "게시글 목록에 두 가지 필터 기능을 추가해줘.
@@ -87,7 +86,6 @@ Copilot에게 필터 기능을 요청할 때:
 > 2. 제목 검색: input에 키워드 입력 시 제목에 포함된 글만 표시.
 > filter 메서드 사용. useState로 상태 관리. Tailwind CSS 스타일링."
 
-<!-- COPILOT_VERIFY: 필터+검색 기능 프롬프트를 실행하고, filter 메서드와 useState 사용 여부를 확인해주세요 -->
 
 ### 체크포인트 3: 검증 + 배포
 

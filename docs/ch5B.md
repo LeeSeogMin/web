@@ -1,4 +1,4 @@
-﻿# Chapter 5. Next.js 기초 — B회차: 실습
+# Chapter 5. Next.js 기초 — B회차: 실습
 
 > **미션**: 블로그 글 목록/상세/작성 페이지를 구현하고 배포한다
 
@@ -22,15 +22,23 @@
 
 Ch4에서 만든 블로그 프로젝트를 이어서 사용한다. 아래 파일을 새로 만들거나 수정한다.
 
-- `lib/posts.js` — 새로 생성 (더미 게시글 데이터 3개)
-- `app/posts/page.js` — 새로 생성 (게시글 목록 페이지)
-- `app/posts/[id]/page.js` — 새로 생성 (게시글 상세 페이지)
-- `app/posts/new/page.js` — 새로 생성 (게시글 작성 페이지, `"use client"` 필요)
-- `app/layout.js` — 수정 (내비게이션 바에 홈, 블로그, 새 글 쓰기 링크 추가)
+- `lib/posts.ts` — 새로 생성 (더미 게시글 데이터 3개)
+- `app/posts/page.tsx` — 새로 생성 (게시글 목록 페이지)
+- `app/posts/[id]/page.tsx` — 새로 생성 (게시글 상세 페이지)
+- `app/posts/new/page.tsx` — 새로 생성 (게시글 작성 페이지, `"use client"` 필요)
+- `app/layout.tsx` — 수정 (내비게이션 바에 홈, 블로그, 새 글 쓰기 링크 추가)
 
-```js
-// lib/posts.js — 더미 데이터 예시
-export const posts = [
+```typescript
+// lib/posts.ts — 더미 데이터 예시
+interface Post {
+  id: string
+  title: string
+  content: string
+  author: string
+  date: string
+}
+
+export const posts: Post[] = [
   { id: "1", title: "첫 번째 글", content: "첫 번째 글의 내용입니다.", author: "홍길동", date: "2025-01-01" },
   { id: "2", title: "두 번째 글", content: "두 번째 글의 내용입니다.", author: "홍길동", date: "2025-01-02" },
   { id: "3", title: "세 번째 글", content: "세 번째 글의 내용입니다.", author: "홍길동", date: "2025-01-03" },
@@ -53,7 +61,6 @@ export const posts = [
 > "이 프로젝트에 .vscode/mcp.json 파일을 생성하고, context7 MCP 서버를 설정해줘.
 > command는 npx, args는 ["-y", "@upstash/context7-mcp@latest"]로 설정해줘."
 
-<!-- COPILOT_VERIFY: 위 프롬프트로 .vscode/mcp.json이 정상 생성되는지 확인해주세요 -->
 
 설치 후 테스트: `use context7. Next.js App Router에서 동적 라우트 [id] 폴더와 params 사용법을 알려줘`
 
@@ -65,7 +72,6 @@ export const posts = [
 > 2) .github/skills/api-safety-check/SKILL.md — fetch 호출의 response.ok 체크, try-catch 에러 처리, 사용자 에러 메시지 표시 규칙
 > 각 SKILL.md는 한국어 지침 4~6줄로 작성해줘."
 
-<!-- COPILOT_VERIFY: 위 프롬프트로 .github/skills/ 아래 두 Skill 파일이 정상 생성되는지 확인해주세요 -->
 
 ### 이번 실습에서 활용할 MCP · Skills
 
@@ -90,15 +96,14 @@ export const posts = [
 ✅ 좋은 프롬프트:
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "app/posts/page.js를 만들어줘. lib/posts.js에서 posts 배열을 import하고,
+> "app/posts/page.tsx를 만들어줘. lib/posts.ts에서 posts 배열을 import하고,
 > 게시글 목록을 카드 형태로 표시해줘. 각 카드를 클릭하면 /posts/[id]로 이동.
 > next/link의 Link 컴포넌트 사용. Tailwind CSS 스타일링.
-> Next.js 14 App Router."
+> Next.js 16 App Router."
 
-<!-- COPILOT_VERIFY: 위 프롬프트를 Copilot Chat에 입력하고 생성 결과를 캡처해주세요 -->
 
 ---
 
@@ -108,12 +113,12 @@ export const posts = [
 
 **목표**: 목록 페이지에서 더미 게시글을 카드로 표시하고, 클릭하면 상세 페이지로 이동한다.
 
-① `lib/posts.js`의 더미 데이터를 확인한다 (3개 게시글)
+① `lib/posts.ts`의 더미 데이터를 확인한다 (3개 게시글)
 ② Copilot Chat에 프롬프트를 입력하여 목록 페이지 코드를 생성한다
-③ 생성된 코드를 `app/posts/page.js`에 붙여넣는다
+③ 생성된 코드를 `app/posts/page.tsx`에 붙여넣는다
 ④ **Link 사용 확인**: `<a>` 태그가 아닌 `<Link>`를 사용했는지 검사한다
 ⑤ **key 속성 확인**: `map()` 안에 `key={post.id}`가 있는지 검사한다
-⑥ **import 경로 확인**: `lib/posts.js`에서 올바르게 import했는지 검사한다
+⑥ **import 경로 확인**: `lib/posts.ts`에서 올바르게 import했는지 검사한다
 
 
 ### 체크포인트 2: 상세 + 작성 페이지
@@ -123,12 +128,12 @@ export const posts = [
 **상세 페이지**:
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "app/posts/[id]/page.js를 만들어줘. Next.js 14 App Router이므로 params에서 id를 추출해줘. lib/posts.js에서 해당 id의 게시글을 find로 찾아 표시. 없으면 '게시글을 찾을 수 없습니다' 메시지 표시. 목록으로 돌아가기 Link 포함. Tailwind CSS 사용."
+> "app/posts/[id]/page.tsx를 만들어줘. Next.js 16 App Router이므로 params를 await해서 id를 추출해줘. lib/posts.ts에서 해당 id의 게시글을 find로 찾아 표시. 없으면 '게시글을 찾을 수 없습니다' 메시지 표시. 목록으로 돌아가기 Link 포함. Tailwind CSS 사용."
 
-① 생성된 코드에서 `const { id } = params` 패턴을 사용했는지 확인한다
+① 생성된 코드에서 `const { id } = await params` 패턴을 사용했는지 확인한다
 ② `find()`로 해당 id의 게시글을 찾는지 확인한다
 ③ 게시글이 없을 때 안내 메시지가 표시되는지 확인한다
 ④ 목록으로 돌아가는 Link가 있는지 확인한다
@@ -136,19 +141,18 @@ export const posts = [
 **작성 페이지**:
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "app/posts/new/page.js를 만들어줘. 제목(input)과 내용(textarea) 입력 폼. 아직 백엔드가 없으므로 제출 시 alert('저장되었습니다')만 표시하고 /posts로 이동. useRouter 사용. 'use client' 필수. Next.js 14 App Router, Tailwind CSS."
+> "app/posts/new/page.tsx를 만들어줘. 제목(input)과 내용(textarea) 입력 폼. 아직 백엔드가 없으므로 제출 시 alert('저장되었습니다')만 표시하고 /posts로 이동. useRouter 사용. 'use client' 필수. Next.js 16 App Router, Tailwind CSS."
 
 ④ `"use client"` 지시어가 있는지 확인한다
 ⑤ `useRouter`를 `next/navigation`에서 import했는지 확인한다
 
 **레이아웃 업데이트**:
 
-⑥ `app/layout.js`의 내비게이션 바에 홈(`/`), 블로그(`/posts`), 새 글 쓰기(`/posts/new`) 링크를 추가한다
+⑥ `app/layout.tsx`의 내비게이션 바에 홈(`/`), 블로그(`/posts`), 새 글 쓰기(`/posts/new`) 링크를 추가한다
 
-<!-- COPILOT_VERIFY: 상세 페이지에서 params를 await하는지, 작성 페이지에서 useRouter를 next/navigation에서 import하는지 확인해주세요 -->
 
 ### 체크포인트 3: 검증 + 배포
 
@@ -174,9 +178,9 @@ git push
 
 | 항목 | 확인 |
 |------|------|
-| App Router 구조인가? (`app/posts/page.js`, `app/posts/[id]/page.js`, `app/posts/new/page.js`) | ☐ |
+| App Router 구조인가? (`app/posts/page.tsx`, `app/posts/[id]/page.tsx`, `app/posts/new/page.tsx`) | ☐ |
 | 모든 페이지가 `export default function`인가? | ☐ |
-| `[id]/page.js`에서 `const { id } = params`를 사용하는가? | ☐ |
+| `[id]/page.tsx`에서 `const { id } = await params`를 사용하는가? | ☐ |
 | Link import가 `next/link`인가? (`next/router` 아님) | ☐ |
 | useRouter import가 `next/navigation`인가? (`next/router` 아님) | ☐ |
 | `useState`/`useRouter` 사용 파일에 `"use client"` 있는가? | ☐ |
@@ -193,7 +197,7 @@ git push
 | AI 실수 | 올바른 방법 | 발생 원인 |
 |---------|------------|----------|
 | `import { useRouter } from "next/router"` | `from "next/navigation"` | Pages Router 학습 데이터 |
-| `const { id } = await params` | `const { id } = params` | 교재 고정 버전(Next.js 14.2.21)과 불일치 |
+| `const { id } = params` | `const { id } = await params` | 교재 고정 버전(Next.js 16.2.1)과 불일치 |
 | `<a href="/posts">` 내부 링크 | `<Link href="/posts">` | HTML 기본 태그로 대체 |
 | `class="btn"` in JSX | `className="btn"` | HTML과 JSX 혼동 |
 | `pages/` 폴더 구조 | `app/` 폴더 구조 | Pages Router(구버전) 패턴 |
@@ -231,7 +235,7 @@ Google Classroom의 "Ch5 과제"에 아래 두 항목을 제출한다:
 | 3분 | 핵심 차이점 1~2개 정리 |
 
 **비교 포인트**:
-- 라우팅 구조: `app/posts/[id]/page.js`와 같은 동적 라우트 경로가 동일한가?
+- 라우팅 구조: `app/posts/[id]/page.tsx`와 같은 동적 라우트 경로가 동일한가?
 - Link vs `<a>`: 모범 구현은 모든 내비게이션에 `Link`를 사용했는가?
 - `"use client"`: 모범 구현에서 어떤 파일에만 `"use client"`를 사용했는가?
 

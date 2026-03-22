@@ -1,4 +1,4 @@
-﻿# Chapter 13. 블로그 확장 기능 구현 — B회차: 실습
+# Chapter 13. 블로그 확장 기능 구현 — B회차: 실습
 
 > **미션**: 블로그에 확장 기능(댓글, 태그, 검색)을 구현하고 Vercel에 배포한다
 
@@ -24,11 +24,11 @@ Ch12까지 완성한 블로그에 확장 기능을 추가하고 배포한다:
 
 Ch12까지 완성한 블로그 프로젝트를 이어서 사용한다.
 
-- `lib/comments.js` — 새로 생성 (댓글 CRUD 함수)
-- `lib/tags.js` — 새로 생성 (태그 CRUD 함수)
-- `lib/search.js` — 새로 생성 (검색 함수)
-- `components/CommentSection.js` — 새로 생성 (댓글 UI, `"use client"`)
-- `app/search/page.js` — 새로 생성 (검색 페이지)
+- `lib/comments.ts` — 새로 생성 (댓글 CRUD 함수)
+- `lib/tags.ts` — 새로 생성 (태그 CRUD 함수)
+- `lib/search.ts` — 새로 생성 (검색 함수)
+- `components/CommentSection.tsx` — 새로 생성 (댓글 UI, `"use client"`)
+- `app/search/page.tsx` — 새로 생성 (검색 페이지)
 - `ARCHITECTURE.md` — 수정 (확장 테이블 반영)
 - `AI_LOG.md` — 새로 생성 (AI 사용 로그)
 - `README.md` — 수정 (프로젝트 설명 + 기술 스택)
@@ -66,7 +66,7 @@ Ch12까지 완성한 블로그 프로젝트를 이어서 사용한다.
 ✅ 좋은 프롬프트:
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "#file:ARCHITECTURE.md #file:copilot-instructions.md
@@ -75,7 +75,6 @@ Ch12까지 완성한 블로그 프로젝트를 이어서 사용한다.
 > RLS: 누구나 읽기, 로그인만 작성, 작성자만 삭제
 > 인덱스: created_at DESC"
 
-<!-- COPILOT_VERIFY: 위 프롬프트를 Copilot Chat에 입력하고 #file 참조가 동작하는지 확인해주세요 -->
 
 **구현 순서** (A회차에서 배운 4단계):
 
@@ -108,12 +107,12 @@ Ch12까지 완성한 블로그 프로젝트를 이어서 사용한다.
 ① 댓글 기능부터 구현한다. Copilot에게 요청:
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "#file:ARCHITECTURE.md #file:context.md
 > 블로그 글 상세 페이지(/posts/[id])에 댓글 기능을 추가해줘.
-> 파일: lib/comments.js (CRUD 함수) + components/CommentSection.js (UI)
+> 파일: lib/comments.ts (CRUD 함수) + components/CommentSection.tsx (UI)
 > 데이터: comments 테이블의 post_id, user_id, content 사용
 > 인증: useAuth()로 로그인 사용자 확인
 > 스타일: Tailwind CSS + shadcn/ui"
@@ -132,10 +131,9 @@ git commit -m "feat: 댓글 기능 구현"
 ```
 
 ④ 태그/카테고리 기능 구현: tags + post_tags 테이블 활용 → CRUD 함수 → 글 작성 시 태그 선택 UI → /tags 페이지
-⑤ 검색 기능 구현: lib/search.js → /search 페이지 → 검색 결과 표시
+⑤ 검색 기능 구현: lib/search.ts → /search 페이지 → 검색 결과 표시
 ⑥ 시간이 남으면 Should have 기능(좋아요, 관리자 대시보드)을 추가한다
 
-<!-- COPILOT_VERIFY: #file 참조로 ARCHITECTURE.md와 context.md를 동시에 전달했을 때 Copilot의 코드 품질이 향상되는지 확인해주세요 -->
 
 ### 체크포인트 3: 검증 + 배포 + 문서화
 
@@ -151,7 +149,7 @@ git commit -m "feat: 댓글 기능 구현"
 Next.js + Supabase로 만든 블로그 — 댓글, 태그, 검색 기능 포함
 
 ## 기술 스택
-- Next.js 14 (App Router)
+- Next.js 16 (App Router)
 - Tailwind CSS + shadcn/ui
 - Supabase (Auth + Database + RLS)
 - Vercel (배포)
@@ -203,7 +201,7 @@ git push
 | 댓글 | 댓글 작성/조회/삭제가 동작하는가? | ☐ |
 | 태그 | 글에 태그 부여 + 태그별 필터링이 동작하는가? | ☐ |
 | 검색 | 제목/내용 검색이 동작하는가? | ☐ |
-| 에러 처리 | error.js + loading.js가 동작하는가? | ☐ |
+| 에러 처리 | error.tsx + loading.tsx가 동작하는가? | ☐ |
 | README.md | 프로젝트 설명 + 기술 스택 + 배포 URL이 있는가? | ☐ |
 | AI_LOG.md | AI 사용 기록이 5항목 이상인가? | ☐ |
 | 배포 URL | 배포된 사이트에서 전 기능이 동작하는가? | ☐ |
@@ -263,7 +261,7 @@ Google Classroom의 "Ch13 과제"에 아래 세 항목을 제출한다:
 - [ ] RLS가 모든 테이블에 활성화되어 있는가?
 - [ ] `.env.local`에 키를 저장하고 코드에 하드코딩하지 않았는가?
 - [ ] `"use client"`가 필요한 파일에만 있는가?
-- [ ] error.js, loading.js가 있는가?
+- [ ] error.tsx, loading.tsx가 있는가?
 - [ ] AI_LOG.md에 실제 경험이 기록되어 있는가?
 
 ---

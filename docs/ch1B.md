@@ -12,7 +12,7 @@
 
 **블로그 첫 페이지**를 만든다:
 
-① `app/page.js`에서 기본 Next.js 템플릿 내용을 삭제한다
+① `app/page.tsx`에서 기본 Next.js 템플릿 내용을 삭제한다
 ② 본인의 이름과 한 줄 자기소개를 표시한다
 ③ Tailwind CSS 클래스로 텍스트 크기, 정렬, 색상을 조정한다
 ④ git push하여 Vercel에 자동 배포한다
@@ -31,7 +31,7 @@ npm run dev
 
 ### 이번 챕터에서 수정할 파일
 
-- `app/page.js` — 기본 Next.js 템플릿 내용을 삭제하고 본인 이름/자기소개로 교체
+- `app/page.tsx` — 기본 Next.js 템플릿 내용을 삭제하고 본인 이름/자기소개로 교체
 
 
 ---
@@ -40,9 +40,9 @@ npm run dev
 
 > Ch1에서는 아직 Copilot을 설정하지 않았다. 이번 실습은 **코드를 직접 수정**하는 방식으로 진행한다. Copilot은 2장에서 설치한다.
 
-**page.js 수정 예시**:
+**page.tsx 수정 예시**:
 
-```jsx
+```tsx
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
@@ -76,14 +76,14 @@ export default function Home() {
 
 ## 개인 실습
 
-### 체크포인트 1: 환경 확인 + page.js 수정
+### 체크포인트 1: 환경 확인 + page.tsx 수정
 
-**목표**: 개발 서버가 정상 동작하고, page.js를 수정할 수 있다.
+**목표**: 개발 서버가 정상 동작하고, page.tsx를 수정할 수 있다.
 
 ① 터미널에서 `node --version`, `git --version` 으로 설치를 확인한다
 ② `npm install` → `npm run dev`로 개발 서버를 실행한다
 ③ 브라우저에서 http://localhost:3000 을 열어 페이지를 확인한다
-④ `app/page.js`를 열고 기본 내용을 삭제한다
+④ `app/page.tsx`를 열고 기본 내용을 삭제한다
 ⑤ 본인 이름과 자기소개를 작성한다
 
 
@@ -140,7 +140,7 @@ git push
 | 프로젝트 폴더 밖에서 `npm run dev` | `Missing script: dev` | `cd my-blog`으로 폴더 이동 |
 | `git push` 인증 실패 | `Authentication failed` | `gh auth login` 또는 PAT 발급 |
 | Vercel에 저장소가 안 보임 | Import 목록 비어있음 | GitHub 앱 권한 재설정 |
-| 기본 템플릿 미삭제 | 블로그 첫 페이지 대신 Next.js 기본 페이지 | `app/page.js` 내용 교체 |
+| 기본 템플릿 미삭제 | 블로그 첫 페이지 대신 Next.js 기본 페이지 | `app/page.tsx` 내용 교체 |
 
 ---
 

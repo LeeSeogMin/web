@@ -1,4 +1,4 @@
-﻿# Chapter 11. Row Level Security (RLS) — A회차: 강의
+# Chapter 11. Row Level Security (RLS) — A회차: 강의
 
 > **미션**: 내 블로그의 블로그에서 “작성자만 수정·삭제”를 데이터베이스(RLS)가 강제한다
 
@@ -82,7 +82,6 @@ graph LR
 
 ---
 
-## 오늘의 미션 + 빠른 진단
 
 > **오늘의 질문**: "Ch10에서 만든 블로그에서, 브라우저 콘솔에 코드를 입력하면 다른 사람의 게시글을 삭제할 수 있다. 이걸 어떻게 막는가?"
 
@@ -143,7 +142,7 @@ graph LR
 블로그에 필요한 4가지 권한 시나리오를 SQL로 구현한다. Copilot이 SQL을 생성하고, **SQL Editor에서 직접 실행**한다.
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "Supabase에서 블로그 posts 테이블에 RLS 정책을 만들어줘.
@@ -397,41 +396,3 @@ todo.md에서 RLS 관련 항목을 체크하고 진행률을 갱신해줘.
 B회차에서는 Ch10에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 ---
-
-## Exit ticket
-
-다음 RLS 정책에서 잘못된 부분을 찾아라:
-
-```sql
-CREATE POLICY "로그인 사용자만 작성" ON posts
-  FOR INSERT
-  USING (auth.uid() = user_id);
-```
-
-정답: INSERT에는 `USING`이 아니라 `WITH CHECK`를 사용해야 한다. INSERT는 새 행을 생성하는 것이므로 "기존 행 조건"인 USING이 아닌 "새 행 검증"인 WITH CHECK가 올바르다.
-
----
-
-## 현재 상태
-
-- 마지막 작업일: 2026-02-26
-- 완료된 작업: 2026년 기준 교육 자료 업데이트 및 동기화 (Next.js 14.2.21, Tailwind 3.4.17 기준)
-- 작업자: Bive AI (GitHub Copilot)
-
----
-
-## 학습 체크리스트
-
-**수업 전 준비**:
-
-- [ ] 계정 2개 준비 (RLS 테스트용)
-- [ ] SQL 정책 코드 준비 (SQL Editor에 복사-붙여넣기용)
-- [ ] USING vs WITH CHECK 차이 복습
-
-**자기 점검**:
-
-- [ ] "클라이언트 보안 != 진짜 보안"을 이해했는가
-- [ ] CREATE POLICY 문법을 읽을 수 있는가
-- [ ] USING과 WITH CHECK의 차이를 구분할 수 있는가
-- [ ] `auth.uid()` 함수의 역할을 이해했는가
-- [ ] 세션 종료 시 context.md에 각 테이블의 RLS 정책을 기록했는가

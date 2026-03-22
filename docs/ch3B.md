@@ -1,4 +1,4 @@
-﻿# Chapter 3. HTML 시맨틱과 Tailwind CSS — B회차: 실습
+# Chapter 3. HTML 시맨틱과 Tailwind CSS — B회차: 실습
 
 > **미션**: 블로그 메인 페이지를 Copilot과 함께 만들고 배포한다
 
@@ -22,7 +22,7 @@
 
 Ch2에서 만든 블로그 프로젝트를 이어서 사용한다.
 
-- `app/page.js` — 블로그 메인 페이지로 교체 (header, nav, main, article, footer 구조)
+- `app/page.tsx` — 블로그 메인 페이지로 교체 (header, nav, main, article, footer 구조)
 
 ---
 
@@ -40,10 +40,10 @@ Ch2에서 만든 블로그 프로젝트를 이어서 사용한다.
 ✅ 좋은 프롬프트:
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "Next.js App Router의 app/page.js에 블로그 메인 페이지를 만들어줘.
+> "Next.js App Router의 app/page.tsx에 블로그 메인 페이지를 만들어줘.
 > 구조: header(nav 포함) → main(게시글 카드 목록) → footer.
 > 시맨틱 태그 사용 (header, nav, main, article, footer).
 > Tailwind CSS로 스타일링.
@@ -51,7 +51,6 @@ Ch2에서 만든 블로그 프로젝트를 이어서 사용한다.
 > 반응형: 모바일 grid-cols-1, md:grid-cols-2.
 > 더미 게시글 3개 포함."
 
-<!-- COPILOT_VERIFY: 위 프롬프트를 Copilot Chat에 입력하고 생성 결과를 캡처해주세요 -->
 
 ---
 
@@ -62,7 +61,7 @@ Ch2에서 만든 블로그 프로젝트를 이어서 사용한다.
 **목표**: 페이지의 시맨틱 구조를 완성한다.
 
 ① Copilot Chat에 프롬프트를 입력하여 블로그 레이아웃 코드를 생성한다
-② 생성된 코드를 `app/page.js`에 붙여넣는다
+② 생성된 코드를 `app/page.tsx`에 붙여넣는다
 ③ **시맨틱 태그 확인**: header, nav, main, article, footer가 모두 있는지 검사한다
 ④ **heading 계층 확인**: h1 → h2 → h3 순서가 맞는지 검사한다
 ⑤ 문제가 있으면 직접 수정하거나 Copilot에게 수정을 요청한다
@@ -81,7 +80,7 @@ Ch2에서 만든 블로그 프로젝트를 이어서 사용한다.
 Copilot에게 스타일 개선을 요청할 때:
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "이 게시글 카드에 hover 시 그림자가 커지는 효과와 부드러운 전환을 추가해줘. Tailwind CSS 사용."

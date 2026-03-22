@@ -1,4 +1,4 @@
-﻿# Chapter 7. 웹 앱 아키텍처 & AI 디자인 설계 — B회차: 실습
+# Chapter 7. 웹 앱 아키텍처 & AI 디자인 설계 — B회차: 실습
 
 > **미션**: Ch1~6에서 만든 블로그의 **아키텍처 설계서**를 보강한다 — shadcn/ui, 디자인 토큰, DB 스키마 계획
 
@@ -48,17 +48,16 @@ Ch6까지 만든 블로그 프로젝트를 이어서 사용한다. 프로젝트 
 ✅ 좋은 프롬프트:
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "내 블로그 프로젝트의 ARCHITECTURE.md를 보강해줘.
-> 기술 스택: Next.js 14 App Router + Tailwind CSS + shadcn/ui + Supabase.
+> 기술 스택: Next.js 16 App Router + Tailwind CSS + shadcn/ui + Supabase.
 > 기존 페이지: 홈(/), 포스트 목록(/posts), 포스트 작성(/posts/new), 포스트 상세(/posts/[id]).
 > 추가할 것: shadcn/ui 컴포넌트 계층, 디자인 토큰, DB 스키마(users, posts 테이블 + FK 관계).
 > 인증: 이메일/비밀번호 로그인.
 > 각 페이지의 주요 컴포넌트와 데이터 흐름을 포함해줘."
 
-<!-- COPILOT_VERIFY: 위 프롬프트를 Copilot Chat에 입력하고 실제 ARCHITECTURE.md 보강안의 품질을 확인해주세요 -->
 
 ---
 
@@ -108,7 +107,7 @@ posts (포스트)
 ① Copilot Vision 또는 v0(https://v0.dev)에 와이어프레임을 요청한다
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "다음 페이지의 와이어프레임을 그려줘:
@@ -116,7 +115,6 @@ posts (포스트)
 > 2) 포스트 작성 페이지 — 제목, 내용 입력 폼 + 제출 버튼
 > 스타일: 깔끔하고 미니멀, shadcn/ui 컴포넌트 활용"
 
-<!-- COPILOT_VERIFY: Copilot Vision으로 와이어프레임을 생성하고 결과 품질을 확인해주세요 -->
 
 ② shadcn/ui를 초기화한다:
 
@@ -135,7 +133,6 @@ npx shadcn@latest init
 
 ④ 필요한 컴포넌트를 추가한다 (예: `npx shadcn@latest add button card input`)
 
-<!-- COPILOT_VERIFY: shadcn/ui 초기화 후 컴포넌트가 프로젝트에 정상 추가되는지 확인해주세요 -->
 
 ### 체크포인트 3: 설계 문서 통합 + GitHub push
 
@@ -179,7 +176,7 @@ git push
 
 | AI 실수 | 올바른 방법 | 발생 원인 |
 |---------|------------|----------|
-| 페이지 맵에 Pages Router 경로 사용 (`/pages/about`) | App Router 경로 사용 (`/app/about/page.js`) | Next.js 버전 혼동 |
+| 페이지 맵에 Pages Router 경로 사용 (`/pages/about`) | App Router 경로 사용 (`/app/about/page.tsx`) | Next.js 버전 혼동 |
 | 데이터 모델에 `id: int` 사용 | `id: uuid` 사용 (Supabase auth.users와 호환) | PostgreSQL + Supabase 규칙 미인식 |
 | copilot-instructions.md에 구체적 파일 경로 누락 | 프로젝트 구조와 기술 스택을 명시 | 맥락 부족 |
 | 와이어프레임에 존재하지 않는 컴포넌트 사용 | shadcn/ui에 실제로 있는 컴포넌트만 사용 | AI 환각 |

@@ -1,4 +1,4 @@
-﻿# Chapter 10. Supabase Database CRUD — B회차: 실습
+# Chapter 10. Supabase Database CRUD — B회차: 실습
 
 > **미션**: 블로그 CRUD를 완성하고 배포한다 — 목록, 작성, 상세, 수정, 삭제
 
@@ -23,11 +23,11 @@ Ch9에서 구현한 인증 기반 위에 블로그 CRUD 기능을 완성한다:
 
 Ch9에서 만든 블로그 프로젝트를 이어서 사용한다.
 
-- `lib/posts.js` — **완전 교체** (Ch5의 더미 데이터 배열을 삭제하고 Supabase CRUD 함수로 대체: getPosts, getPost, createPost, updatePost, deletePost)
-- `app/posts/page.js` — 수정 (Supabase에서 게시글 목록 조회)
-- `app/posts/new/page.js` — 수정 (Supabase insert로 게시글 작성)
-- `app/posts/[id]/page.js` — 수정 (Supabase에서 단건 조회 + 수정/삭제 버튼)
-- `app/posts/[id]/edit/page.js` — 새로 생성 (게시글 수정 페이지, `"use client"`)
+- `lib/posts.ts` — **완전 교체** (Ch5의 더미 데이터 배열을 삭제하고 Supabase CRUD 함수로 대체: getPosts, getPost, createPost, updatePost, deletePost)
+- `app/posts/page.tsx` — 수정 (Supabase에서 게시글 목록 조회)
+- `app/posts/new/page.tsx` — 수정 (Supabase insert로 게시글 작성)
+- `app/posts/[id]/page.tsx` — 수정 (Supabase에서 단건 조회 + 수정/삭제 버튼)
+- `app/posts/[id]/edit/page.tsx` — 새로 생성 (게시글 수정 페이지, `"use client"`)
 
 ---
 
@@ -45,7 +45,7 @@ Ch9에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 - Context7 예시: `use context7. Supabase JS v2에서 관계 데이터를 join해서 조회하는 방법을 알려줘`
 - Supabase MCP 예시: `posts 테이블에 저장된 데이터 5개만 보여줘`
-- Skills 점검 예시: `secret-guard 기준으로 lib/posts.js에서 키 노출을 확인해줘`
+- Skills 점검 예시: `secret-guard 기준으로 lib/posts.ts에서 키 노출을 확인해줘`
 
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
@@ -57,10 +57,10 @@ Ch9에서 만든 블로그 프로젝트를 이어서 사용한다.
 ✅ 좋은 프롬프트:
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "Supabase에서 블로그 CRUD 함수를 lib/posts.js에 만들어줘.
+> "Supabase에서 블로그 CRUD 함수를 lib/posts.ts에 만들어줘.
 > 테이블: posts (id, user_id, title, content, created_at)
 > 1) getPosts: 전체 조회, created_at 내림차순, profiles(username) 포함
 > 2) getPost(id): 단건 조회, profiles(username) 포함
@@ -69,7 +69,6 @@ Ch9에서 만든 블로그 프로젝트를 이어서 사용한다.
 > 5) deletePost(id): 삭제
 > 모든 함수는 { data, error } 반환. @supabase/ssr 사용."
 
-<!-- COPILOT_VERIFY: 위 프롬프트를 Copilot Chat에 입력하고 관계 데이터 조회 문법이 올바른지 확인해주세요 -->
 
 ---
 
@@ -79,10 +78,10 @@ Ch9에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 **목표**: 블로그 글 목록 조회와 게시글 작성 기능을 구현한다.
 
-① `lib/posts.js`에 `getPosts` 함수를 작성한다:
+① `lib/posts.ts`에 `getPosts` 함수를 작성한다:
 
 ```typescript
-// lib/posts.js — 목록 조회 핵심 구조
+// lib/posts.ts — 목록 조회 핵심 구조
 export async function getPosts() {
   const supabase = createClient()
   const { data, error } = await supabase
@@ -93,8 +92,8 @@ export async function getPosts() {
 }
 ```
 
-② `app/posts/page.js`에서 `getPosts()`를 호출하여 목록을 표시한다
-③ `lib/posts.js`에 `createPost` 함수를 작성한다:
+② `app/posts/page.tsx`에서 `getPosts()`를 호출하여 목록을 표시한다
+③ `lib/posts.ts`에 `createPost` 함수를 작성한다:
 
 ```typescript
 // 작성 핵심 구조
@@ -108,7 +107,7 @@ export async function createPost(user_id: string, title: string, content: string
 }
 ```
 
-④ `app/posts/new/page.js`에 작성 폼을 구현한다 — 로그인 사용자만 접근
+④ `app/posts/new/page.tsx`에 작성 폼을 구현한다 — 로그인 사용자만 접근
 ⑤ 게시글을 작성하고 목록에 나타나는지 확인한다
 
 
@@ -116,8 +115,8 @@ export async function createPost(user_id: string, title: string, content: string
 
 **목표**: 블로그 글 상세 조회, 수정, 삭제 기능을 구현한다.
 
-① `lib/posts.js`에 `getPost(id)` 함수를 작성한다 — `.eq("id", id).single()` 사용
-② `app/posts/[id]/page.js`에 상세 페이지를 구현한다
+① `lib/posts.ts`에 `getPost(id)` 함수를 작성한다 — `.eq("id", id).single()` 사용
+② `app/posts/[id]/page.tsx`에 상세 페이지를 구현한다
 ③ 본인 글에만 수정/삭제 버튼을 표시한다 (조건부 렌더링):
 
 ```tsx
@@ -134,7 +133,6 @@ export async function createPost(user_id: string, title: string, content: string
 ⑤ `deletePost(id)` 함수를 구현한다 — 삭제 전 `window.confirm()` 확인
 ⑥ 수정과 삭제가 정상 동작하는지 테스트한다
 
-<!-- COPILOT_VERIFY: 수정/삭제 조건부 렌더링이 올바르게 구현되는지 확인해주세요 -->
 
 ### 체크포인트 3: 검증 + 배포
 

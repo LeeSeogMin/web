@@ -1,4 +1,4 @@
-﻿# Chapter 9. Supabase Authentication — B회차: 실습
+# Chapter 9. Supabase Authentication — B회차: 실습
 
 > **미션**: 이메일/비밀번호 로그인을 구현하고 배포한다
 
@@ -13,23 +13,23 @@
 Ch8에서 연결한 Supabase에 이메일/비밀번호 인증을 추가한다:
 
 ① Supabase Auth Provider(Email) 설정 확인
-② `lib/auth.js` — signInWithEmail, signUpWithEmail, signOut 구현
-③ `contexts/AuthContext.js` — AuthProvider + useAuth
-④ `components/Navbar.js` — 로그인/로그아웃 UI (기존 헤더에 통합)
-⑤ `app/login/page.js` — 이메일 로그인 UI
-⑥ `app/signup/page.js` — 이메일 회원가입 UI
+② `lib/auth.ts` — signInWithEmail, signUpWithEmail, signOut 구현
+③ `contexts/AuthContext.tsx` — AuthProvider + useAuth
+④ `components/Navbar.tsx` — 로그인/로그아웃 UI (기존 헤더에 통합)
+⑤ `app/login/page.tsx` — 이메일 로그인 UI
+⑥ `app/signup/page.tsx` — 이메일 회원가입 UI
 ⑦ 이메일 로그인 → 로그아웃 → 재로그인 테스트 성공
 
 ### 이번 챕터에서 추가/수정할 파일
 
 Ch8에서 만든 블로그 프로젝트를 이어서 사용한다.
 
-- `lib/auth.js` — 새로 생성 (signInWithEmail, signUpWithEmail, signOut 함수)
-- `contexts/AuthContext.js` — 새로 생성 (AuthProvider + useAuth Hook, `"use client"`)
-- `app/login/page.js` — 새로 생성 (이메일 로그인 폼, `"use client"`)
-- `app/signup/page.js` — 새로 생성 (이메일 회원가입 폼, `"use client"`)
-- `components/Navbar.js` — 새로 생성 (로그인/로그아웃 조건부 렌더링, `"use client"`)
-- `app/layout.js` — 수정 (AuthProvider로 전체 앱 감싸기)
+- `lib/auth.ts` — 새로 생성 (signInWithEmail, signUpWithEmail, signOut 함수)
+- `contexts/AuthContext.tsx` — 새로 생성 (AuthProvider + useAuth Hook, `"use client"`)
+- `app/login/page.tsx` — 새로 생성 (이메일 로그인 폼, `"use client"`)
+- `app/signup/page.tsx` — 새로 생성 (이메일 회원가입 폼, `"use client"`)
+- `components/Navbar.tsx` — 새로 생성 (로그인/로그아웃 조건부 렌더링, `"use client"`)
+- `app/layout.tsx` — 수정 (AuthProvider로 전체 앱 감싸기)
 
 ---
 
@@ -59,16 +59,15 @@ Ch8에서 만든 블로그 프로젝트를 이어서 사용한다.
 ✅ 좋은 프롬프트:
 
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "Supabase Auth로 이메일/비밀번호 로그인을 구현해줘.
-> lib/auth.js에 signInWithEmail, signUpWithEmail, signOut 함수를 만들어줘.
-> contexts/AuthContext.js에 AuthProvider + useAuth Hook으로 전역 상태 관리.
+> lib/auth.ts에 signInWithEmail, signUpWithEmail, signOut 함수를 만들어줘.
+> contexts/AuthContext.tsx에 AuthProvider + useAuth Hook으로 전역 상태 관리.
 > onAuthStateChange로 세션 변화를 감지하고, user/profile/loading 상태를 관리.
-> @supabase/ssr 패키지 사용, Next.js 14 App Router 환경."
+> @supabase/ssr 패키지 사용, Next.js 16 App Router 환경."
 
-<!-- COPILOT_VERIFY: 위 프롬프트를 Copilot Chat에 입력하고 onAuthStateChange 리스너가 올바르게 구현되는지 확인해주세요 -->
 
 ---
 
@@ -79,10 +78,10 @@ Ch8에서 만든 블로그 프로젝트를 이어서 사용한다.
 **목표**: 인증 함수를 작성하고, AuthContext로 전역 상태를 관리한다.
 
 ① Supabase 대시보드 → Authentication → Providers에서 Email이 활성화되어 있는지 확인한다
-② `lib/auth.js`에 인증 함수 3개를 작성한다:
+② `lib/auth.ts`에 인증 함수 3개를 작성한다:
 
 ```typescript
-// lib/auth.js — 핵심 구조
+// lib/auth.ts — 핵심 구조
 import { createClient } from "@/lib/supabase/client"
 
 export async function signInWithEmail(email: string, password: string) {
@@ -95,8 +94,8 @@ export async function signInWithEmail(email: string, password: string) {
 // signUpWithEmail, signOut도 동일 패턴
 ```
 
-③ `contexts/AuthContext.js`에 AuthProvider와 useAuth Hook을 작성한다
-④ `app/layout.js`에서 `<AuthProvider>`로 전체 앱을 감싼다
+③ `contexts/AuthContext.tsx`에 AuthProvider와 useAuth Hook을 작성한다
+④ `app/layout.tsx`에서 `<AuthProvider>`로 전체 앱을 감싼다
 ⑤ 콘솔에서 AuthProvider가 정상 로드되는지 확인한다
 
 
@@ -104,9 +103,9 @@ export async function signInWithEmail(email: string, password: string) {
 
 **목표**: 로그인·회원가입 페이지와 헤더의 로그인/로그아웃 UI를 완성한다.
 
-① `app/login/page.js`에 로그인 폼을 만든다 — 이메일 + 비밀번호 + 로그인 버튼
-② `app/signup/page.js`에 회원가입 폼을 만든다 — 이메일 + 비밀번호 + 가입 버튼
-③ `components/Navbar.js`에 조건부 렌더링을 추가한다:
+① `app/login/page.tsx`에 로그인 폼을 만든다 — 이메일 + 비밀번호 + 로그인 버튼
+② `app/signup/page.tsx`에 회원가입 폼을 만든다 — 이메일 + 비밀번호 + 가입 버튼
+③ `components/Navbar.tsx`에 조건부 렌더링을 추가한다:
 
 ```tsx
 // 핵심 구조
@@ -122,7 +121,6 @@ const { user, loading } = useAuth()
 ④ 회원가입 → 로그인 → 로그아웃 → 재로그인 흐름을 테스트한다
 ⑤ 로그인 실패 시 에러 메시지가 표시되는지 확인한다
 
-<!-- COPILOT_VERIFY: Copilot이 생성한 로그인 폼에서 에러 처리가 올바르게 구현되었는지 확인해주세요 -->
 
 ### 체크포인트 3: 검증 + 배포
 

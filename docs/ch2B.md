@@ -1,4 +1,4 @@
-﻿# Chapter 2. Copilot 세팅과 바이브코딩 — B회차: 실습
+# Chapter 2. Copilot 세팅과 바이브코딩 — B회차: 실습
 
 > **미션**: Copilot으로 블로그 소개 페이지를 만들고 배포한다
 
@@ -23,8 +23,7 @@
 Ch1에서 만든 블로그 프로젝트를 이어서 사용한다.
 
 - `.github/copilot-instructions.md` — 새로 생성 (Copilot 지시사항)
-- `app/page.js` — Copilot으로 블로그 소개 페이지 생성
-
+- `app/page.tsx` — Copilot으로 블로그 소개 페이지 생성
 
 ---
 
@@ -35,23 +34,21 @@ Ch1에서 만든 블로그 프로젝트를 이어서 사용한다.
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
 ❌ 나쁜 프롬프트:
+
 > "블로그 소개 페이지 만들어줘"
 
 문제: 기술 스택, 파일 위치, 디자인 요구사항이 전혀 없다.
 
 ✅ 좋은 프롬프트:
 
-
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "Next.js App Router의 app/page.js에 블로그 소개 페이지를 만들어줘.
+> "Next.js App Router의 app/page.tsx에 블로그 소개 페이지를 만들어줘.
 > Tailwind CSS를 사용하고, 배경은 밝은 회색(bg-gray-50).
 > 중앙에 흰색 카드(bg-white, rounded-lg, shadow) 배치.
 > 카드 안에 이름, 학교, 전공, 취미를 표시해줘.
 > 이름은 text-3xl font-bold, 나머지는 text-gray-600."
-
-<!-- COPILOT_VERIFY: 위 프롬프트를 Copilot Chat에 입력하고 생성 결과를 캡처해주세요 -->
 
 ---
 
@@ -67,33 +64,32 @@ Ch1에서 만든 블로그 프로젝트를 이어서 사용한다.
 ④ Tech Stack, Coding Conventions, Known AI Mistakes 섹션을 완성한다
 ⑤ 파일을 저장한다
 
-
 ### 체크포인트 2: 블로그 소개 페이지 생성 + 검증
 
 **목표**: Copilot으로 블로그 소개 페이지를 만들고 검증한다.
 
 ① Copilot Chat에 프롬프트를 입력하여 블로그 소개 코드를 생성한다
-② 생성된 코드를 `app/page.js`에 붙여넣는다
+② 생성된 코드를 `app/page.tsx`에 붙여넣는다
 ③ **검증 체크리스트 수행**:
-   - import 경로가 올바른가?
-   - Tailwind 클래스가 올바른가? (className으로 되어 있는가?)
-   - "use client"가 불필요하게 들어있지 않은가?
-   - 환경변수가 하드코딩되어 있지 않은가?
-④ 본인 정보로 내용을 수정한다
-⑤ 추가 프롬프트로 기능을 추가해도 좋다 (사진, 링크 등)
 
+- import 경로가 올바른가?
+- Tailwind 클래스가 올바른가? (className으로 되어 있는가?)
+- "use client"가 불필요하게 들어있지 않은가?
+- 환경변수가 하드코딩되어 있지 않은가?
+  ④ 본인 정보로 내용을 수정한다
+  ⑤ 추가 프롬프트로 기능을 추가해도 좋다 (사진, 링크 등)
 
-> [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
+> [버전 고정] Next.js 16.2.1, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "이 블로그 소개 페이지에 GitHub 링크와 이메일 링크를 추가해줘. 아이콘 대신 텍스트 링크로 하고, hover:text-blue-500 효과를 넣어줘."
-
 
 ### 체크포인트 3: AI 사용 로그 + 배포
 
 **목표**: AI 사용 로그를 작성하고 배포한다.
 
 ① AI 사용 로그를 작성한다:
+
 ```text
 [프롬프트] (어떤 프롬프트를 사용했는가)
 [AI 실수]  (AI가 틀린 부분이 있었는가)
@@ -101,12 +97,15 @@ Ch1에서 만든 블로그 프로젝트를 이어서 사용한다.
 [해결]     (어떻게 수정했는가)
 [조치]     (copilot-instructions.md에 추가한 내용)
 ```
+
 ② git add → git commit → git push로 배포한다:
+
 ```bash
 git add .
 git commit -m "Ch2: 블로그 소개 페이지 + copilot-instructions.md"
 git push
 ```
+
 ③ Vercel 대시보드에서 배포 완료를 확인한다
 ④ 배포된 URL을 브라우저에서 열어 동작을 확인한다
 
@@ -116,15 +115,15 @@ git push
 
 **표 2.14** AI 코드 검증 체크리스트
 
-| 항목 | 확인 |
-|------|------|
-| Copilot/Copilot Chat 확장이 설치되었는가? | ☐ |
-| `.github/copilot-instructions.md`가 작성되었는가? | ☐ |
-| import 경로가 올바른가? | ☐ |
-| `className`을 사용했는가? (`class` 아님) | ☐ |
-| 불필요한 `"use client"`가 없는가? | ☐ |
-| 환경변수가 하드코딩되어 있지 않은가? | ☐ |
-| 배포 URL에서 정상 동작하는가? | ☐ |
+| 항목                                              | 확인 |
+| ------------------------------------------------- | ---- |
+| Copilot/Copilot Chat 확장이 설치되었는가?         | ☐    |
+| `.github/copilot-instructions.md`가 작성되었는가? | ☐    |
+| import 경로가 올바른가?                           | ☐    |
+| `className`을 사용했는가? (`class` 아님)          | ☐    |
+| 불필요한 `"use client"`가 없는가?                 | ☐    |
+| 환경변수가 하드코딩되어 있지 않은가?              | ☐    |
+| 배포 URL에서 정상 동작하는가?                     | ☐    |
 
 ---
 
@@ -132,14 +131,14 @@ git push
 
 **표 2.15** Ch2에서 AI가 자주 틀리는 패턴
 
-| AI 실수 | 올바른 코드 | 발생 원인 |
-|---------|-----------|----------|
-| `import { useRouter } from 'next/router'` | `from 'next/navigation'` | Pages Router 문법 (구 버전) |
-| 불필요한 `"use client"` 추가 | Server Component로 충분한 경우 제거 | 클라이언트 컴포넌트 남용 |
-| `class="..."` | `className="..."` | 순수 HTML 학습 데이터의 영향 |
-| 존재하지 않는 패키지 추천 | npmjs.com에서 검증 후 설치 | 환각 |
-| CSS Modules import | Tailwind 유틸리티 클래스 사용 | 프로젝트 컨텍스트 미인식 |
-| `getServerSideProps` 사용 | App Router 서버 컴포넌트 | Pages Router 문법 (구 버전) |
+| AI 실수                                   | 올바른 코드                         | 발생 원인                    |
+| ----------------------------------------- | ----------------------------------- | ---------------------------- |
+| `import { useRouter } from 'next/router'` | `from 'next/navigation'`            | Pages Router 문법 (구 버전)  |
+| 불필요한 `"use client"` 추가              | Server Component로 충분한 경우 제거 | 클라이언트 컴포넌트 남용     |
+| `class="..."`                             | `className="..."`                   | 순수 HTML 학습 데이터의 영향 |
+| 존재하지 않는 패키지 추천                 | npmjs.com에서 검증 후 설치          | 환각                         |
+| CSS Modules import                        | Tailwind 유틸리티 클래스 사용       | 프로젝트 컨텍스트 미인식     |
+| `getServerSideProps` 사용                 | App Router 서버 컴포넌트            | Pages Router 문법 (구 버전)  |
 
 ---
 
@@ -166,17 +165,17 @@ Google Classroom의 "Ch2 과제"에 아래 항목을 제출한다:
 
 **진행 순서**:
 
-| 시간 | 활동 |
-|------|------|
-| 3분 | 참고 구현 핵심 구조 확인 |
-| 7분 | 자기 코드와 참고 구현을 비교 — 다른 부분 3개 이상 찾기 |
-| 7분 | 다른 부분 중 1개를 선택하여 자기 코드 수정 |
-| 3분 | 핵심 차이점 1~2개 정리 |
+| 시간 | 활동                                                   |
+| ---- | ------------------------------------------------------ |
+| 3분  | 참고 구현 핵심 구조 확인                               |
+| 7분  | 자기 코드와 참고 구현을 비교 — 다른 부분 3개 이상 찾기 |
+| 7분  | 다른 부분 중 1개를 선택하여 자기 코드 수정             |
+| 3분  | 핵심 차이점 1~2개 정리                                 |
 
 **비교 포인트**:
+
 - copilot-instructions.md: 모범 구현의 지시사항과 내가 작성한 것의 차이는?
 - 프롬프트 전략: 같은 기능을 모범 구현은 어떤 프롬프트로 만들었는가?
 - AI 사용 로그: 모범 구현의 검증 과정과 내 검증 과정을 비교
 
 ---
-
