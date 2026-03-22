@@ -4,21 +4,6 @@
 
 ---
 
-## 수업 타임라인
-
-**표 5.7** B회차 수업 타임라인
-
-| 시간 | 내용 |
-|------|------|
-| 00:00~00:05 | A회차 핵심 리캡 + 과제 스펙 확인 |
-| 00:05~00:10 | 바이브코딩 가이드 + 스타터 코드 안내 |
-| 00:10~00:25 | 체크포인트 1: 목록 페이지 + 더미 데이터 |
-| 00:25~00:45 | 체크포인트 2: 상세 + 작성 페이지 |
-| 00:45~01:00 | 체크포인트 3: 검증 + 배포 |
-| 01:00~01:05 | Google Classroom 제출 |
-| 01:05~01:25 | C파일 공개 + 비교 + 코드 수정 |
-| 01:25~01:30 | 학습 정리 + 다음 주 예고 |
-
 ---
 
 ## 과제 스펙 + 스타터 코드 안내
@@ -33,40 +18,24 @@
 ④ 공통 레이아웃 — 내비게이션 바에 홈, 블로그, 새 글 쓰기 링크
 ⑤ Vercel 배포
 
-### 스타터 코드
+### 이번 챕터에서 추가/수정할 파일
 
-`practice/chapter5/starter/` 폴더에 기본 구조가 준비되어 있다.
+Ch4에서 만든 블로그 프로젝트를 이어서 사용한다. 아래 파일을 새로 만들거나 수정한다.
 
+- `lib/posts.js` — 새로 생성 (더미 게시글 데이터 3개)
+- `app/posts/page.js` — 새로 생성 (게시글 목록 페이지)
+- `app/posts/[id]/page.js` — 새로 생성 (게시글 상세 페이지)
+- `app/posts/new/page.js` — 새로 생성 (게시글 작성 페이지, `"use client"` 필요)
+- `app/layout.js` — 수정 (내비게이션 바에 홈, 블로그, 새 글 쓰기 링크 추가)
+
+```js
+// lib/posts.js — 더미 데이터 예시
+export const posts = [
+  { id: "1", title: "첫 번째 글", content: "첫 번째 글의 내용입니다.", author: "홍길동", date: "2025-01-01" },
+  { id: "2", title: "두 번째 글", content: "두 번째 글의 내용입니다.", author: "홍길동", date: "2025-01-02" },
+  { id: "3", title: "세 번째 글", content: "세 번째 글의 내용입니다.", author: "홍길동", date: "2025-01-03" },
+]
 ```
-practice/chapter5/starter/
-├── app/
-│   ├── layout.js       ← 공통 레이아웃 (네비 뼈대)
-│   ├── page.js         ← 홈 페이지 (블로그 안내)
-│   ├── globals.css     ← Tailwind 기본 import
-│   └── posts/
-│       ├── page.js     ← 목록 페이지 (뼈대만 있음)
-│       ├── new/
-│       │   └── page.js ← 작성 페이지 (빈 파일)
-│       └── [id]/
-│           └── page.js ← 상세 페이지 (빈 파일)
-├── lib/
-│   └── posts.js        ← 더미 게시글 데이터 (3개)
-├── components/         ← (비어있음 — NavLink 등 생성용)
-├── package.json        ← 의존성 (버전 고정)
-├── tailwind.config.js
-├── postcss.config.js
-└── next.config.js
-```
-
-**시작 방법** (PowerShell 기준):
-```bash
-cd practice/chapter5/starter
-npm install
-npm run dev
-```
-macOS Terminal도 동일하다.
-
-브라우저에서 http://localhost:3000 을 열어 기본 페이지가 보이는지 확인한다.
 
 ---
 
@@ -74,15 +43,42 @@ macOS Terminal도 동일하다.
 
 > **Copilot 활용**: 이번 실습에서는 Copilot Chat에 프롬프트를 입력하여 3개의 페이지를 구현한다. 생성된 코드를 그대로 쓰지 말고, A회차에서 배운 기준으로 반드시 검증한다.
 
+### MCP · Skills 초기 설정
+
+이번 실습부터 MCP와 Skills를 설정한다. App Router 라우팅이 본격적으로 시작되므로, AI가 최신 문서를 참조하고 규칙을 자동 점검하도록 한다.
+
+**① Context7 MCP 설치** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
+
+> **Copilot 프롬프트**
+> "이 프로젝트에 .vscode/mcp.json 파일을 생성하고, context7 MCP 서버를 설정해줘.
+> command는 npx, args는 ["-y", "@upstash/context7-mcp@latest"]로 설정해줘."
+
+<!-- COPILOT_VERIFY: 위 프롬프트로 .vscode/mcp.json이 정상 생성되는지 확인해주세요 -->
+
+설치 후 테스트: `use context7. Next.js App Router에서 동적 라우트 [id] 폴더와 params 사용법을 알려줘`
+
+**② Skills 생성** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
+
+> **Copilot 프롬프트**
+> "이 프로젝트 루트에 아래 2개 Skill을 생성해줘.
+> 1) .github/skills/nextjs-basic-check/SKILL.md — App Router(app/) 구조, Server/Client 컴포넌트 구분, next/navigation 사용 규칙
+> 2) .github/skills/api-safety-check/SKILL.md — fetch 호출의 response.ok 체크, try-catch 에러 처리, 사용자 에러 메시지 표시 규칙
+> 각 SKILL.md는 한국어 지침 4~6줄로 작성해줘."
+
+<!-- COPILOT_VERIFY: 위 프롬프트로 .github/skills/ 아래 두 Skill 파일이 정상 생성되는지 확인해주세요 -->
+
 ### 이번 실습에서 활용할 MCP · Skills
 
 | 도구 | 활용 방법 |
 |------|----------|
 | **Context7** | App Router 라우팅 문법이 정확한지 최신 문서로 확인한다. 프롬프트 앞에 `use context7`을 붙인다. |
 | **nextjs-basic-check** | 목록/상세/작성 페이지를 만든 직후, App Router 경로·`next/navigation` import·`"use client"` 위치를 점검한다. |
+| **api-safety-check** | fetch 호출의 에러 처리를 점검한다. |
 
 - Context7 프롬프트 예시: `use context7. Next.js App Router에서 동적 라우트 [id] 폴더와 params 사용법을 알려줘`
 - Skills 점검 프롬프트 예시: `nextjs-basic-check 기준으로 라우팅 구조와 import 오류를 점검해줘`
+
+> Supabase MCP와 secret-guard Skill은 Ch8에서 Supabase 프로젝트를 생성한 후 설정한다.
 
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
@@ -108,7 +104,7 @@ macOS Terminal도 동일하다.
 
 ## 개인 실습
 
-### 체크포인트 1: 목록 페이지 + 더미 데이터 (15분)
+### 체크포인트 1: 목록 페이지 + 더미 데이터
 
 **목표**: 목록 페이지에서 더미 게시글을 카드로 표시하고, 클릭하면 상세 페이지로 이동한다.
 
@@ -120,7 +116,7 @@ macOS Terminal도 동일하다.
 ⑥ **import 경로 확인**: `lib/posts.js`에서 올바르게 import했는지 검사한다
 
 
-### 체크포인트 2: 상세 + 작성 페이지 (20분)
+### 체크포인트 2: 상세 + 작성 페이지
 
 **목표**: 상세 페이지와 작성 페이지를 구현한다.
 
@@ -130,11 +126,12 @@ macOS Terminal도 동일하다.
 > [버전 고정] Next.js 14.2.21, React 18.3.1, Tailwind CSS 3.4.17, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2 기준으로 작성해줘.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
-> "app/posts/[id]/page.js를 만들어줘. Next.js 14 App Router이므로 params에서 id를 추출해줘. lib/posts.js에서 해당 id의 게시글을 find로 찾아 표시. 없으면 next/navigation의 notFound() 호출. 목록으로 돌아가기 Link 포함. Tailwind CSS 사용."
+> "app/posts/[id]/page.js를 만들어줘. Next.js 14 App Router이므로 params에서 id를 추출해줘. lib/posts.js에서 해당 id의 게시글을 find로 찾아 표시. 없으면 '게시글을 찾을 수 없습니다' 메시지 표시. 목록으로 돌아가기 Link 포함. Tailwind CSS 사용."
 
 ① 생성된 코드에서 `const { id } = params` 패턴을 사용했는지 확인한다
 ② `find()`로 해당 id의 게시글을 찾는지 확인한다
-③ 목록으로 돌아가는 Link가 있는지 확인한다
+③ 게시글이 없을 때 안내 메시지가 표시되는지 확인한다
+④ 목록으로 돌아가는 Link가 있는지 확인한다
 
 **작성 페이지**:
 
@@ -153,7 +150,7 @@ macOS Terminal도 동일하다.
 
 <!-- COPILOT_VERIFY: 상세 페이지에서 params를 await하는지, 작성 페이지에서 useRouter를 next/navigation에서 import하는지 확인해주세요 -->
 
-### 체크포인트 3: 검증 + 배포 (15분)
+### 체크포인트 3: 검증 + 배포
 
 **목표**: AI 코드를 검증하고 배포한다.
 
@@ -220,16 +217,16 @@ Google Classroom의 "Ch5 과제"에 아래 두 항목을 제출한다:
 
 ---
 
-## C파일 비교 + 코드 수정 가이드
+## 참고 구현
 
-> 제출 마감 후 C파일(모범 구현)을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
+> 제출 마감 후 모범 구현을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
 
-**진행 순서** (20분):
+**진행 순서**:
 
 | 시간 | 활동 |
 |------|------|
-| 3분 | C파일 핵심 구조 확인 |
-| 7분 | 학생이 자기 코드와 C파일을 비교 — 다른 부분 3개 이상 찾기 |
+| 3분 | 참고 구현 핵심 구조 확인 |
+| 7분 | 자기 코드와 참고 구현을 비교 — 다른 부분 3개 이상 찾기 |
 | 7분 | 다른 부분 중 1개를 선택하여 자기 코드 수정 |
 | 3분 | 핵심 차이점 1~2개 정리 |
 
@@ -237,8 +234,6 @@ Google Classroom의 "Ch5 과제"에 아래 두 항목을 제출한다:
 - 라우팅 구조: `app/posts/[id]/page.js`와 같은 동적 라우트 경로가 동일한가?
 - Link vs `<a>`: 모범 구현은 모든 내비게이션에 `Link`를 사용했는가?
 - `"use client"`: 모범 구현에서 어떤 파일에만 `"use client"`를 사용했는가?
-
-_전체 모범 구현은 practice/chapter5/complete/ 참고_
 
 ---
 

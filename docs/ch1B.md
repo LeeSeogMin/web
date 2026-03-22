@@ -4,21 +4,6 @@
 
 ---
 
-## 수업 타임라인
-
-**표 1.8** B회차 수업 타임라인
-
-| 시간 | 내용 |
-|------|------|
-| 00:00~00:05 | A회차 핵심 리캡 + 과제 스펙 확인 |
-| 00:05~00:10 | 스타터 코드 안내 + 개발 서버 실행 확인 |
-| 00:10~00:25 | 체크포인트 1: 환경 확인 + page.js 수정 |
-| 00:25~00:45 | 체크포인트 2: 프로필 페이지 완성 + Tailwind 스타일링 |
-| 00:45~01:00 | 체크포인트 3: git push + Vercel 배포 확인 |
-| 01:00~01:05 | Google Classroom 제출 |
-| 01:05~01:25 | C파일 공개 + 비교 + 코드 수정 |
-| 01:25~01:30 | 학습 정리 + 다음 주 예고 |
-
 ---
 
 ## 과제 스펙 + 스타터 코드 안내
@@ -33,31 +18,20 @@
 ④ git push하여 Vercel에 자동 배포한다
 ⑤ 배포된 URL을 제출한다
 
-### 스타터 코드
+### 프로젝트 시작
 
-`practice/chapter1/starter/` 폴더에 create-next-app 기본 결과물 + 간단한 블로그 첫 페이지 뼈대가 준비되어 있다.
+A회차에서 `npx create-next-app@latest`로 만든 프로젝트를 그대로 사용한다.
 
-```
-practice/chapter1/starter/
-├── app/
-│   ├── layout.js       ← 공통 레이아웃 (Tailwind 설정 완료)
-│   ├── page.js         ← 메인 페이지 (블로그 첫 페이지 뼈대)
-│   └── globals.css     ← Tailwind 기본 import
-├── package.json        ← 의존성 (버전 고정)
-├── tailwind.config.js
-├── postcss.config.js
-└── next.config.js
-```
-
-**시작 방법** (PowerShell 기준):
 ```bash
-cd practice/chapter1/starter
-npm install
+cd my-first-web
 npm run dev
 ```
-macOS Terminal도 동일하다.
 
 브라우저에서 http://localhost:3000 을 열어 기본 페이지가 보이는지 확인한다.
+
+### 이번 챕터에서 수정할 파일
+
+- `app/page.js` — 기본 Next.js 템플릿 내용을 삭제하고 본인 이름/자기소개로 교체
 
 
 ---
@@ -102,7 +76,7 @@ export default function Home() {
 
 ## 개인 실습
 
-### 체크포인트 1: 환경 확인 + page.js 수정 (15분)
+### 체크포인트 1: 환경 확인 + page.js 수정
 
 **목표**: 개발 서버가 정상 동작하고, page.js를 수정할 수 있다.
 
@@ -113,7 +87,7 @@ export default function Home() {
 ⑤ 본인 이름과 자기소개를 작성한다
 
 
-### 체크포인트 2: 블로그 첫 페이지 완성 + Tailwind 스타일링 (20분)
+### 체크포인트 2: 블로그 첫 페이지 완성 + Tailwind 스타일링
 
 **목표**: Tailwind 클래스로 보기 좋은 블로그 첫 페이지를 만든다.
 
@@ -123,7 +97,7 @@ export default function Home() {
 ④ 브라우저에서 실시간으로 변화를 확인한다 (핫 리로드)
 
 
-### 체크포인트 3: git push + Vercel 배포 확인 (15분)
+### 체크포인트 3: git push + Vercel 배포 확인
 
 **목표**: 코드를 GitHub에 올리고 Vercel 자동 배포를 확인한다.
 
@@ -163,7 +137,7 @@ git push
 | 실수 | 증상 | 해결 |
 |------|------|------|
 | Node.js 미설치 | `npx: command not found` | Node.js LTS 설치 |
-| 프로젝트 폴더 밖에서 `npm run dev` | `Missing script: dev` | `cd my-first-web`으로 폴더 이동 |
+| 프로젝트 폴더 밖에서 `npm run dev` | `Missing script: dev` | `cd my-blog`으로 폴더 이동 |
 | `git push` 인증 실패 | `Authentication failed` | `gh auth login` 또는 PAT 발급 |
 | Vercel에 저장소가 안 보임 | Import 목록 비어있음 | GitHub 앱 권한 재설정 |
 | 기본 템플릿 미삭제 | 블로그 첫 페이지 대신 Next.js 기본 페이지 | `app/page.js` 내용 교체 |
@@ -176,23 +150,23 @@ Google Classroom의 "Ch1 과제"에 아래 항목을 제출한다:
 
 ```
 ① 배포 URL
-   예: https://my-first-web-xxxxx.vercel.app
+  예: https://my-blog-xxxxx.vercel.app
 ```
 
 > Ch1은 첫 수업이므로 "AI가 틀린 부분" 항목은 없다. 배포 URL만 제출한다.
 
 ---
 
-## C파일 비교 + 코드 수정 가이드
+## 참고 구현
 
-> 제출 마감 후 C파일(모범 구현)을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
+> 제출 마감 후 모범 구현을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
 
-**진행 순서** (20분):
+**진행 순서**:
 
 | 시간 | 활동 |
 |------|------|
-| 3분 | C파일 핵심 구조 확인 |
-| 7분 | 학생이 자기 코드와 C파일을 비교 — 다른 부분 3개 이상 찾기 |
+| 3분 | 참고 구현 핵심 구조 확인 |
+| 7분 | 자기 코드와 참고 구현을 비교 — 다른 부분 3개 이상 찾기 |
 | 7분 | 다른 부분 중 1개를 선택하여 자기 코드 수정 |
 | 3분 | 핵심 차이점 1~2개 정리 |
 
@@ -200,8 +174,6 @@ Google Classroom의 "Ch1 과제"에 아래 항목을 제출한다:
 - 프로젝트 구조: `app/` 폴더 안의 파일 배치가 동일한가?
 - Tailwind 클래스: 비슷한 스타일링인데 다른 클래스를 사용했는가?
 - git 커밋: 모범 구현은 어떤 단위로 커밋했는가?
-
-_전체 모범 구현은 practice/chapter1/complete/ 참고_
 
 ---
 

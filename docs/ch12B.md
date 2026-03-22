@@ -4,21 +4,6 @@
 
 ---
 
-## 수업 타임라인
-
-**표 12.9** B회차 수업 타임라인
-
-| 시간 | 내용 |
-|------|------|
-| 00:00~00:05 | A회차 핵심 리캡 + 과제 스펙 확인 |
-| 00:05~00:10 | 바이브코딩 가이드 + 스타터 코드 안내 |
-| 00:10~00:30 | 체크포인트 1: 에러 처리 + 로딩 UI |
-| 00:30~00:50 | 체크포인트 2: 폼 유효성 + 이미지 최적화 |
-| 00:50~01:05 | 체크포인트 3: 검증 + 배포 |
-| 01:05~01:10 | Google Classroom 제출 |
-| 01:10~01:25 | C파일 공개 + 비교 + 코드 수정 |
-| 01:25~01:30 | 학습 정리 + 다음 주 예고 |
-
 ---
 
 ## 과제 스펙 + 스타터 코드 안내
@@ -27,47 +12,24 @@
 
 Ch11까지 완성된 블로그(RLS 적용)에 UX 요소를 추가하여 완성도를 높인다:
 
-① `app/error.tsx` — 에러 처리 페이지 (다시 시도 버튼 포함)
-② `app/loading.tsx` — 로딩 스피너 또는 스켈레톤 UI
+① `app/error.js` — 에러 처리 페이지 (다시 시도 버튼 포함)
+② `app/loading.js` — 로딩 스피너 또는 스켈레톤 UI
 ③ 게시글 작성 폼 유효성 검증 (제목 필수 2~100자, 내용 필수 10자 이상)
 ④ `next/image` 사용 (프로필 이미지 또는 로고)
 ⑤ `metadata` 설정 (title, description)
 ⑥ 에러 메시지가 사용자 친화적인지 확인
 ⑦ 배포 URL 제출
 
-### 스타터 코드
+### 이번 챕터에서 추가/수정할 파일
 
-`practice/chapter12/starter/` 폴더에 Ch11까지 완성된 블로그 앱(RLS 적용)에서 에러/로딩 처리가 빠진 상태이다.
+Ch11에서 만든 블로그 프로젝트를 이어서 사용한다.
 
-```
-practice/chapter12/starter/
-├── app/
-│   ├── layout.tsx           ← 공통 레이아웃 (metadata TODO)
-│   ├── page.tsx             ← 메인 페이지
-│   ├── error.tsx            ← 에러 페이지 (TODO)
-│   ├── loading.tsx          ← 로딩 UI (TODO)
-│   └── posts/
-│       ├── page.tsx         ← 블로그 글 목록
-│       └── new/
-│           └── page.tsx     ← 블로그 글 작성 (유효성 TODO)
-├── components/
-│   └── post-list-skeleton.tsx ← 스켈레톤 UI (TODO)
-├── lib/                     ← Supabase + 인증 + CRUD (완성)
-├── public/
-│   └── logo.png             ← 로고 이미지 (next/image용)
-├── package.json
-└── next.config.ts
-```
-
-**시작 방법** (PowerShell 기준):
-```bash
-cd practice/chapter12/starter
-npm install
-npm run dev
-```
-macOS Terminal도 동일하다.
-
-브라우저에서 http://localhost:3000 을 열어 기본 페이지가 보이는지 확인한다.
+- `app/error.js` — 새로 생성 (에러 처리 페이지, `"use client"` 필수)
+- `app/loading.js` — 새로 생성 (로딩 스피너 또는 스켈레톤 UI)
+- `components/PostListSkeleton.js` — 새로 생성 (게시글 목록 스켈레톤, 선택사항)
+- `app/posts/new/page.js` — 수정 (폼 유효성 검증 추가)
+- `app/layout.js` — 수정 (metadata 설정)
+- `public/logo.png` — 추가 (로고 이미지, next/image 사용)
 
 ---
 
@@ -79,11 +41,11 @@ macOS Terminal도 동일하다.
 
 | 도구 | 활용 방법 |
 |------|----------|
-| **Context7** | `error.tsx`, `loading.tsx`, `not-found.tsx` 등 Next.js 특수 파일의 최신 규격을 확인한다. |
-| **nextjs-basic-check** | `error.tsx`에 `"use client"` 누락, `loading.tsx` 위치 오류 등 App Router 규칙을 점검한다. |
+| **Context7** | `error.js`, `loading.js`, `not-found.js` 등 Next.js 특수 파일의 최신 규격을 확인한다. |
+| **nextjs-basic-check** | `error.js`에 `"use client"` 누락, `loading.js` 위치 오류 등 App Router 규칙을 점검한다. |
 
-- Context7 예시: `use context7. Next.js App Router에서 error.tsx의 props 타입과 사용법을 알려줘`
-- Skills 점검 예시: `nextjs-basic-check 기준으로 error.tsx, loading.tsx, not-found.tsx의 규칙 위반을 찾아줘`
+- Context7 예시: `use context7. Next.js App Router에서 error.js의 props 타입과 사용법을 알려줘`
+- Skills 점검 예시: `nextjs-basic-check 기준으로 error.js, loading.js, not-found.js의 규칙 위반을 찾아줘`
 
 **좋은 프롬프트 vs 나쁜 프롬프트**:
 
@@ -99,13 +61,13 @@ macOS Terminal도 동일하다.
 > [규칙] App Router만 사용하고 next/router, pages router, 구버전 API는 사용하지 마.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "Next.js 14 App Router에서 에러 처리 페이지를 만들어줘.
-> 파일: app/error.tsx (Error Boundary 역할)
+> 파일: app/error.js (Error Boundary 역할)
 > props: error (Error 객체), reset (다시 시도 함수)
 > 'use client' 필수.
 > 에러 메시지 표시 + '다시 시도' 버튼 + '홈으로 돌아가기' 링크.
 > Tailwind CSS로 중앙 정렬, 사용자 친화적 메시지."
 
-<!-- COPILOT_VERIFY: 위 프롬프트를 Copilot Chat에 입력하고 error.tsx의 props가 올바른지 확인해주세요 -->
+<!-- COPILOT_VERIFY: 위 프롬프트를 Copilot Chat에 입력하고 error.js의 props가 올바른지 확인해주세요 -->
 
 ---
 
@@ -113,12 +75,12 @@ macOS Terminal도 동일하다.
 
 ### 체크포인트 1: 에러 처리 + 로딩 UI
 
-**목표**: error.tsx와 loading.tsx를 만들어 에러/로딩 상태를 처리한다.
+**목표**: error.js와 loading.js를 만들어 에러/로딩 상태를 처리한다.
 
-① `app/error.tsx`에 에러 처리 컴포넌트를 만든다:
+① `app/error.js`에 에러 처리 컴포넌트를 만든다:
 
 ```tsx
-// app/error.tsx — 핵심 구조
+// app/error.js — 핵심 구조
 "use client"
 
 export default function Error({
@@ -138,10 +100,10 @@ export default function Error({
 }
 ```
 
-② `app/loading.tsx`에 로딩 UI를 만든다 — 스피너 또는 스켈레톤 중 선택:
+② `app/loading.js`에 로딩 UI를 만든다 — 스피너 또는 스켈레톤 중 선택:
 
 ```tsx
-// app/loading.tsx — 스피너 예시
+// app/loading.js — 스피너 예시
 export default function Loading() {
   return (
     <div className="flex items-center justify-center min-h-[50vh]">
@@ -151,9 +113,9 @@ export default function Loading() {
 }
 ```
 
-③ (선택) `components/post-list-skeleton.tsx`에 게시글 목록용 스켈레톤을 만든다
-④ 의도적으로 에러를 발생시켜(예: 잘못된 테이블명) error.tsx가 동작하는지 확인한다
-⑤ 페이지 전환 시 loading.tsx가 표시되는지 확인한다
+③ (선택) `components/PostListSkeleton.js`에 게시글 목록용 스켈레톤을 만든다
+④ 의도적으로 에러를 발생시켜(예: 잘못된 테이블명) error.js가 동작하는지 확인한다
+⑤ 페이지 전환 시 loading.js가 표시되는지 확인한다
 
 
 ### 체크포인트 2: 폼 유효성 + 이미지 최적화
@@ -190,7 +152,7 @@ import Image from "next/image"
 />
 ```
 
-④ `app/layout.tsx`에 metadata를 설정한다:
+④ `app/layout.js`에 metadata를 설정한다:
 
 ```typescript
 export const metadata = {
@@ -228,8 +190,8 @@ git push
 
 | 항목 | 확인 내용 | 확인 |
 |------|-----------|------|
-| error.tsx | `"use client"` + error/reset props가 있는가? | ☐ |
-| loading.tsx | 스피너 또는 스켈레톤이 표시되는가? | ☐ |
+| error.js | `"use client"` + error/reset props가 있는가? | ☐ |
+| loading.js | 스피너 또는 스켈레톤이 표시되는가? | ☐ |
 | 에러 메시지 | "무엇이 + 왜 + 어떻게" 3원칙을 따르는가? | ☐ |
 | 폼 유효성 | 제목 2~100자, 내용 10자 이상 검증이 동작하는가? | ☐ |
 | 에러 표시 | 유효성 에러가 필드 아래에 빨간색으로 표시되는가? | ☐ |
@@ -245,11 +207,11 @@ git push
 
 | AI 실수 | 올바른 방법 | 발생 원인 |
 |---------|------------|----------|
-| error.tsx에 `"use client"` 누락 | 파일 최상단에 `"use client"` 필수 | Error Boundary는 Client Component |
+| error.js에 `"use client"` 누락 | 파일 최상단에 `"use client"` 필수 | Error Boundary는 Client Component |
 | `next/image`에 width/height 누락 | width, height 속성 필수 (레이아웃 시프트 방지) | Next.js Image 규칙 미인식 |
 | 에러 메시지가 기술적 ("500 Internal Server Error") | 사용자 친화적 메시지 ("문제가 발생했습니다") | 에러 메시지 3원칙 미적용 |
 | 유효성 검증에서 `trim()` 누락 | `title.trim()` — 공백만 입력하는 케이스 방지 | 엣지 케이스 미고려 |
-| loading.tsx를 `"use client"`로 설정 | loading.tsx는 Server Component로 동작 | error.tsx와 혼동 |
+| loading.js를 `"use client"`로 설정 | loading.js는 Server Component로 동작 | error.js와 혼동 |
 | metadata를 Client Component에서 export | metadata는 Server Component에서만 export 가능 | Server/Client 구분 미인식 |
 
 ---
@@ -263,32 +225,30 @@ Google Classroom의 "Ch12 과제"에 아래 두 항목을 제출한다:
    예: https://내프로젝트.vercel.app
 
 ② AI가 틀린 부분 1개
-   예: "Copilot이 error.tsx에 'use client'를 빼먹어서
+   예: "Copilot이 error.js에 'use client'를 빼먹어서
        에러 바운더리가 동작하지 않았다. 추가하니 해결되었다."
 ```
 
 ---
 
-## C파일 비교 + 코드 수정 가이드
+## 참고 구현
 
-> 제출 마감 후 C파일(모범 구현)을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
+> 제출 마감 후 모범 구현을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
 
-**진행 순서** (15분):
+**진행 순서**:
 
 | 시간 | 활동 |
 |------|------|
-| 3분 | C파일 핵심 구조 확인 |
-| 5분 | 학생이 자기 코드와 C파일을 비교 — 다른 부분 3개 이상 찾기 |
+| 3분 | 참고 구현 핵심 구조 확인 |
+| 5분 | 자기 코드와 참고 구현을 비교 — 다른 부분 3개 이상 찾기 |
 | 5분 | 다른 부분 중 1개를 선택하여 자기 코드 수정 |
 | 2분 | 핵심 차이점 1~2개 정리 |
 
 **비교 포인트**:
-- error.tsx: `"use client"` + `reset` 함수 + 사용자 친화적 메시지가 동일한가?
-- loading.tsx: 스켈레톤 UI 구현 방식이 다른가?
+- error.js: `"use client"` + `reset` 함수 + 사용자 친화적 메시지가 동일한가?
+- loading.js: 스켈레톤 UI 구현 방식이 다른가?
 - 폼 유효성: 클라이언트 검증 메시지와 표시 방식이 다른가?
 - next/image: `width`/`height` 속성과 최적화 설정이 올바른가?
-
-_전체 모범 구현은 practice/chapter12/complete/ 참고_
 
 ---
 

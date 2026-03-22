@@ -4,21 +4,6 @@
 
 ---
 
-## 수업 타임라인
-
-**표 8.11** B회차 수업 타임라인
-
-| 시간 | 내용 |
-|------|------|
-| 00:00~00:05 | A회차 핵심 리캡 + 과제 스펙 확인 |
-| 00:05~00:10 | 바이브코딩 가이드 + 스타터 코드 안내 |
-| 00:10~00:30 | 체크포인트 1: Supabase 프로젝트 생성 + 환경 변수 |
-| 00:30~00:50 | 체크포인트 2: 클라이언트 초기화 + SQL 테이블 생성 |
-| 00:50~01:05 | 체크포인트 3: 연결 테스트 + Vercel 배포 |
-| 01:05~01:10 | Google Classroom 제출 |
-| 01:10~01:25 | C파일 공개 + 비교 + 코드 수정 |
-| 01:25~01:30 | 학습 정리 + 다음 주 예고 |
-
 ---
 
 ## 과제 스펙 + 스타터 코드 안내
@@ -29,40 +14,23 @@ Supabase를 Next.js 프로젝트에 연동하고, 데이터를 읽어 화면에 
 
 ① Supabase 프로젝트 생성 + API 키 확인
 ② `.env.local` 환경 변수 설정
-③ `lib/supabase/client.ts` + `lib/supabase/server.ts` 클라이언트 초기화
+③ `lib/supabase/client.js` + `lib/supabase/server.js` 클라이언트 초기화
 ④ SQL Editor에서 `profiles` + `posts` 테이블 생성
 ⑤ 연결 테스트 성공 확인
 ⑥ Vercel 환경 변수 등록 + 배포
 
-### 스타터 코드
+### 이번 챕터에서 추가/수정할 파일
 
-`practice/chapter8/starter/` 폴더에 Supabase 패키지가 설치된 Next.js 프로젝트와 비어 있는 `lib/supabase/` 폴더가 준비되어 있다.
+Ch7에서 만든 블로그 프로젝트를 이어서 사용한다. Supabase 패키지를 설치하고 클라이언트를 설정한다.
 
-```
-practice/chapter8/starter/
-├── app/
-│   ├── layout.tsx         ← 공통 레이아웃
-│   ├── page.tsx           ← 메인 페이지 (데이터 표시 뼈대)
-│   └── globals.css        ← Tailwind 기본 import
-├── lib/
-│   └── supabase/
-│       ├── client.ts      ← 브라우저 클라이언트 (TODO)
-│       └── server.ts      ← 서버 클라이언트 (TODO)
-├── .env.local.example     ← 환경 변수 템플릿
-├── package.json           ← @supabase/supabase-js, @supabase/ssr 포함
-├── tailwind.config.ts
-└── next.config.ts
-```
-
-**시작 방법** (PowerShell 기준):
 ```bash
-cd practice/chapter8/starter
-npm install
-npm run dev
+npm install @supabase/supabase-js@2.47.12 @supabase/ssr@0.5.2
 ```
-macOS Terminal도 동일하다.
 
-브라우저에서 http://localhost:3000 을 열어 기본 페이지가 보이는지 확인한다.
+- `lib/supabase/client.js` — 새로 생성 (브라우저용 Supabase 클라이언트)
+- `lib/supabase/server.js` — 새로 생성 (서버용 Supabase 클라이언트)
+- `.env.local` — 새로 생성 (Supabase URL + anon 키)
+- `app/page.js` — 수정 (Ch6까지의 더미 데이터/API 연동을 Supabase 조회로 교체)
 
 ---
 
@@ -72,9 +40,9 @@ macOS Terminal도 동일하다.
 
 ### 이번 실습에서 활용할 MCP · Skills
 
-이번 챕터부터 **Supabase MCP**를 처음 사용한다. Ch2에서 설치한 Context7과 함께 활용한다.
+이번 챕터부터 **Supabase MCP**와 **secret-guard Skill**을 추가한다. Ch5에서 설치한 Context7과 함께 활용한다.
 
-**Supabase MCP 설치** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
+**① Supabase MCP 설치** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
 
 > **Copilot 프롬프트**
 > ".vscode/mcp.json에 supabase MCP 서버를 추가해줘.
@@ -83,11 +51,20 @@ macOS Terminal도 동일하다.
 
 <!-- COPILOT_VERIFY: 위 프롬프트로 Supabase MCP가 mcp.json에 추가되고 정상 동작하는지 확인해주세요 -->
 
+**② secret-guard Skill 생성** — Copilot Agent 모드에서 아래 프롬프트를 입력한다:
+
+> **Copilot 프롬프트**
+> "이 프로젝트에 Skill을 생성해줘.
+> .github/skills/secret-guard/SKILL.md — API 키 하드코딩 금지, .env.local 사용 강제, NEXT_PUBLIC_ 접두사에 민감한 키 금지, service_role 키 클라이언트 노출 금지
+> 한국어 지침 4~6줄로 작성해줘."
+
+<!-- COPILOT_VERIFY: 위 프롬프트로 .github/skills/secret-guard/SKILL.md가 정상 생성되는지 확인해주세요 -->
+
 | 도구 | 활용 방법 |
 |------|----------|
 | **Context7** | `@supabase/ssr` 최신 API로 클라이언트를 설정한다. `use context7`을 붙인다. |
 | **Supabase MCP** | 테이블 목록 조회, 스키마 확인을 Copilot 안에서 직접 수행한다. |
-| **secret-guard** | `lib/supabase/client.ts`, `lib/supabase/server.ts` 작성 직후, 키 노출과 `.env.local` 사용을 점검한다. |
+| **secret-guard** | `lib/supabase/client.js`, `lib/supabase/server.js` 작성 직후, 키 노출과 `.env.local` 사용을 점검한다. |
 
 - Context7 예시: `use context7. @supabase/ssr에서 createBrowserClient와 createServerClient 사용법을 알려줘`
 - Supabase MCP 예시: `Supabase 프로젝트의 테이블 목록을 보여줘`
@@ -108,7 +85,7 @@ macOS Terminal도 동일하다.
 > [검증] 불확실하면 현재 프로젝트 package.json 기준으로 버전을 먼저 확인하고 답해줘.
 > "Next.js 14 App Router 프로젝트에서 Supabase 클라이언트를 설정해줘.
 > 패키지: @supabase/supabase-js + @supabase/ssr
-> 파일 구조: lib/supabase/client.ts (브라우저용), lib/supabase/server.ts (서버용)
+> 파일 구조: lib/supabase/client.js (브라우저용), lib/supabase/server.js (서버용)
 > 환경 변수: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY (.env.local)
 > 서버 클라이언트는 cookies()를 사용하는 createServerClient 패턴."
 
@@ -139,10 +116,10 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGci...
 
 **목표**: 브라우저/서버 클라이언트를 초기화하고, 데이터베이스 테이블을 생성한다.
 
-① `lib/supabase/client.ts`에 브라우저 클라이언트를 작성한다
+① `lib/supabase/client.js`에 브라우저 클라이언트를 작성한다
 
 ```typescript
-// lib/supabase/client.ts — 핵심 구조
+// lib/supabase/client.js — 핵심 구조
 import { createBrowserClient } from "@supabase/ssr"
 
 export function createClient() {
@@ -153,7 +130,7 @@ export function createClient() {
 }
 ```
 
-② `lib/supabase/server.ts`에 서버 클라이언트를 작성한다 (cookies 사용)
+② `lib/supabase/server.js`에 서버 클라이언트를 작성한다 (cookies 사용)
 ③ Supabase 대시보드 → SQL Editor에서 테이블을 생성한다:
 
 ```sql
@@ -187,7 +164,7 @@ CREATE TABLE posts (
 ① 메인 페이지에서 Supabase 데이터를 조회하는 코드를 작성한다:
 
 ```typescript
-// app/page.tsx — 핵심 구조
+// app/page.js — 핵심 구조
 import { createClient } from "@/lib/supabase/server"
 
 export default async function Home() {
@@ -261,25 +238,23 @@ Google Classroom의 "Ch8 과제"에 아래 두 항목을 제출한다:
 
 ---
 
-## C파일 비교 + 코드 수정 가이드
+## 참고 구현
 
-> 제출 마감 후 C파일(모범 구현)을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
+> 제출 마감 후 모범 구현을 확인한다. 자기 코드와 비교해 차이점을 찾고 수정한다.
 
-**진행 순서** (15분):
+**진행 순서**:
 
 | 시간 | 활동 |
 |------|------|
-| 3분 | C파일 핵심 구조 확인 |
-| 5분 | 학생이 자기 코드와 C파일을 비교 — 다른 부분 3개 이상 찾기 |
+| 3분 | 참고 구현 핵심 구조 확인 |
+| 5분 | 자기 코드와 참고 구현을 비교 — 다른 부분 3개 이상 찾기 |
 | 5분 | 다른 부분 중 1개를 선택하여 자기 코드 수정 |
 | 2분 | 핵심 차이점 1~2개 정리 |
 
 **비교 포인트**:
-- 클라이언트 분리: `lib/supabase/client.ts`(브라우저)와 `server.ts`(서버)가 올바르게 분리되었는가?
+- 클라이언트 분리: `lib/supabase/client.js`(브라우저)와 `server.js`(서버)가 올바르게 분리되었는가?
 - 환경 변수: `.env.local`에 저장했는가? `service_role` 키가 브라우저 코드에 없는가?
 - 테이블 구조: SQL 스키마가 모범 구현과 동일한가? FK, 타입이 다른 부분은?
-
-_전체 모범 구현은 practice/chapter8/complete/ 참고_
 
 ---
 

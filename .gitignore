@@ -88,6 +88,9 @@ Thumbs.db
 # 프로젝트 특정
 # ===================
 
+# C회차 강사용 문서 (수강생 공개 제외)
+docs/ch*C.md
+
 # 출력 파일 (Word 변환 결과)
 ms-word/output/*.docx
 ms-word/output/*.pdf
